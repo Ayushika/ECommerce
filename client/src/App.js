@@ -16,6 +16,8 @@ import CategoryCreate from "../src/Pages/Admin/category/CategoryCreate";
 import CategoryUpdate from "../src/Pages/Admin/category/CategoryUpdate";
 import SubcategoryCreate from "../src/Pages/Admin/subcategory/SubcategoryCreate";
 import SubcategoryUpdate from "../src/Pages/Admin/subcategory/SubcategoryUpdate";
+import BrandCreate from "./Pages/Admin/brand/BrandCreate";
+import BrandUpdate from "./Pages/Admin/brand/BrandUpdate";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -54,6 +56,8 @@ const App = () => {
           path='/admin/subcategory/:slug'
           component={SubcategoryUpdate}
         />
+        <AdminRoute exact path='/admin/brand' component={BrandCreate} />
+        <AdminRoute exact path='/admin/brand/:slug' component={BrandUpdate} />
       </Switch>
     </>
   );

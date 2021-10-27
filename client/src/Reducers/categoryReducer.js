@@ -17,6 +17,7 @@ import {
   GET_CATEGORY_REQUEST,
   GET_CATEGORY_SUCCESS,
   GET_CATEGORY_FAIL,
+  GET_CATEGORY_RESET,
 } from "../Constants/categoryConstant";
 
 export const createCategoryReducer = (state = {}, action) => {
@@ -84,6 +85,8 @@ export const getCategoryReducer = (state = { category: {} }, action) => {
       return { loading: false, category: action.payload };
     case GET_CATEGORY_FAIL:
       return { loading: false, error: action.payload };
+    case GET_CATEGORY_RESET:
+      return { category: {} };
     default:
       return state;
   }

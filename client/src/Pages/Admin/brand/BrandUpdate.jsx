@@ -4,30 +4,30 @@ import React, { useState, useEffect } from "react";
 import AdminNavbar from "../../../Components/nav/AdminNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  UPDATE_SUBCATEGORY_RESET,
-  GET_SUBCATEGORY_RESET,
-} from "../../../Constants/subCategoryConstant";
+  UPDATE_BRAND_RESET,
+  GET_BRAND_RESET,
+} from "../../../Constants/brandConstant";
 import { getAllCategoriesAction } from "../../../Actions/categoryAction";
 import {
-  updateSubCategoryAction,
-  getSubCategoryAction,
-} from "../../../Actions/subCategoryAction";
+  updateBrandAction,
+  getBrandAction,
+} from "../../../Actions/brandAction";
 
-const SubcategoryUpdate = ({ history, match }) => {
+const BrandUpdate = ({ history, match }) => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
-  const subcategorySlug = match.params.slug;
-  const slug = subcategorySlug;
+  const slug = match.params.slug;
 
   const dispatch = useDispatch();
 
-  const { getAllCategories, getSubCategory, userLogin, updateSubCategory } =
-    useSelector((state) => state);
+  const { getAllCategories, getBrand, userLogin, updateBrand } = useSelector(
+    (state) => state,
+  );
 
   const { userInfo } = userLogin;
   const { categories } = getAllCategories;
-  const { subCategory } = getSubCategory;
-  const { updateSuccess, loading } = updateSubCategory;
+  const { brand } = getBrand;
+  const { updateSuccess, loading } = updateBrand;
 
   useEffect(() => {
     dispatch(getAllCategoriesAction());
@@ -35,26 +35,22 @@ const SubcategoryUpdate = ({ history, match }) => {
 
   useEffect(() => {
     if (updateSuccess) {
-      dispatch({ type: UPDATE_SUBCATEGORY_RESET });
-      dispatch({ type: GET_SUBCATEGORY_RESET });
-      history.push("/admin/subcategory");
-    } else if (
-      !subCategory.name ||
-      !subCategory.category ||
-      subCategory.slug !== subcategorySlug
-    ) {
-      dispatch(getSubCategoryAction(slug));
+      dispatch({ type: UPDATE_BRAND_RESET });
+      dispatch({ type: GET_BRAND_RESET });
+      history.push("/admin/brand");
+    } else if (!brand.name || !brand.category || brand.slug !== slug) {
+      dispatch(getBrandAction(slug));
     } else {
-      setName(subCategory.name);
-      setCategory(subCategory.category);
+      setName(brand.name);
+      setCategory(brand.category);
     }
-  }, [updateSuccess, subCategory, dispatch, history, slug]);
+  }, [updateSuccess, brand, dispatch, history, slug]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateSubCategoryAction(name, category, slug, userInfo.token));
+    dispatch(updateBrandAction(name, category, slug, userInfo.token));
   };
-  const subcategoryUpdateForm = () => {
+  const brandUpdateForm = () => {
     return (
       <form onSubmit={handleSubmit}>
         <div className='form-group'>
@@ -85,10 +81,10 @@ const SubcategoryUpdate = ({ history, match }) => {
           {loading ? (
             <h4 className='text-danger'>Loading...</h4>
           ) : (
-            <h4 className='text-primary'>Update category</h4>
+            <h4 className='text-primary'>Update Brand</h4>
           )}
           <div className='form-group'>
-            <label> Category</label>
+            <label>Category</label>
             <select
               name='category'
               className='form-control'
@@ -98,17 +94,17 @@ const SubcategoryUpdate = ({ history, match }) => {
                   <option
                     key={c._id}
                     value={c._id}
-                    selected={c._id === subCategory.category}>
+                    selected={c._id === brand.category}>
                     {c.name}
                   </option>
                 ))}
             </select>
           </div>
-          {subcategoryUpdateForm()}
+          {brandUpdateForm()}
         </div>
       </div>
     </div>
   );
 };
 
-export default SubcategoryUpdate;
+export default BrandUpdate;

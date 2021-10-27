@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import AdminNavbar from "../../../Components/nav/AdminNavbar";
 import { useDispatch, useSelector } from "react-redux";
-import { UPDATE_CATEGORY_RESET } from "../../../Constants/categoryConstant";
+import { UPDATE_CATEGORY_RESET, GET_CATEGORY_RESET } from "../../../Constants/categoryConstant";
 import {
   updateCategoryAction,
   getCategoryAction,
@@ -25,6 +25,7 @@ const CategoryUpdate = ({ history, match }) => {
   useEffect(() => {
     if (updateSuccess) {
       dispatch({ type: UPDATE_CATEGORY_RESET });
+      dispatch({ type: GET_CATEGORY_RESET });
       history.push("/admin/category");
     } else if (!category.name || category.slug !== categorySlug) {
       dispatch(getCategoryAction(categorySlug));
