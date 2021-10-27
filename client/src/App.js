@@ -14,6 +14,8 @@ import UserRoute from "./Components/protectedRoutes/UserRoute";
 import AdminRoute from "./Components/protectedRoutes/AdminRoute";
 import CategoryCreate from "../src/Pages/Admin/category/CategoryCreate";
 import CategoryUpdate from "../src/Pages/Admin/category/CategoryUpdate";
+import SubcategoryCreate from "../src/Pages/Admin/subcategory/SubcategoryCreate";
+import SubcategoryUpdate from "../src/Pages/Admin/subcategory/SubcategoryUpdate";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -41,6 +43,16 @@ const App = () => {
           exact
           path='/admin/category/:slug'
           component={CategoryUpdate}
+        />
+        <AdminRoute
+          exact
+          path='/admin/subcategory'
+          component={SubcategoryCreate}
+        />
+        <AdminRoute
+          exact
+          path='/admin/subcategory/:slug'
+          component={SubcategoryUpdate}
         />
       </Switch>
     </>

@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db.js");
 const userRouter = require("./routes/userRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
+const subCategoryRouter = require("./routes/subCategoryRoutes");
 const { notFound, ErrorHandler } = require("./middlewares/errMiddleware");
 dotenv.config();
 const app = express();
@@ -19,6 +20,7 @@ if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
 app.use("/api/user", userRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/subcategory", subCategoryRouter);
 
 //connecting to the database
 connectDB();

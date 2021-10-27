@@ -12,7 +12,7 @@ const createCategory = asyncHandler(async (req, res) => {
 
 const getCategory = asyncHandler(async (req, res) => {
   const slug = req.params.slug;
-  const category = await Category.find({ slug }).exec();
+  const category = await Category.findOne({ slug }).exec();
 
   if (category) {
     res.json(category);

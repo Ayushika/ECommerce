@@ -24,7 +24,7 @@ export const createCategoryReducer = (state = {}, action) => {
     case CREATE_CATEGORY_REQUEST:
       return { loading: true };
     case CREATE_CATEGORY_SUCCESS:
-      return { loading: false, success: true, category: action.payload };
+      return { loading: false, createSuccess: true, category: action.payload };
     case CREATE_CATEGORY_FAIL:
       return { loading: false, error: action.payload };
     default:
@@ -50,7 +50,10 @@ export const deleteCategoryReducer = (state = {}, action) => {
     case DELETE_CATEGORY_REQUEST:
       return { loading: true };
     case DELETE_CATEGORY_SUCCESS:
-      return { loading: false, deleted: true, deletedCategory: action.payload };
+      return {
+        loading: false,
+        deleteSuccess: true,
+      };
     case DELETE_CATEGORY_FAIL:
       return { loading: false, error: action.payload };
     default:
@@ -78,7 +81,7 @@ export const getCategoryReducer = (state = { category: {} }, action) => {
     case GET_CATEGORY_REQUEST:
       return { loading: true, ...state };
     case GET_CATEGORY_SUCCESS:
-      return { loading: false, category: action.payload, getSuccess: true };
+      return { loading: false, category: action.payload };
     case GET_CATEGORY_FAIL:
       return { loading: false, error: action.payload };
     default:

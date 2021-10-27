@@ -89,8 +89,6 @@ export const registerComplete = (email, password) => async (dispatch) => {
 
       registerUser(idTokenResult)
         .then((res) => {
-          console.log(res.data);
-
           dispatch({
             type: USER_REGISTER_SUCCESS,
             payload: res.data,

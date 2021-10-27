@@ -12,6 +12,14 @@ import {
   getCategoryReducer,
 } from "./Reducers/categoryReducer";
 
+import {
+  createSubCategoryReducer,
+  deleteSubCategoryReducer,
+  getAllSubCategoriesReducer,
+  getSubCategoryReducer,
+  updateSubCategoryReducer,
+} from "./Reducers/subCategoryReducer";
+
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
@@ -20,6 +28,11 @@ const reducer = combineReducers({
   deleteCategory: deleteCategoryReducer,
   updateCategory: updateCategoryReducer,
   getCategory: getCategoryReducer,
+  createSubCategory: createSubCategoryReducer,
+  getAllSubCategories: getAllSubCategoriesReducer,
+  getSubCategory: getSubCategoryReducer,
+  deleteSubCategory: deleteSubCategoryReducer,
+  updateSubCategory: updateSubCategoryReducer,
 });
 
 const userInfoFromStorage = window.localStorage.getItem("userInfo")

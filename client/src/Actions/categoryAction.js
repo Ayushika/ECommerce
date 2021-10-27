@@ -91,8 +91,8 @@ export const deleteCategoryAction =
         },
       };
 
-      const res = await axios.delete(`/api/category/${slug}`, config);
-      dispatch({ type: DELETE_CATEGORY_SUCCESS, payload: res.data });
+      await axios.delete(`/api/category/${slug}`, config);
+      dispatch({ type: DELETE_CATEGORY_SUCCESS, });
       toast.success(`Deleted Successfully`);
     } catch (error) {
       dispatch({
@@ -123,7 +123,7 @@ export const updateCategoryAction =
       };
 
       const res = await axios.put(
-        `http://localhost:5000/api/category/${slug}`,
+        `/api/category/${slug}`,
         { name },
         config,
       );

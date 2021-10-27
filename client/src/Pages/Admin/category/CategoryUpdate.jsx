@@ -20,14 +20,18 @@ const CategoryUpdate = ({ history, match }) => {
   );
   const { userInfo } = userLogin;
   const { loading, updateSuccess } = updateCategory;
-  // const { category, getSuccess } = getCategory;
+  const { category } = getCategory;
 
   useEffect(() => {
     if (updateSuccess) {
       dispatch({ type: UPDATE_CATEGORY_RESET });
       history.push("/admin/category");
+    } else if (!category.name || category.slug !== categorySlug) {
+      dispatch(getCategoryAction(categorySlug));
+    } else {
+      setName(category.name);
     }
-  }, [updateSuccess]);
+  }, [updateSuccess, category, dispatch, history, categorySlug]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,7 +51,7 @@ const CategoryUpdate = ({ history, match }) => {
             autoFocus
             required
           />
-          <button type='submit' className='btn btn-raised my-3'>
+          <button type='submit' className='btn btn-raised btn-primary my-3'>
             Update
           </button>
         </div>
@@ -65,7 +69,7 @@ const CategoryUpdate = ({ history, match }) => {
           {loading ? (
             <h4 className='text-danger'>Loading...</h4>
           ) : (
-            <h4>Update Category</h4>
+            <h4 className='text-primary'>Update Category</h4>
           )}
           {categoryUpdateForm()}
         </div>
