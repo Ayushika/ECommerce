@@ -25,6 +25,7 @@ import {
   updateBrandReducer,
   getBrandReducer,
 } from "./Reducers/brandReducer";
+import {createProductReducer} from "./Reducers/productReducer"
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -44,6 +45,7 @@ const reducer = combineReducers({
   getBrand: getBrandReducer,
   deleteBrand: deleteBrandReducer,
   updateBrand: updateBrandReducer,
+  createProduct : createProductReducer,
 });
 
 const userInfoFromStorage = window.localStorage.getItem("userInfo")

@@ -9,6 +9,7 @@ const userRouter = require("./routes/userRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const subCategoryRouter = require("./routes/subCategoryRoutes");
 const brandRouter = require("./routes/brandRoutes");
+const productRouter = require("./routes/productRoutes");
 const { notFound, ErrorHandler } = require("./middlewares/errMiddleware");
 dotenv.config();
 const app = express();
@@ -23,6 +24,7 @@ app.use("/api/user", userRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/subcategory", subCategoryRouter);
 app.use("/api/brand", brandRouter);
+app.use("/api/product", productRouter);
 
 //connecting to the database
 connectDB();
