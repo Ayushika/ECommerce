@@ -37,6 +37,7 @@ const initialValues = {
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialValues);
+  const [show, setShow] = useState(false);
   const {
     title,
     description,
@@ -102,7 +103,6 @@ const ProductCreate = () => {
             <h4>Create Product</h4>
           )}
           <hr />
-          {JSON.stringify(values)}
           <form onSubmit={handleSubmit}>
             <div className='form-group'>
               <label className='text-info'>Title</label>
@@ -174,7 +174,15 @@ const ProductCreate = () => {
               <select
                 className='form-control'
                 name='category'
-                onChange={handleChange}>
+                onChange={(e) => {
+                  setValues({
+                    ...values,
+                    category: e.target.value,
+                    brand: "",
+                    subcategories: [],
+                  });
+                  // setShow(true);
+                }}>
                 <option value={0}>Please select Category</option>
                 {categories.length > 0 &&
                   categories.map((c) => (
@@ -190,6 +198,7 @@ const ProductCreate = () => {
                   <label className='text-info'>SubCategory</label>
                   <Select
                     className='form-control'
+                    value={subcategories}
                     mode='multiple'
                     style={{ width: "100%" }}
                     placeholder='Please select'
