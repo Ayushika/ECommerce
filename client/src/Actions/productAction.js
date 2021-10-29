@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import {
   CREATE_PRODUCT_FAIL,
   CREATE_PRODUCT_REQUEST,
-  CREATE_PRODUCT_RESET,
   CREATE_PRODUCT_SUCCESS,
 } from "../Constants/productConstant";
 

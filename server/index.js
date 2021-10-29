@@ -10,13 +10,15 @@ const categoryRouter = require("./routes/categoryRoutes");
 const subCategoryRouter = require("./routes/subCategoryRoutes");
 const brandRouter = require("./routes/brandRoutes");
 const productRouter = require("./routes/productRoutes");
+const cloudinaryRouter = require("./routes/cloudinaryRoutes");
 const { notFound, ErrorHandler } = require("./middlewares/errMiddleware");
+
 dotenv.config();
 const app = express();
 
 //middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "5mb" }));
 
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
@@ -25,6 +27,7 @@ app.use("/api/category", categoryRouter);
 app.use("/api/subcategory", subCategoryRouter);
 app.use("/api/brand", brandRouter);
 app.use("/api/product", productRouter);
+app.use("/api/cloudinary", cloudinaryRouter);
 
 //connecting to the database
 connectDB();

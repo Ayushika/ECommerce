@@ -8,7 +8,12 @@ import { getAllCategoriesAction } from "../../../Actions/categoryAction";
 import { getAllSubCategoriesAction } from "../../../Actions/subCategoryAction";
 import { createProductAction } from "../../../Actions/productAction";
 import { CREATE_PRODUCT_RESET } from "../../../Constants/productConstant";
+import { Avatar, Badge } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import Resizer from "react-image-file-resizer";
+import axios from "axios";
 import { Select } from "antd";
+import { toast } from "react-toastify";
 const { Option } = Select;
 
 const initialValues = {
@@ -37,7 +42,7 @@ const initialValues = {
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialValues);
-  const [show, setShow] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const {
     title,
     description,
@@ -90,6 +95,76 @@ const ProductCreate = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
+  const fileUploadAndResize = (e) => {
+    const files = e.target.files;
+    setImageLoading(true);
+    const allUploadedFiles = images;
+    if (files) {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: userInfo.token,
+        },
+      };
+      for (let i = 0; i < files.length; i++) {
+        Resizer.imageFileResizer(
+          files[i],
+          720,
+          720,
+          "JPEG",
+          100,
+          0,
+          (uri) => {
+            axios
+              .post(
+                "http://localhost:5000/api/cloudinary/uploadimages",
+                { image: uri },
+                config,
+              )
+              .then((res) => {
+                setImageLoading(false);
+                allUploadedFiles.push(res.data);
+                setValues({ ...values, image: allUploadedFiles });
+              })
+              .catch((error) => {
+                setImageLoading(false);
+                console.log(error);
+                toast.error("Upload failed");
+              });
+          },
+          "base64",
+        );
+      }
+    }
+  };
+
+  const handleImageRemove = (public_id) => {
+    setImageLoading(true);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: userInfo.token,
+      },
+    };
+    axios
+      .post(
+        "http://localhost:5000/api/cloudinary/removeimage",
+        { public_id },
+        config,
+      )
+      .then((res) => {
+        setImageLoading(false);
+        const updatedImages = images.filter(
+          (item) => item.public_id !== public_id,
+        );
+        setValues({ ...values, images: updatedImages });
+      })
+      .catch((error) => {
+        setImageLoading(false);
+        toast.error("Error while deleting image");
+      });
+  };
+
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -104,6 +179,39 @@ const ProductCreate = () => {
           )}
           <hr />
           <form onSubmit={handleSubmit}>
+            <div className='row'>
+              {imageLoading ? (
+                <LoadingOutlined />
+              ) : (
+                images.length > 0 &&
+                images.map((item) => (
+                  <Badge
+                    key={item.public_id}
+                    count={"X"}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleImageRemove(item.public_id)}>
+                    <Avatar
+                      size={100}
+                      shape='square'
+                      src={item.url}
+                      className='ml-3'
+                    />
+                  </Badge>
+                ))
+              )}
+            </div>
+            <div className='form-group'>
+              <label className='btn btn-info btn-raised my-2'>
+                Upload Image
+                <input
+                  type='file'
+                  multiple
+                  hidden
+                  accept='images/*'
+                  onChange={fileUploadAndResize}
+                />
+              </label>
+            </div>
             <div className='form-group'>
               <label className='text-info'>Title</label>
               <input
