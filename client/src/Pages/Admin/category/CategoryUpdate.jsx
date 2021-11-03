@@ -3,11 +3,15 @@
 import React, { useState, useEffect } from "react";
 import AdminNavbar from "../../../Components/nav/AdminNavbar";
 import { useDispatch, useSelector } from "react-redux";
-import { UPDATE_CATEGORY_RESET, GET_CATEGORY_RESET } from "../../../Constants/categoryConstant";
+import {
+  UPDATE_CATEGORY_RESET,
+  GET_CATEGORY_RESET,
+} from "../../../Constants/categoryConstant";
 import {
   updateCategoryAction,
   getCategoryAction,
 } from "../../../Actions/categoryAction";
+import CategoryForm from "../../../Components/forms/CategoryForm";
 
 const CategoryUpdate = ({ history, match }) => {
   const dispatch = useDispatch();
@@ -39,27 +43,6 @@ const CategoryUpdate = ({ history, match }) => {
     dispatch(updateCategoryAction(name, categorySlug, userInfo.token));
   };
 
-  const categoryUpdateForm = () => {
-    return (
-      <form onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Enter Category Name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoFocus
-            required
-          />
-          <button type='submit' className='btn btn-raised btn-primary my-3'>
-            Update
-          </button>
-        </div>
-      </form>
-    );
-  };
-
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -72,7 +55,11 @@ const CategoryUpdate = ({ history, match }) => {
           ) : (
             <h4 className='text-primary'>Update Category</h4>
           )}
-          {categoryUpdateForm()}
+          <CategoryForm
+            name={name}
+            setName={setName}
+            handleSubmit={handleSubmit}
+          />
         </div>
       </div>
     </div>

@@ -3,15 +3,16 @@
 import React, { useState, useEffect } from "react";
 import AdminNavbar from "../../../Components/nav/AdminNavbar";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  UPDATE_BRAND_RESET,
-  GET_BRAND_RESET,
-} from "../../../Constants/brandConstant";
 import { getAllCategoriesAction } from "../../../Actions/categoryAction";
+import CategoryForm from "../../../Components/forms/CategoryForm";
 import {
   updateBrandAction,
   getBrandAction,
 } from "../../../Actions/brandAction";
+import {
+  UPDATE_BRAND_RESET,
+  GET_BRAND_RESET,
+} from "../../../Constants/brandConstant";
 
 const BrandUpdate = ({ history, match }) => {
   const [name, setName] = useState("");
@@ -50,26 +51,6 @@ const BrandUpdate = ({ history, match }) => {
     e.preventDefault();
     dispatch(updateBrandAction(name, category, slug, userInfo.token));
   };
-  const brandUpdateForm = () => {
-    return (
-      <form onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Enter Subcategory Name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoFocus
-            required
-          />
-          <button type='submit' className='btn btn-raised btn-primary my-3'>
-            Update
-          </button>
-        </div>
-      </form>
-    );
-  };
 
   return (
     <div className='container-fluid'>
@@ -83,6 +64,7 @@ const BrandUpdate = ({ history, match }) => {
           ) : (
             <h4 className='text-primary'>Update Brand</h4>
           )}
+
           <div className='form-group'>
             <label>Category</label>
             <select
@@ -100,7 +82,12 @@ const BrandUpdate = ({ history, match }) => {
                 ))}
             </select>
           </div>
-          {brandUpdateForm()}
+
+          <CategoryForm
+            name={name}
+            setName={setName}
+            handleSubmit={handleSubmit}
+          />
         </div>
       </div>
     </div>

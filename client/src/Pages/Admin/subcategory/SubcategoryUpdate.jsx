@@ -3,11 +3,12 @@
 import React, { useState, useEffect } from "react";
 import AdminNavbar from "../../../Components/nav/AdminNavbar";
 import { useDispatch, useSelector } from "react-redux";
+import { getAllCategoriesAction } from "../../../Actions/categoryAction";
+import CategoryForm from "../../../Components/forms/CategoryForm";
 import {
   UPDATE_SUBCATEGORY_RESET,
   GET_SUBCATEGORY_RESET,
 } from "../../../Constants/subCategoryConstant";
-import { getAllCategoriesAction } from "../../../Actions/categoryAction";
 import {
   updateSubCategoryAction,
   getSubCategoryAction,
@@ -54,26 +55,6 @@ const SubcategoryUpdate = ({ history, match }) => {
     e.preventDefault();
     dispatch(updateSubCategoryAction(name, category, slug, userInfo.token));
   };
-  const subcategoryUpdateForm = () => {
-    return (
-      <form onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Enter Subcategory Name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoFocus
-            required
-          />
-          <button type='submit' className='btn btn-raised btn-primary my-3'>
-            Update
-          </button>
-        </div>
-      </form>
-    );
-  };
 
   return (
     <div className='container-fluid'>
@@ -104,7 +85,11 @@ const SubcategoryUpdate = ({ history, match }) => {
                 ))}
             </select>
           </div>
-          {subcategoryUpdateForm()}
+          <CategoryForm
+            name={name}
+            setName={setName}
+            handleSubmit={handleSubmit}
+          />
         </div>
       </div>
     </div>

@@ -11,6 +11,8 @@ import {
   deleteBrandAction,
   getAllBrandsAction,
 } from "../../../Actions/brandAction";
+import CategoryForm from "../../../Components/forms/CategoryForm";
+import LocalSearch from "../../../Components/forms/LocalSearch";
 
 const BrandCreate = () => {
   const [name, setName] = useState("");
@@ -54,26 +56,6 @@ const BrandCreate = () => {
     }
   };
 
-  const brandForm = () => {
-    return (
-      <form onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Enter Brand Name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoFocus
-            required
-          />
-          <button type='submit' className='btn btn-raised btn-primary my-3'>
-            Create
-          </button>
-        </div>
-      </form>
-    );
-  };
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -87,7 +69,7 @@ const BrandCreate = () => {
             <h4 className='text-primary'>Create Brand</h4>
           )}
           <div className='form-group'>
-            <label> Category</label>
+            <label>Category</label>
             <select
               name='category'
               className='form-control'
@@ -101,14 +83,14 @@ const BrandCreate = () => {
                 ))}
             </select>
           </div>
-          {brandForm()}
-          <input
-            type='search'
-            placeholder='Search Brand'
-            className='form-control'
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value.toLowerCase())}
+
+          <CategoryForm
+            name={name}
+            setName={setName}
+            handleSubmit={handleSubmit}
           />
+
+          <LocalSearch keyword={keyword} setKeyword={setKeyword} />
           <hr />
           {brands
             .filter((c) => c.name.toLowerCase().includes(keyword))

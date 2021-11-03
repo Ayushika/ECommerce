@@ -5,12 +5,14 @@ import AdminNavbar from "../../../Components/nav/AdminNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCategoriesAction } from "../../../Actions/categoryAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import CategoryForm from "../../../Components/forms/CategoryForm";
 import { Link } from "react-router-dom";
 import {
   createSubCategoryAction,
   getAllSubCategoriesAction,
   deleteSubCategoryAction,
 } from "../../../Actions/subCategoryAction";
+import LocalSearch from "../../../Components/forms/LocalSearch";
 
 const SubcategoryCreate = () => {
   const [name, setName] = useState("");
@@ -54,26 +56,6 @@ const SubcategoryCreate = () => {
     }
   };
 
-  const subcategoryForm = () => {
-    return (
-      <form onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Enter Subcategory Name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoFocus
-            required
-          />
-          <button type='submit' className='btn btn-raised btn-primary my-3'>
-            Create
-          </button>
-        </div>
-      </form>
-    );
-  };
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -101,14 +83,14 @@ const SubcategoryCreate = () => {
                 ))}
             </select>
           </div>
-          {subcategoryForm()}
-          <input
-            type='search'
-            placeholder='Search Subcategory'
-            className='form-control'
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value.toLowerCase())}
+
+          <CategoryForm
+            name={name}
+            setName={setName}
+            handleSubmit={handleSubmit}
           />
+
+          <LocalSearch keyword={keyword} setKeyword={setKeyword} />
           <hr />
           {subCategories
             .filter((c) => c.name.toLowerCase().includes(keyword))

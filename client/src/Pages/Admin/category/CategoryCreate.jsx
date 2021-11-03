@@ -10,6 +10,8 @@ import {
   deleteCategoryAction,
   getAllCategoriesAction,
 } from "../../../Actions/categoryAction";
+import CategoryForm from "../../../Components/forms/CategoryForm";
+import LocalSearch from "../../../Components/forms/LocalSearch";
 
 const CategoryCreate = () => {
   const [name, setName] = useState("");
@@ -45,26 +47,6 @@ const CategoryCreate = () => {
       dispatch(deleteCategoryAction(slug, userInfo.token));
     }
   };
-  const categoryForm = () => {
-    return (
-      <form onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Enter Category Name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoFocus
-            required
-          />
-          <button type='submit' className='btn btn-raised btn-primary my-3'>
-            Create
-          </button>
-        </div>
-      </form>
-    );
-  };
 
   return (
     <div className='container-fluid'>
@@ -78,14 +60,12 @@ const CategoryCreate = () => {
           ) : (
             <h4 className='text-primary'>Create Category</h4>
           )}
-          {categoryForm()}
-          <input
-            type='search'
-            placeholder='Search Category'
-            className='form-control'
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value.toLowerCase())}
+          <CategoryForm
+            name={name}
+            setName={setName}
+            handleSubmit={handleSubmit}
           />
+          <LocalSearch keyword={keyword} setKeyword={setKeyword} />
           <hr />
           {categories
             .filter((c) => c.name.toLowerCase().includes(keyword))
