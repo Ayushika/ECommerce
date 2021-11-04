@@ -19,6 +19,7 @@ import SubcategoryUpdate from "../src/Pages/Admin/subcategory/SubcategoryUpdate"
 import BrandCreate from "./Pages/Admin/brand/BrandCreate";
 import BrandUpdate from "./Pages/Admin/brand/BrandUpdate";
 import ProductCreate from "./Pages/Admin/product/ProductCreate";
+import AllProducts from "./Pages/Admin/product/AllProducts";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -60,6 +61,7 @@ const App = () => {
         <AdminRoute exact path='/admin/brand' component={BrandCreate} />
         <AdminRoute exact path='/admin/brand/:slug' component={BrandUpdate} />
         <AdminRoute exact path='/admin/product' component={ProductCreate} />
+        <AdminRoute exact path='/admin/products' component={AllProducts} />
       </Switch>
     </>
   );

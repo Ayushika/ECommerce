@@ -25,7 +25,11 @@ import {
   updateBrandReducer,
   getBrandReducer,
 } from "./Reducers/brandReducer";
-import {createProductReducer} from "./Reducers/productReducer"
+import {
+  createProductReducer,
+  getAllProductsReducer,
+  deleteProductReducer,
+} from "./Reducers/productReducer";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -45,7 +49,9 @@ const reducer = combineReducers({
   getBrand: getBrandReducer,
   deleteBrand: deleteBrandReducer,
   updateBrand: updateBrandReducer,
-  createProduct : createProductReducer,
+  createProduct: createProductReducer,
+  getAllProducts: getAllProductsReducer,
+  deleteProduct: deleteProductReducer,
 });
 
 const userInfoFromStorage = window.localStorage.getItem("userInfo")

@@ -6,6 +6,12 @@ import {
   CREATE_PRODUCT_FAIL,
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_SUCCESS,
+  GET_PRODUCTS_FAIL,
+  GET_PRODUCTS_REQUEST,
+  GET_PRODUCTS_SUCCESS,
+  DELETE_PRODUCT_FAIL,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
 } from "../Constants/productConstant";
 
 export const createProductAction =
@@ -34,6 +40,54 @@ export const createProductAction =
             : error.message,
       });
 
+      toast.error(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+      );
+    }
+  };
+
+export const getAllProductsAction = (count) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_PRODUCTS_REQUEST });
+    const res = await axios.get(
+      `http://localhost:5000/api/product/all/${count}`,
+    );
+    dispatch({ type: GET_PRODUCTS_SUCCESS, payload: res.data });
+  } catch (error) {
+    dispatch({ type: GET_PRODUCTS_FAIL, payload: error.response });
+    toast.error(
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    );
+  }
+};
+
+export const deleteProductAction =
+  (slug, idTokenResult) => async (dispatch) => {
+    try {
+      dispatch({ type: DELETE_PRODUCT_REQUEST });
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: idTokenResult,
+        },
+      };
+
+      await axios.delete(`http://localhost:5000/api/product/${slug}`, config);
+      dispatch({ type: DELETE_PRODUCT_SUCCESS });
+      toast.success(`Deleted Successfully`);
+    } catch (error) {
+      dispatch({
+        type: DELETE_PRODUCT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
       toast.error(
         error.response && error.response.data.message
           ? error.response.data.message
