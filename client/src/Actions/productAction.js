@@ -9,6 +9,9 @@ import {
   GET_PRODUCTS_FAIL,
   GET_PRODUCTS_REQUEST,
   GET_PRODUCTS_SUCCESS,
+  GET_PRODUCT_FAIL,
+  GET_PRODUCT_REQUEST,
+  GET_PRODUCT_SUCCESS,
   DELETE_PRODUCT_FAIL,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
@@ -95,3 +98,25 @@ export const deleteProductAction =
       );
     }
   };
+
+export const getProductAction = (slug) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_PRODUCT_REQUEST });
+
+    const res = await axios.get(`http://localhost:5000/api/product/${slug}`);
+    dispatch({ type: GET_PRODUCT_SUCCESS, payload: res.data });
+  } catch (error) {
+    dispatch({
+      type: GET_PRODUCT_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+    toast.error(
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    );
+  }
+};

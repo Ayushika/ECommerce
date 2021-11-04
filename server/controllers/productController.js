@@ -31,4 +31,10 @@ const deleteProduct = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createProduct, getAllProducts, deleteProduct };
+const getProduct = asyncHandler(async (req, res) => {
+  const slug = req.params.slug;
+  const product = await Product.findOne({ slug }).exec();
+  res.json(product);
+});
+
+module.exports = { createProduct, getAllProducts, deleteProduct, getProduct };

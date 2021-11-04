@@ -4,7 +4,7 @@ import React from "react";
 
 const LocalSearch = ({ keyword, setKeyword }) => {
   return (
-    <div className='container pt-4 pb-4'>
+    <div className='container pt-1 pb-4'>
       <input
         type='search'
         placeholder='Search'

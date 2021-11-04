@@ -5,6 +5,7 @@ import { Card } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProductAction } from "../../Actions/productAction";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 const { Meta } = Card;
 
 const AdminCard = ({ product }) => {
@@ -32,7 +33,9 @@ const AdminCard = ({ product }) => {
         )
       }
       actions={[
-        <EditOutlined className='text-info' />,
+        <Link to={`/admin/product/${slug}`}>
+          <EditOutlined className='text-info' />,
+        </Link>,
         <DeleteOutlined
           className='text-danger'
           onClick={() => removeProduct(slug)}

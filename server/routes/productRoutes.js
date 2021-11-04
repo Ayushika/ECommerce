@@ -7,11 +7,14 @@ const {
   createProduct,
   getAllProducts,
   deleteProduct,
+  getProduct,
 } = require("../controllers/productController");
 
 router.route("/all/:count").get(getAllProducts);
-router.route("/:slug").delete(deleteProduct);
+router
+  .route("/:slug")
+  .delete(protect, checkAdmin, deleteProduct)
+  .get(getProduct);
 router.route("/").put(protect, checkAdmin, createProduct);
-
 
 module.exports = router;
