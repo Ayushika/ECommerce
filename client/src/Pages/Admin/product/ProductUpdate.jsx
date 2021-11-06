@@ -4,7 +4,18 @@ import React, { useState, useEffect } from "react";
 import AdminNavbar from "../../../Components/nav/AdminNavbar";
 import ProductUpdateForm from "../../../Components/forms/ProductUpdateForm";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductAction } from "../../../Actions/productAction";
+import {
+  getProductAction,
+  updateProductAction,
+} from "../../../Actions/productAction";
+import { getAllBrandsAction } from "../../../Actions/brandAction";
+import { getAllCategoriesAction } from "../../../Actions/categoryAction";
+import { getAllSubCategoriesAction } from "../../../Actions/subCategoryAction";
+import {
+  GET_PRODUCT_RESET,
+  UPDATE_PRODUCT_RESET,
+} from "../../../Constants/productConstant";
+import FileUpload from "../../../Components/forms/FileUpload";
 
 const initialValues = {
   title: "",
@@ -30,24 +41,62 @@ const initialValues = {
   color: "",
 };
 
-const ProductUpdate = ({ match }) => {
+const ProductUpdate = ({ match, history }) => {
   const [values, setValues] = useState(initialValues);
+  const [arrayOfSubs, setArrayOfSubs] = useState([]);
   const dispatch = useDispatch();
   const slug = match.params.slug;
 
-  const { getProduct } = useSelector((state) => state);
+  const {
+    getProduct,
+    getAllSubCategories,
+    getAllCategories,
+    getAllBrands,
+    updateProduct,
+    userLogin,
+  } = useSelector((state) => state);
+
+  const { userInfo } = userLogin;
   const { product } = getProduct;
+  const { subCategories } = getAllSubCategories;
+  const { categories } = getAllCategories;
+  const { brands } = getAllBrands;
+  const { updateSuccess } = updateProduct;
 
   useEffect(() => {
-    dispatch(getProductAction(slug));
+    dispatch(getAllSubCategoriesAction());
+    dispatch(getAllCategoriesAction());
+    dispatch(getAllBrandsAction());
   }, []);
 
   useEffect(() => {
-    setValues({ ...values, ...product });
-  }, [product]);
+    if (updateSuccess) {
+      dispatch({ type: UPDATE_PRODUCT_RESET });
+      dispatch({ type: GET_PRODUCT_RESET });
+      history.push("/admin/products");
+    } else if (!product.title || product.slug !== slug) {
+      dispatch(getProductAction(slug));
+    } else {
+      setValues({
+        ...values,
+        ...product,
+      });
+
+      let arr = [];
+      product.subcategories.map((s) => {
+        arr.push(s._id);
+      });
+
+      setArrayOfSubs((prev) => arr);
+    }
+  }, [slug, dispatch, product, updateSuccess]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    values.subcategories = arrayOfSubs;
+    values.category = values.category._id;
+    values.brand = values.brand._id;
+    dispatch(updateProductAction(values, slug, userInfo.token));
   };
 
   const handleChange = (e) => {
@@ -63,11 +112,17 @@ const ProductUpdate = ({ match }) => {
         <div className='col-md-8'>
           <h4>Update Product</h4>
           <hr />
+          <FileUpload values={values} setValues={setValues} />
           <ProductUpdateForm
             values={values}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             setValues={setValues}
+            subCategories={subCategories}
+            categories={categories}
+            brands={brands}
+            arrayOfSubs={arrayOfSubs}
+            setArrayOfSubs={setArrayOfSubs}
           />
         </div>
       </div>

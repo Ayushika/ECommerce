@@ -1,23 +1,18 @@
 /** @format */
 
 import React from "react";
-import { Avatar, Badge } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import { Select } from "antd";
 const { Option } = Select;
 
 const ProductCreateForm = (props) => {
   const {
-    handleImageRemove,
     handleChange,
     handleSubmit,
     values,
-    imageLoading,
     categories,
     subCategories,
     brands,
     setValues,
-    fileUploadAndResize,
   } = props;
 
   const {
@@ -36,39 +31,6 @@ const ProductCreateForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className='row'>
-        {imageLoading ? (
-          <LoadingOutlined />
-        ) : (
-          images.length > 0 &&
-          images.map((item) => (
-            <Badge
-              key={item.public_id}
-              count={"X"}
-              style={{ cursor: "pointer" }}
-              onClick={() => handleImageRemove(item.public_id)}>
-              <Avatar
-                size={100}
-                shape='square'
-                src={item.url}
-                className='ml-3'
-              />
-            </Badge>
-          ))
-        )}
-      </div>
-      <div className='form-group'>
-        <label className='btn btn-info btn-raised my-2'>
-          Upload Image
-          <input
-            type='file'
-            multiple
-            hidden
-            accept='images/*'
-            onChange={fileUploadAndResize}
-          />
-        </label>
-      </div>
       <div className='form-group'>
         <label className='text-info'>Title</label>
         <input

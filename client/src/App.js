@@ -1,6 +1,6 @@
 /** @format */
 import { Switch, Route } from "react-router-dom";
-import Home from "./Pages/User/Home";
+import Home from "./Pages/Home";
 import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
@@ -21,6 +21,7 @@ import BrandUpdate from "./Pages/Admin/brand/BrandUpdate";
 import ProductCreate from "./Pages/Admin/product/ProductCreate";
 import AllProducts from "./Pages/Admin/product/AllProducts";
 import ProductUpdate from "./Pages/Admin/product/ProductUpdate";
+import Product from "./Pages/Product";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -68,6 +69,7 @@ const App = () => {
           component={ProductUpdate}
         />
         <AdminRoute exact path='/admin/products' component={AllProducts} />
+        <Route exact path='/product/:slug' component={Product} />
       </Switch>
     </>
   );

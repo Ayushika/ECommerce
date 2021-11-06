@@ -15,6 +15,9 @@ import {
   DELETE_PRODUCT_FAIL,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
+  UPDATE_PRODUCT_FAIL,
+  UPDATE_PRODUCT_REQUEST,
+  UPDATE_PRODUCT_SUCCESS,
 } from "../Constants/productConstant";
 
 export const createProductAction =
@@ -120,3 +123,30 @@ export const getProductAction = (slug) => async (dispatch) => {
     );
   }
 };
+
+export const updateProductAction =
+  (product, slug, idTokenResult) => async (dispatch) => {
+    try {
+      dispatch({ type: UPDATE_PRODUCT_REQUEST });
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: idTokenResult,
+        },
+      };
+
+      const res = await axios.put(`/api/product/${slug}`, product, config);
+
+      dispatch({ type: UPDATE_PRODUCT_SUCCESS, payload: res.data });
+      toast.success("Updated Successfully");
+    } catch (error) {
+      dispatch({
+        type: UPDATE_PRODUCT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

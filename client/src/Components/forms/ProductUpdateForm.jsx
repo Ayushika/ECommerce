@@ -1,23 +1,20 @@
 /** @format */
 
 import React from "react";
-import { Avatar, Badge } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import { Select } from "antd";
 const { Option } = Select;
 
 const ProductUpdateForm = (props) => {
   const {
-    // handleImageRemove,
     handleChange,
     handleSubmit,
     values,
-    // imageLoading,
-    // categories,
-    // subCategories,
-    // brands,
     setValues,
-    // fileUploadAndResize,
+    subCategories,
+    categories,
+    brands,
+    setArrayOfSubs,
+    arrayOfSubs,
   } = props;
 
   const {
@@ -103,6 +100,78 @@ const ProductUpdateForm = (props) => {
           ))}
         </select>
       </div>
+      <div className='form-group'>
+        <label className='text-info'>Category</label>
+        <select
+          className='form-control'
+          name='category'
+          onChange={(e) => {
+            setValues({
+              ...values,
+              category: { _id: e.target.value },
+              brand: "",
+              subcategories: [],
+            });
+            setArrayOfSubs([]);
+          }}>
+          {category ? (
+            <option>{category.name}</option>
+          ) : (
+            <option value={0}>Please select Category</option>
+          )}
+          {categories.length > 0 &&
+            categories.map((c) => (
+              <option value={c._id} key={c._id}>
+                {c.name}
+              </option>
+            ))}
+        </select>
+      </div>
+
+      {category !== "0" && (
+        <>
+          <div className='form-group'>
+            <label className='text-info'>SubCategory</label>
+            <Select
+              value={arrayOfSubs}
+              className='form-control'
+              mode='multiple'
+              style={{ width: "100%" }}
+              placeholder='Please select'
+              onChange={(v) => setArrayOfSubs(v)}>
+              {subCategories
+                .filter((c) => c.category === category._id)
+                .map((c) => (
+                  <Option value={c._id} key={c._id}>
+                    {c.name}
+                  </Option>
+                ))}
+            </Select>
+          </div>
+          <div className='form-group'>
+            <label className='text-info'>Brand</label>
+            <select
+              className='form-control'
+              name='brand'
+              onChange={(e) =>
+                setValues({ ...values, brand: { _id: e.target.value } })
+              }>
+              {brand ? (
+                <option>{brand.name}</option>
+              ) : (
+                <option> Please select brand</option>
+              )}
+              {brands
+                .filter((c) => c.category === category._id)
+                .map((c) => (
+                  <option value={c._id} key={c._id}>
+                    {c.name}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </>
+      )}
 
       <button className='btn btn-info btn-raised my-3' type='submit'>
         Save

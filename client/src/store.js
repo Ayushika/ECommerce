@@ -30,6 +30,7 @@ import {
   getAllProductsReducer,
   deleteProductReducer,
   getProductReducer,
+  updateProductReducer,
 } from "./Reducers/productReducer";
 
 const reducer = combineReducers({
@@ -54,6 +55,7 @@ const reducer = combineReducers({
   getAllProducts: getAllProductsReducer,
   deleteProduct: deleteProductReducer,
   getProduct: getProductReducer,
+  updateProduct: updateProductReducer,
 });
 
 const userInfoFromStorage = window.localStorage.getItem("userInfo")

@@ -8,13 +8,19 @@ const {
   getAllProducts,
   deleteProduct,
   getProduct,
+  getProducts,
+  getTotalProductsCount,
+  updateProduct,
 } = require("../controllers/productController");
 
 router.route("/all/:count").get(getAllProducts);
+router.route("/total").get(getTotalProductsCount);
 router
   .route("/:slug")
-  .delete(protect, checkAdmin, deleteProduct)
-  .get(getProduct);
+  .get(getProduct)
+  .delete(protect, checkAdmin, deleteProduct).put(protect,checkAdmin , updateProduct);
+
 router.route("/").put(protect, checkAdmin, createProduct);
+router.route("/home").post(getProducts);
 
 module.exports = router;

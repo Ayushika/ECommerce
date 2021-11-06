@@ -5,15 +5,20 @@ import {
   CREATE_PRODUCT_SUCCESS,
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_RESET,
-  GET_PRODUCTS_FAIL,
-  GET_PRODUCTS_REQUEST,
-  GET_PRODUCTS_SUCCESS,
   DELETE_PRODUCT_FAIL,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
+  GET_PRODUCTS_FAIL,
+  GET_PRODUCTS_REQUEST,
+  GET_PRODUCTS_SUCCESS,
   GET_PRODUCT_FAIL,
   GET_PRODUCT_REQUEST,
   GET_PRODUCT_SUCCESS,
+  GET_PRODUCT_RESET,
+  UPDATE_PRODUCT_FAIL,
+  UPDATE_PRODUCT_REQUEST,
+  UPDATE_PRODUCT_SUCCESS,
+  UPDATE_PRODUCT_RESET,
 } from "../Constants/productConstant";
 
 export const createProductReducer = (state = {}, action) => {
@@ -38,7 +43,7 @@ export const createProductReducer = (state = {}, action) => {
 export const getAllProductsReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case GET_PRODUCTS_REQUEST:
-      return { loading: true, products: [] };
+      return { loading: true, ...state };
     case GET_PRODUCTS_SUCCESS:
       return {
         loading: false,
@@ -54,7 +59,7 @@ export const getAllProductsReducer = (state = { products: [] }, action) => {
 export const getProductReducer = (state = { product: {} }, action) => {
   switch (action.type) {
     case GET_PRODUCT_REQUEST:
-      return { loading: true, products: {} };
+      return { loading: true, ...state };
     case GET_PRODUCT_SUCCESS:
       return {
         loading: false,
@@ -62,6 +67,8 @@ export const getProductReducer = (state = { product: {} }, action) => {
       };
     case GET_PRODUCT_FAIL:
       return { loading: false, error: action.payload };
+    case GET_PRODUCT_RESET:
+      return { product: {} };
     default:
       return state;
   }
@@ -78,6 +85,21 @@ export const deleteProductReducer = (state = {}, action) => {
       };
     case DELETE_PRODUCT_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const updateProductReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_PRODUCT_REQUEST:
+      return { loading: true };
+    case UPDATE_PRODUCT_SUCCESS:
+      return { loading: false, product: action.payload, updateSuccess: true };
+    case UPDATE_PRODUCT_FAIL:
+      return { loading: false, error: action.payload };
+    case UPDATE_PRODUCT_RESET:
+      return {};
     default:
       return state;
   }
