@@ -18,6 +18,9 @@ import {
   UPDATE_PRODUCT_FAIL,
   UPDATE_PRODUCT_REQUEST,
   UPDATE_PRODUCT_SUCCESS,
+  STAR_RATING_PRODUCT_FAIL,
+  STAR_RATING_PRODUCT_REQUEST,
+  STAR_RATING_PRODUCT_SUCCESS,
 } from "../Constants/productConstant";
 
 export const createProductAction =
@@ -143,6 +146,41 @@ export const updateProductAction =
     } catch (error) {
       dispatch({
         type: UPDATE_PRODUCT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+      toast.error(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+      );
+    }
+  };
+
+export const starRatingProductAction =
+  (star, slug, idTokenResult) => async (dispatch) => {
+    try {
+      dispatch({ type: STAR_RATING_PRODUCT_REQUEST });
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: idTokenResult,
+        },
+      };
+
+      const res = await axios.put(
+        `http://localhost:5000/api/product/star/${slug}`,
+        { star },
+        config,
+      );
+      dispatch({ type: STAR_RATING_PRODUCT_SUCCESS, payload: res.data });
+       toast.success("Thanks for your review");
+    } catch (error) {
+      dispatch({
+        type: STAR_RATING_PRODUCT_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

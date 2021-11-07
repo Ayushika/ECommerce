@@ -68,6 +68,12 @@ const productSchema = mongoose.Schema(
         "Silver",
       ],
     },
+    ratings: [
+      {
+        star: Number,
+        postedBy: { type: mongoose.Schema.ObjectId, ref: "User" },
+      },
+    ],
   },
   { timestamps: true },
 );

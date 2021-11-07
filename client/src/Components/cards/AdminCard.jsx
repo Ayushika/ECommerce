@@ -12,11 +12,9 @@ const AdminCard = ({ product }) => {
   const { images, title, description, slug } = product;
   const dispatch = useDispatch();
 
-  const { userLogin } = useSelector((state) => state);
-  const { userInfo } = userLogin;
+  const { userInfo } = useSelector((state) => state.userLogin);
 
   const removeProduct = (slug) => {
-    console.log(slug);
     dispatch(deleteProductAction(slug, userInfo.token));
   };
 

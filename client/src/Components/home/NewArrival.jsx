@@ -1,10 +1,10 @@
 /** @format */
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { Pagination } from "antd";
 import ProductCard from "../../Components/cards/ProductCard";
 import LoadingCard from "../../Components/cards/LoadingCard";
-import { Pagination } from "antd";
+import axios from "axios";
 
 const NewArrival = () => {
   const [products, setProducts] = useState([]);
@@ -14,7 +14,6 @@ const NewArrival = () => {
 
   useEffect(() => {
     axios.get("http://localhost:5000/api/product/total").then((res) => {
-      console.log(res.data);
       setTotalProducts(res.data);
     });
   }, []);
@@ -30,7 +29,7 @@ const NewArrival = () => {
         setLoading(false);
         setProducts(res.data);
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
       });
   }, [page]);

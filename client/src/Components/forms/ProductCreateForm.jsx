@@ -21,12 +21,8 @@ const ProductCreateForm = (props) => {
     price,
     category,
     subcategories,
-    brand,
     quantity,
-    images,
-    shipping,
     colors,
-    color,
   } = values;
 
   return (
@@ -105,7 +101,6 @@ const ProductCreateForm = (props) => {
               brand: "",
               subcategories: [],
             });
-            // setShow(true);
           }}>
           <option value={0}>Please select Category</option>
           {categories.length > 0 &&

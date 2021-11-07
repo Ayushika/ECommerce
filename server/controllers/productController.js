@@ -3,6 +3,7 @@
 const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
+const User = require("../models/userModel");
 
 const createProduct = asyncHandler(async (req, res) => {
   req.body.slug = slugify(req.body.title);
@@ -74,6 +75,59 @@ const updateProduct = asyncHandler(async (req, res) => {
   res.json(updatedProduct);
 });
 
+const productRating = asyncHandler(async (req, res) => {
+  const { star } = req.body;
+
+  console.log("Star : ", star, "Slug : ", req.params.slug);
+  const product = await Product.findOne({ slug: req.params.slug }).exec();
+  const user = await User.findOne({ email: req.user.email }).exec();
+
+  const existingRating = await product.ratings.find(
+    (e) => e.postedBy.toString() === user._id.toString(),
+  );
+
+  if (existingRating === undefined) {
+    const ratingCreated = await Product.findByIdAndUpdate(
+      product._id,
+      { $push: { ratings: { star, postedBy: user._id } } },
+      { new: true },
+    ).exec();
+
+    res.json(ratingCreated);
+  } else {
+    const ratingUpdated = await Product.updateOne(
+      { ratings: { $elemMatch: existingRating } },
+      { $set: { "ratings.$.star": star } },
+      { new: true },
+    ).exec();
+
+    res.json(ratingUpdated);
+  }
+});
+
+const getRelatedProducts = asyncHandler(async (req, res) => {
+  const product = await Product.findOne({ slug: req.params.slug }).exec();
+  const relatedProducts = await Product.find({
+    _id: { $ne: product._id },
+    category: product.category,
+  })
+    .populate("category")
+    .populate("subcategories")
+    .populate("brand")
+    .exec();
+
+  res.json(relatedProducts);
+});
+
+const getTotalRelatedProductsCount = asyncHandler(async (req, res) => {
+  const product = await Product.findOne({ slug: req.params.slug }).exec();
+  const total = await Product.find({
+    _id: { $ne: product._id },
+    category: product.category,
+  }).estimatedDocumentCount();
+  res.json(total);
+});
+
 module.exports = {
   createProduct,
   getAllProducts,
@@ -82,4 +136,7 @@ module.exports = {
   getProducts,
   getTotalProductsCount,
   updateProduct,
+  productRating,
+  getRelatedProducts,
+  getTotalRelatedProductsCount,
 };

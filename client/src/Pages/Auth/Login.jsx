@@ -14,26 +14,27 @@ const Login = ({ history }) => {
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const { loading, error, userInfo , loginSuccess } = userLogin;
 
-  const redirect = userInfo && userInfo.isAdmin ? "/admin/dashboard" : "/user/history";
-
+  const redirect =
+    userInfo && userInfo.isAdmin ? "/admin/dashboard" : "/user/history";
 
   useEffect(() => {
+
     if (error) {
       toast.error(error);
-    } else if (userInfo) {
+    }  else if (userInfo) {
       history.push(redirect);
     }
-  }, [error, userInfo, history, redirect]);
+  }, [error, userInfo, history, redirect , loginSuccess]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(email, password));
+    dispatch(login(email, password , history));
   };
 
   const loginWithGoogle = () => {
-    dispatch(googleLogin());
+    dispatch(googleLogin(history));
   };
 
   const loginForm = () => {

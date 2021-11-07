@@ -24,13 +24,14 @@ const registerUser = async (idTokenResult) => {
   return await axios.post("/api/user/register", {}, config);
 };
 
-export const login = (email, password) => async (dispatch) => {
+export const login = (email, password, history) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
 
     const result = await auth.signInWithEmailAndPassword(email, password);
     const { user } = result;
 
+    const intended = history.location.state;
     if (user) {
       const idTokenResult = await user.getIdTokenResult();
       registerUser(idTokenResult)
@@ -41,6 +42,9 @@ export const login = (email, password) => async (dispatch) => {
             payload: res.data,
           });
           localStorage.setItem("userInfo", JSON.stringify(res.data));
+          if (intended) {
+            history.push(intended.from);
+          }
         })
         .catch((err) => console.log(err));
     }
@@ -50,12 +54,13 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-export const googleLogin = () => async (dispatch) => {
+export const googleLogin = (history) => async (dispatch) => {
   auth
     .signInWithPopup(googleAuthProvider)
     .then(async (result) => {
       const { user } = result;
       if (user) {
+        const intended = history.location.state;
         const idTokenResult = await user.getIdTokenResult();
         registerUser(idTokenResult)
           .then((res) => {
@@ -65,6 +70,9 @@ export const googleLogin = () => async (dispatch) => {
               payload: res.data,
             });
             localStorage.setItem("userInfo", JSON.stringify(res.data));
+            if (intended) {
+              history.push(intended.from);
+            }
           })
           .catch((err) => console.log(err));
       }

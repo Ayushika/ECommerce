@@ -2,19 +2,17 @@
 
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import Resizer from "react-image-file-resizer";
 import { Avatar, Badge } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
+import Resizer from "react-image-file-resizer";
 import axios from "axios";
 
 const FileUpload = ({ values, setValues }) => {
   const { images } = values;
 
   const [imageLoading, setImageLoading] = useState(false);
-  const { userLogin } = useSelector((state) => state);
-
-  const { userInfo } = userLogin;
+  const { userInfo } = useSelector((state) => state.userLogin);
 
   const handleImageRemove = (public_id) => {
     setImageLoading(true);
