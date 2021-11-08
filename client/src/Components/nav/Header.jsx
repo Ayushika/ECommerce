@@ -1,16 +1,20 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Menu } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Actions/userAction";
+import { getAllCategoriesAction } from "../../Actions/categoryAction";
+import { getAllSubCategoriesAction } from "../../Actions/subCategoryAction";
+import { getAllBrandsAction } from "../../Actions/brandAction";
 import {
   AppstoreOutlined,
   UserAddOutlined,
   UserOutlined,
   SettingOutlined,
   LogoutOutlined,
+  DownCircleOutlined,
 } from "@ant-design/icons";
 
 const { SubMenu, Item } = Menu;
@@ -19,8 +23,20 @@ const Header = () => {
   const [current, setCurrent] = useState("home");
   const dispatch = useDispatch();
   const history = useHistory();
-  const userLogin = useSelector((state) => state.userLogin);
+
+  const { userLogin, getAllCategories, getAllSubCategories, getAllBrands } =
+    useSelector((state) => state);
+
   const { userInfo } = userLogin;
+  const { categories } = getAllCategories;
+  const { subCategories } = getAllSubCategories;
+  const { brands } = getAllBrands;
+
+  useEffect(() => {
+    dispatch(getAllCategoriesAction());
+    dispatch(getAllSubCategoriesAction());
+    dispatch(getAllBrandsAction());
+  }, []);
 
   const handleClick = (e) => {
     setCurrent(e.key);
@@ -31,13 +47,46 @@ const Header = () => {
     history.push("/");
   };
 
-  
-
   return (
     <Menu onClick={handleClick} selectedKeys={[current]} mode='horizontal'>
       <Item key='home' icon={<AppstoreOutlined />}>
         <Link to='/'>Home</Link>
       </Item>
+      <SubMenu icon={<DownCircleOutlined />} title='Items' key='items'>
+        <SubMenu key='category' title='Categories'>
+          {categories &&
+            categories.length > 0 &&
+            categories.map((c) => {
+              return (
+                <Item key={c._id}>
+                  <Link to={`/category/${c.slug}`}>{c.name}</Link>
+                </Item>
+              );
+            })}
+        </SubMenu>
+        <SubMenu key='subcategory' title='Subcategories'>
+          {subCategories &&
+            subCategories.length > 0 &&
+            subCategories.map((c) => {
+              return (
+                <Item key={c._id}>
+                  <Link to={`/subcategory/${c.slug}`}>{c.name}</Link>
+                </Item>
+              );
+            })}
+        </SubMenu>
+        <SubMenu key='brand' title='Brands'>
+          {brands &&
+            brands.length > 0 &&
+            brands.map((c) => {
+              return (
+                <Item key={c._id}>
+                  <Link to={`/brand/${c.slug}`}>{c.name}</Link>
+                </Item>
+              );
+            })}
+        </SubMenu>
+      </SubMenu>
       {userInfo ? (
         <SubMenu
           key='SubMenu'

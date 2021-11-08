@@ -22,6 +22,9 @@ import BrandUpdate from "./Pages/Admin/brand/BrandUpdate";
 import ProductCreate from "./Pages/Admin/product/ProductCreate";
 import AllProducts from "./Pages/Admin/product/AllProducts";
 import ProductUpdate from "./Pages/Admin/product/ProductUpdate";
+import CategoryProductList from "./Pages/CategoryProductList";
+import SubcategoryProductList from "./Pages/SubcategoryProductList";
+import BrandProductList from "./Pages/BrandProductList";
 import Product from "./Pages/Product";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -71,6 +74,9 @@ const App = () => {
         />
         <AdminRoute exact path='/admin/products' component={AllProducts} />
         <Route exact path='/product/:slug' component={Product} />
+        <Route exact path='/category/:slug' component={CategoryProductList} />
+        <Route exact path='/subcategory/:slug' component={SubcategoryProductList} />
+        <Route exact path='/brand/:slug' component={BrandProductList} />
       </Switch>
     </>
   );

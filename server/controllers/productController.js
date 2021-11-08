@@ -4,6 +4,9 @@ const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
 const User = require("../models/userModel");
+const Category = require("../models/categoryModel");
+const SubCategory = require("../models/subcategoryModel");
+const Brand = require("../models/brandModel");
 
 const createProduct = asyncHandler(async (req, res) => {
   req.body.slug = slugify(req.body.title);
@@ -77,8 +80,6 @@ const updateProduct = asyncHandler(async (req, res) => {
 
 const productRating = asyncHandler(async (req, res) => {
   const { star } = req.body;
-
-  console.log("Star : ", star, "Slug : ", req.params.slug);
   const product = await Product.findOne({ slug: req.params.slug }).exec();
   const user = await User.findOne({ email: req.user.email }).exec();
 
@@ -106,7 +107,20 @@ const productRating = asyncHandler(async (req, res) => {
 });
 
 const getRelatedProducts = asyncHandler(async (req, res) => {
+  const { page } = req.body;
+
+  let currentPage = Number(page) || 1;
+  const limit = 3;
+
   const product = await Product.findOne({ slug: req.params.slug }).exec();
+
+  const total = await Product.find({
+    _id: { $ne: product._id },
+    category: product.category,
+  }).countDocuments();
+
+  currentPage = (currentPage - 1) * 3 >= total ? 1 : page;
+
   const relatedProducts = await Product.find({
     _id: { $ne: product._id },
     category: product.category,
@@ -114,18 +128,90 @@ const getRelatedProducts = asyncHandler(async (req, res) => {
     .populate("category")
     .populate("subcategories")
     .populate("brand")
+    .skip((currentPage - 1) * limit)
+    .limit(Number(limit))
     .exec();
 
-  res.json(relatedProducts);
+  res.json({ total, relatedProducts });
 });
 
-const getTotalRelatedProductsCount = asyncHandler(async (req, res) => {
-  const product = await Product.findOne({ slug: req.params.slug }).exec();
+
+
+const getProductsByCategory = asyncHandler(async (req, res) => {
+  const { page } = req.body;
+
+  let currentPage = Number(page) || 1;
+  const limit = 3;
+
+  const category = await Category.findOne({ slug: req.params.slug }).exec();
+
   const total = await Product.find({
-    _id: { $ne: product._id },
-    category: product.category,
-  }).estimatedDocumentCount();
-  res.json(total);
+    category: category._id,
+  }).countDocuments({});
+
+  currentPage = (currentPage - 1) * 3 >= total ? 1 : page;
+
+  const products = await Product.find({
+    category: category._id,
+  })
+    .skip((currentPage - 1) * limit)
+    .limit(Number(limit))
+    .exec();
+
+  res.json({ total, products });
+});
+
+const getProductsBySubcategory = asyncHandler(async (req, res) => {
+  const { page } = req.body;
+
+  let currentPage = Number(page) || 1;
+  const limit = 3;
+
+  const subcategory = await SubCategory.findOne({
+    slug: req.params.slug,
+  }).exec();
+
+  const total = await Product.find({
+    subcategories: subcategory._id,
+  }).countDocuments();
+
+  currentPage = (currentPage - 1) * 3 >= total ? 1 : page;
+
+  const products = await Product.find({
+    subcategories: subcategory._id,
+  })
+    .skip((currentPage - 1) * limit)
+    .limit(Number(limit))
+    .exec();
+
+  console.log("total", total, "Products", products);
+  res.json({ total, products });
+});
+
+const getProductsByBrand = asyncHandler(async (req, res) => {
+  const { page } = req.body;
+
+  let currentPage = Number(page) || 1;
+  const limit = 3;
+
+  const brand = await Brand.findOne({
+    slug: req.params.slug,
+  }).exec();
+
+  const total = await Product.find({
+    brand: brand._id,
+  }).countDocuments();
+
+  currentPage = (currentPage - 1) * 3 >= total ? 1 : page;
+
+  const products = await Product.find({
+    brand: brand._id,
+  })
+    .skip((currentPage - 1) * limit)
+    .limit(Number(limit))
+    .exec();
+
+  res.json({ total, products });
 });
 
 module.exports = {
@@ -138,5 +224,7 @@ module.exports = {
   updateProduct,
   productRating,
   getRelatedProducts,
-  getTotalRelatedProductsCount,
+  getProductsByCategory,
+  getProductsBySubcategory,
+  getProductsByBrand,
 };

@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import AverageRating from "../../Components/cards/AverageRating";
 
 const ProductListItems = ({ product }) => {
   const {
@@ -80,7 +79,7 @@ const ProductListItems = ({ product }) => {
           {sold}
         </span>
       </li>
-      <li className='list-group-item text-muted'>
+      {/* <li className='list-group-item text-muted'>
         Rating
         <span className='label label-default label-pill pull-xs-right text-muted'>
           {product && product.ratings && product.ratings.length > 0 ? (
@@ -89,7 +88,7 @@ const ProductListItems = ({ product }) => {
             "No Rating Yet"
           )}
         </span>
-      </li>
+      </li> */}
     </ul>
   );
 };

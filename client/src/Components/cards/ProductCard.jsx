@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
         description={`${description && description.substring(0, 20)}...`}
       />
 
-      <p style={{ marginTop: "6px" }}>
+      <p style={{ marginTop: "10px" }}>
         {product && product.ratings && product.ratings.length > 0 ? (
           <AverageRating product={product} />
         ) : (

@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useEffect } from "react";
+import React from "react";
 import { Card, Tabs } from "antd";
 import { ShoppingOutlined, HeartOutlined } from "@ant-design/icons";
 import { Carousel } from "react-responsive-carousel";
@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import ProductListItems from "./ProductListItems";
 import StarRating from "react-star-ratings";
 import RatingModal from "../modals/RatingModal";
+import AverageRating from "../../Components/cards/AverageRating";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 const { TabPane } = Tabs;
 
@@ -28,7 +29,14 @@ const SingleProductCard = ({ product, handleStarClick, starRating }) => {
         </Tabs>
       </div>
       <div className='col-md-5'>
-        <h2 className='pt-3 pb-2'>{title}</h2>
+        <h2 className='pt-3'>{title}</h2>
+        <div className='pb-2'>
+          {product && product.ratings && product.ratings.length > 0 ? (
+            <AverageRating product={product} />
+          ) : (
+            "No Rating Yet"
+          )}
+        </div>
         <Card
           actions={[
             <>

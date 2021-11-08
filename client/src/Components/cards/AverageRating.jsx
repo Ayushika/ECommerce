@@ -19,7 +19,7 @@ const AverageRating = ({ product }) => {
         <StarRating
           rating={average}
           starRatedColor='#FF5722'
-          starDimension='15px'
+          starDimension='18px'
           starSpacing='5px'
         />
       );

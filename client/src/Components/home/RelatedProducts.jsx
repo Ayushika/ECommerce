@@ -21,18 +21,11 @@ const RelatedProducts = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/product/totalrelatedProducts")
-      .then((res) => {
-        setTotalProducts(res.data);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/product/related/${slug}`)
+      .post(`http://localhost:5000/api/product/related/${slug}`, { page })
       .then((res) => {
         setLoading(false);
-        setProducts(res.data);
+        setProducts(res.data.relatedProducts);
+        setTotalProducts(res.data.total);
       })
       .catch(() => {
         setLoading(false);

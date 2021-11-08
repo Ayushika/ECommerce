@@ -38,7 +38,7 @@ export const getAllCategoriesReducer = (state = { categories: [] }, action) => {
     case GET_CATEGORIES_REQUEST:
       return { ...state, loading: true };
     case GET_CATEGORIES_SUCCESS:
-      return { loading: false, categories: action.payload };
+      return { loading: false, categories: action.payload , getAllSuccess : true };
     case GET_CATEGORIES_FAIL:
       return { loading: false, error: action.payload };
     default:
