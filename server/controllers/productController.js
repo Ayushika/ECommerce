@@ -135,8 +135,6 @@ const getRelatedProducts = asyncHandler(async (req, res) => {
   res.json({ total, relatedProducts });
 });
 
-
-
 const getProductsByCategory = asyncHandler(async (req, res) => {
   const { page } = req.body;
 
@@ -214,6 +212,53 @@ const getProductsByBrand = asyncHandler(async (req, res) => {
   res.json({ total, products });
 });
 
+//search/filter
+
+const getProductsBySearchFilter = async (req, res) => {
+  const { query } = req.body;
+
+  if (query) {
+    const queryProducts = await handleQuery(req, res, query);
+    res.json(queryProducts);
+  }
+};
+
+const handleQuery = async (req, res, query) => {
+  const searchTitle = query
+    ? {
+        title: { $regex: query, $options: "i" },
+      }
+    : {};
+
+  const searchDesc = query
+    ? {
+        description: { $regex: query, $options: "i" },
+      }
+    : {};
+
+  const productsTitle = await Product.find({ ...searchTitle })
+    .populate("category", "_id name")
+    .populate("subcategories", "_id name")
+    .populate("brand", "_id name")
+    .exec();
+
+  const productsDesc = await Product.find({ ...searchDesc })
+    .populate("category", "_id name")
+    .populate("subcategories", "_id name")
+    .populate("brand", "_id name")
+    .exec();
+
+  let products = [];
+  if (productsTitle.length > 0) {
+    productsTitle.forEach((p) => products.push(p));
+  }
+  if (productsDesc.length > 0) {
+    productsDesc.forEach((p) => products.push(p));
+  }
+
+  return [...new Set(products)];
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
@@ -227,4 +272,5 @@ module.exports = {
   getProductsByCategory,
   getProductsBySubcategory,
   getProductsByBrand,
+  getProductsBySearchFilter,
 };

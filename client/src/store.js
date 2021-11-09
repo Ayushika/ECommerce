@@ -31,8 +31,11 @@ import {
   deleteProductReducer,
   getProductReducer,
   updateProductReducer,
-  starRatingProductReducer
+  starRatingProductReducer,
+  getProductsByFilterReducer,
 } from "./Reducers/productReducer";
+
+import { searchReducer } from "./Reducers/searchReducer";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -58,6 +61,8 @@ const reducer = combineReducers({
   getProduct: getProductReducer,
   updateProduct: updateProductReducer,
   starRatingProduct: starRatingProductReducer,
+  getProductsByFilter: getProductsByFilterReducer,
+  search: searchReducer,
 });
 
 const userInfoFromStorage = window.localStorage.getItem("userInfo")

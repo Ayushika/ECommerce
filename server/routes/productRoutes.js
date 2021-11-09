@@ -16,6 +16,7 @@ const {
   getProductsByCategory,
   getProductsBySubcategory,
   getProductsByBrand,
+  getProductsBySearchFilter,
 } = require("../controllers/productController");
 
 //products - listAll , getSingle , create , update , delete
@@ -45,5 +46,8 @@ router.route("/subcategory/:slug").post(getProductsBySubcategory);
 
 //get Products by Brand
 router.route("/brand/:slug").post(getProductsByBrand);
+
+//get products by search/filter
+router.route("/search/filter").post(getProductsBySearchFilter)
 
 module.exports = router;

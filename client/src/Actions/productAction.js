@@ -21,6 +21,9 @@ import {
   STAR_RATING_PRODUCT_FAIL,
   STAR_RATING_PRODUCT_REQUEST,
   STAR_RATING_PRODUCT_SUCCESS,
+  GET_PRODUCTS_BY_FILTER_SUCCESS,
+  GET_PRODUCTS_BY_FILTER_FAIL,
+  GET_PRODUCTS_BY_FILTER_REQUEST,
 } from "../Constants/productConstant";
 
 export const createProductAction =
@@ -177,7 +180,7 @@ export const starRatingProductAction =
         config,
       );
       dispatch({ type: STAR_RATING_PRODUCT_SUCCESS, payload: res.data });
-       toast.success("Thanks for your review");
+      toast.success("Thanks for your review");
     } catch (error) {
       dispatch({
         type: STAR_RATING_PRODUCT_FAIL,
@@ -188,3 +191,21 @@ export const starRatingProductAction =
       });
     }
   };
+
+export const getProductsByFilterAction = (arg) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_PRODUCTS_BY_FILTER_REQUEST });
+    const res = await axios.post(
+      `http://localhost:5000/api/product/search/filter`,
+      arg,
+    );
+    dispatch({ type: GET_PRODUCTS_BY_FILTER_SUCCESS, payload: res.data });
+  } catch (error) {
+    dispatch({ type: GET_PRODUCTS_BY_FILTER_FAIL, payload: error.message });
+    toast.error(
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    );
+  }
+};

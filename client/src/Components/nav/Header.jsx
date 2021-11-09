@@ -8,6 +8,7 @@ import { logout } from "../../Actions/userAction";
 import { getAllCategoriesAction } from "../../Actions/categoryAction";
 import { getAllSubCategoriesAction } from "../../Actions/subCategoryAction";
 import { getAllBrandsAction } from "../../Actions/brandAction";
+import SearchForm from "../forms/SearchForm";
 import {
   AppstoreOutlined,
   UserAddOutlined,
@@ -15,6 +16,7 @@ import {
   SettingOutlined,
   LogoutOutlined,
   DownCircleOutlined,
+  ShoppingOutlined,
 } from "@ant-design/icons";
 
 const { SubMenu, Item } = Menu;
@@ -87,6 +89,9 @@ const Header = () => {
             })}
         </SubMenu>
       </SubMenu>
+      <Item key='shop' icon={<ShoppingOutlined />}>
+        <Link to='/shop'>Shop</Link>
+      </Item>
       {userInfo ? (
         <SubMenu
           key='SubMenu'
@@ -119,6 +124,9 @@ const Header = () => {
           </Item>
         </>
       )}
+      <span className='float-right p-1'>
+        <SearchForm />
+      </span>
     </Menu>
   );
 };

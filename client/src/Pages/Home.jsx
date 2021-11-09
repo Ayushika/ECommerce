@@ -13,19 +13,16 @@ const Home = () => {
         <Jumbotron text={["Latest Products", "New Arrivals", "Best Sellers"]} />
       </div>
 
-      <h5 className='jumbotron display-4 mt-5 mb-5 p-2 text-center'>
-        New Arrivals
-      </h5>
+      <h5 className=' mt-5 text-center display-4'>New Arrivals</h5>
+      <div className='underline'></div>
       <NewArrival />
 
-      <h5 className='jumbotron display-4 mt-5 mb-5 p-4 text-center'>
-        Top Rated
-      </h5>
+      <h5 className=' display-4 mt-5 text-center'>Top Rated</h5>
+      <div className='underline'></div>
       <TopRated />
 
-      <h5 className='jumbotron display-4 mt-5 mb-5 p-4 text-center'>
-        Best Sellers
-      </h5>
+      <h5 className=' display-4 mt-5 text-center'>Best Sellers</h5>
+      <div className='underline'></div>
       <BestSeller />
 
       <br />

@@ -4,3 +4,12 @@
   height: 450px;
   object-fit: cover;
 }
+
+.underline {
+  width: 5rem;
+  height: 0.25rem;
+  margin-bottom: 1.25rem;
+  background: rgb(64, 169, 255);
+  margin-left: auto;
+  margin-right: auto;
+}

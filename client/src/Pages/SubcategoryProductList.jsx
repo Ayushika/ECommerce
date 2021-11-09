@@ -36,7 +36,8 @@ const SubcategoryProductList = () => {
           <LoadingCard count={3} />
         ) : totalProducts > 0 ? (
           <>
-            <h5 className=' display-4 mt-5 mb-5 p-2 text-center'>Products</h5>
+            <h5 className=' display-4 mt-5 text-center'>Products</h5>
+            <div className='underline'></div>
             <div className='row'>
               {products &&
                 products.map((product) => (

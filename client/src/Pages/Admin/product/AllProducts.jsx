@@ -5,7 +5,6 @@ import AdminNavbar from "../../../Components/nav/AdminNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProductsAction } from "../../../Actions/productAction";
 import AdminCard from "../../../Components/cards/AdminCard";
-import { toast } from "react-toastify";
 
 const AllProducts = () => {
   const { getAllProducts, deleteProduct } = useSelector((state) => state);

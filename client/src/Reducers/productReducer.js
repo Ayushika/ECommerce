@@ -22,6 +22,9 @@ import {
   STAR_RATING_PRODUCT_FAIL,
   STAR_RATING_PRODUCT_REQUEST,
   STAR_RATING_PRODUCT_SUCCESS,
+  GET_PRODUCTS_BY_FILTER_SUCCESS,
+  GET_PRODUCTS_BY_FILTER_FAIL,
+  GET_PRODUCTS_BY_FILTER_REQUEST,
 } from "../Constants/productConstant";
 
 export const createProductReducer = (state = {}, action) => {
@@ -118,6 +121,25 @@ export const starRatingProductReducer = (state = {}, action) => {
         rating: action.payload,
       };
     case STAR_RATING_PRODUCT_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const getProductsByFilterReducer = (
+  state = { filterProducts: [] },
+  action,
+) => {
+  switch (action.type) {
+    case GET_PRODUCTS_BY_FILTER_REQUEST:
+      return { loadingProduct: true, ...state };
+    case GET_PRODUCTS_BY_FILTER_SUCCESS:
+      return {
+        loadingProduct: false,
+        filterProducts: action.payload,
+      };
+    case GET_PRODUCTS_BY_FILTER_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
