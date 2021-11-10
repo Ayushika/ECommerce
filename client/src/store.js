@@ -27,14 +27,12 @@ import {
 } from "./Reducers/brandReducer";
 import {
   createProductReducer,
-  getAllProductsReducer,
   deleteProductReducer,
   getProductReducer,
   updateProductReducer,
   starRatingProductReducer,
   getProductsByFilterReducer,
 } from "./Reducers/productReducer";
-
 import { searchReducer } from "./Reducers/searchReducer";
 
 const reducer = combineReducers({
@@ -56,7 +54,6 @@ const reducer = combineReducers({
   deleteBrand: deleteBrandReducer,
   updateBrand: updateBrandReducer,
   createProduct: createProductReducer,
-  getAllProducts: getAllProductsReducer,
   deleteProduct: deleteProductReducer,
   getProduct: getProductReducer,
   updateProduct: updateProductReducer,

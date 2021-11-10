@@ -14,19 +14,6 @@ const createProduct = asyncHandler(async (req, res) => {
   res.json(newProduct);
 });
 
-const getAllProducts = asyncHandler(async (req, res) => {
-  const count = req.params.count;
-  const products = await Product.find({})
-    .limit(parseInt(count))
-    .populate("category")
-    .populate("subcategories")
-    .populate("brand")
-    .sort({ createdAt: -1 })
-    .exec();
-
-  res.json(products);
-});
-
 const deleteProduct = asyncHandler(async (req, res) => {
   const slug = req.params.slug;
   const product = await Product.findOneAndDelete({ slug }).exec();
@@ -45,16 +32,15 @@ const getProduct = asyncHandler(async (req, res) => {
   res.json(product);
 });
 
-const getTotalProductsCount = asyncHandler(async (req, res) => {
-  const total = await Product.find({}).estimatedDocumentCount();
-  res.json(total);
-});
-
 const getProducts = asyncHandler(async (req, res) => {
   const { sort, order, page } = req.body;
+  console.log(page);
 
-  const currentPage = Number(page) || 1;
+  let currentPage = Number(page) || 1;
   const limit = 3;
+
+  const total = await Product.find({}).countDocuments();
+  currentPage = (currentPage - 1) * 3 >= total ? 1 : page;
 
   const products = await Product.find({})
     .skip((currentPage - 1) * limit)
@@ -65,7 +51,7 @@ const getProducts = asyncHandler(async (req, res) => {
     .limit(Number(limit))
     .exec();
 
-  res.json(products);
+  res.json({ total, products });
 });
 
 const updateProduct = asyncHandler(async (req, res) => {
@@ -212,65 +198,15 @@ const getProductsByBrand = asyncHandler(async (req, res) => {
   res.json({ total, products });
 });
 
-//search/filter
-
-const getProductsBySearchFilter = async (req, res) => {
-  const { query } = req.body;
-
-  if (query) {
-    const queryProducts = await handleQuery(req, res, query);
-    res.json(queryProducts);
-  }
-};
-
-const handleQuery = async (req, res, query) => {
-  const searchTitle = query
-    ? {
-        title: { $regex: query, $options: "i" },
-      }
-    : {};
-
-  const searchDesc = query
-    ? {
-        description: { $regex: query, $options: "i" },
-      }
-    : {};
-
-  const productsTitle = await Product.find({ ...searchTitle })
-    .populate("category", "_id name")
-    .populate("subcategories", "_id name")
-    .populate("brand", "_id name")
-    .exec();
-
-  const productsDesc = await Product.find({ ...searchDesc })
-    .populate("category", "_id name")
-    .populate("subcategories", "_id name")
-    .populate("brand", "_id name")
-    .exec();
-
-  let products = [];
-  if (productsTitle.length > 0) {
-    productsTitle.forEach((p) => products.push(p));
-  }
-  if (productsDesc.length > 0) {
-    productsDesc.forEach((p) => products.push(p));
-  }
-
-  return [...new Set(products)];
-};
-
 module.exports = {
   createProduct,
-  getAllProducts,
   deleteProduct,
   getProduct,
   getProducts,
-  getTotalProductsCount,
   updateProduct,
   productRating,
   getRelatedProducts,
   getProductsByCategory,
   getProductsBySubcategory,
   getProductsByBrand,
-  getProductsBySearchFilter,
 };

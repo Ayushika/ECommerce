@@ -1,8 +1,8 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SearchOutlined } from "@ant-design/icons";
 
 const SearchForm = () => {
@@ -10,11 +10,17 @@ const SearchForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const { text: Text } = useSelector((state) => state.search);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch({ type: "SEARCH_QUERY", payload: { text: keyword.trim() } });
     history.push("/shop");
   };
+
+  useEffect(() => {
+    setKeyword(Text);
+  }, [Text]);
 
   return (
     <form className='form-inline my-2 my-lg-0' onSubmit={handleSubmit}>

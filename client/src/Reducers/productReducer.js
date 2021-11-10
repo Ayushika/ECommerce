@@ -8,9 +8,6 @@ import {
   DELETE_PRODUCT_FAIL,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
-  GET_PRODUCTS_FAIL,
-  GET_PRODUCTS_REQUEST,
-  GET_PRODUCTS_SUCCESS,
   GET_PRODUCT_FAIL,
   GET_PRODUCT_REQUEST,
   GET_PRODUCT_SUCCESS,
@@ -41,22 +38,6 @@ export const createProductReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case CREATE_PRODUCT_RESET:
       return {};
-    default:
-      return state;
-  }
-};
-
-export const getAllProductsReducer = (state = { products: [] }, action) => {
-  switch (action.type) {
-    case GET_PRODUCTS_REQUEST:
-      return { loading: true, ...state };
-    case GET_PRODUCTS_SUCCESS:
-      return {
-        loading: false,
-        products: action.payload,
-      };
-    case GET_PRODUCTS_FAIL:
-      return { loading: false, error: action.payload };
     default:
       return state;
   }
@@ -128,7 +109,7 @@ export const starRatingProductReducer = (state = {}, action) => {
 };
 
 export const getProductsByFilterReducer = (
-  state = { filterProducts: [] },
+  state = { filterProducts: [], total: 0 },
   action,
 ) => {
   switch (action.type) {
@@ -137,7 +118,8 @@ export const getProductsByFilterReducer = (
     case GET_PRODUCTS_BY_FILTER_SUCCESS:
       return {
         loadingProduct: false,
-        filterProducts: action.payload,
+        filterProducts: action.payload.finalProducts,
+        total: action.payload.total,
       };
     case GET_PRODUCTS_BY_FILTER_FAIL:
       return { loading: false, error: action.payload };

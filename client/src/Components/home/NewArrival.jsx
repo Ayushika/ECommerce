@@ -4,19 +4,20 @@ import React, { useEffect, useState } from "react";
 import { Pagination } from "antd";
 import ProductCard from "../../Components/cards/ProductCard";
 import LoadingCard from "../../Components/cards/LoadingCard";
+import AdminCard from "../../Components/cards/AdminCard";
 import axios from "axios";
 
-const NewArrival = () => {
+const NewArrival = ({ role }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
 
-  useEffect(() => {
-    axios.get("http://localhost:5000/api/product/total").then((res) => {
-      setTotalProducts(res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get("http://localhost:5000/api/product/total").then((res) => {
+  //     setTotalProducts(res.data);
+  //   });
+  // }, []);
 
   useEffect(() => {
     axios
@@ -27,7 +28,8 @@ const NewArrival = () => {
       })
       .then((res) => {
         setLoading(false);
-        setProducts(res.data);
+        setProducts(res.data.products);
+        setTotalProducts(res.data.total);
       })
       .catch(() => {
         setLoading(false);
@@ -44,7 +46,11 @@ const NewArrival = () => {
             {products &&
               products.map((product) => (
                 <div key={product._id} className='col-md-4'>
-                  <ProductCard product={product} />
+                  {role && role.length > 0 ? (
+                    <AdminCard product={product} />
+                  ) : (
+                    <ProductCard product={product} />
+                  )}
                 </div>
               ))}
           </div>

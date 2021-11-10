@@ -5,23 +5,22 @@ const router = express.Router();
 const { protect, checkAdmin } = require("../middlewares/authMiddleware");
 const {
   createProduct,
-  getAllProducts,
   deleteProduct,
   getProduct,
   getProducts,
-  getTotalProductsCount,
   updateProduct,
   productRating,
   getRelatedProducts,
   getProductsByCategory,
   getProductsBySubcategory,
   getProductsByBrand,
-  getProductsBySearchFilter,
 } = require("../controllers/productController");
 
+const {
+  getProductsBySearchFilter,
+} = require("../controllers/searchController");
+
 //products - listAll , getSingle , create , update , delete
-router.route("/all/:count").get(getAllProducts);
-router.route("/total").get(getTotalProductsCount);
 router
   .route("/:slug")
   .get(getProduct)
@@ -48,6 +47,6 @@ router.route("/subcategory/:slug").post(getProductsBySubcategory);
 router.route("/brand/:slug").post(getProductsByBrand);
 
 //get products by search/filter
-router.route("/search/filter").post(getProductsBySearchFilter)
+router.route("/search/filter").post(getProductsBySearchFilter);
 
 module.exports = router;

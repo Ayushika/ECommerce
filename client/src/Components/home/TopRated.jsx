@@ -12,11 +12,11 @@ const TopRated = () => {
   const [page, setPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
 
-  useEffect(() => {
-    axios.get("http://localhost:5000/api/product/total").then((res) => {
-      setTotalProducts(res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get("http://localhost:5000/api/product/total").then((res) => {
+  //     setTotalProducts(res.data);
+  //   });
+  // }, []);
 
   useEffect(() => {
     axios
@@ -27,7 +27,8 @@ const TopRated = () => {
       })
       .then((res) => {
         setLoading(false);
-        setProducts(res.data);
+         setProducts(res.data.products);
+         setTotalProducts(res.data.total);
       })
       .catch(() => {
         setLoading(false);
