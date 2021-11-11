@@ -155,6 +155,10 @@ const getProductsBySearchFilter = async (req, res) => {
     currentPage = (currentPage - 1) * 3 >= total ? 1 : page;
 
     finalProducts = await Product.find({ _id: result })
+      .populate("category")
+      .populate("subcategories")
+      .populate("brand")
+      .populate("ratings.postedBy")
       .skip((currentPage - 1) * limit)
       .limit(Number(limit))
       .exec();

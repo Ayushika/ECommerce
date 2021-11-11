@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Menu } from "antd";
+import { Badge, Menu } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Actions/userAction";
 import { getAllCategoriesAction } from "../../Actions/categoryAction";
@@ -11,6 +11,7 @@ import { getAllBrandsAction } from "../../Actions/brandAction";
 import SearchForm from "../forms/SearchForm";
 import {
   AppstoreOutlined,
+  ShoppingCartOutlined,
   UserAddOutlined,
   UserOutlined,
   SettingOutlined,
@@ -26,8 +27,13 @@ const Header = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { userLogin, getAllCategories, getAllSubCategories, getAllBrands } =
-    useSelector((state) => state);
+  const {
+    userLogin,
+    getAllCategories,
+    getAllSubCategories,
+    getAllBrands,
+    cart,
+  } = useSelector((state) => state);
 
   const { userInfo } = userLogin;
   const { categories } = getAllCategories;
@@ -38,7 +44,7 @@ const Header = () => {
     dispatch(getAllCategoriesAction());
     dispatch(getAllSubCategoriesAction());
     dispatch(getAllBrandsAction());
-  }, []);
+  }, [dispatch]);
 
   const handleClick = (e) => {
     setCurrent(e.key);
@@ -91,6 +97,13 @@ const Header = () => {
       </SubMenu>
       <Item key='shop' icon={<ShoppingOutlined />}>
         <Link to='/shop'>Shop</Link>
+      </Item>
+      <Item key='cart' icon={<ShoppingCartOutlined />}>
+        <Link to='/cart'>
+          <Badge count={cart.length} offset={[9, 0]}>
+            Cart
+          </Badge>
+        </Link>
       </Item>
       {userInfo ? (
         <SubMenu

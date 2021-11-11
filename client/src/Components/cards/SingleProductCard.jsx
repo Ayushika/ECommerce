@@ -1,9 +1,11 @@
 /** @format */
 
-import React from "react";
-import { Card, Tabs } from "antd";
-import { ShoppingOutlined, HeartOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
+import { Card, Tabs, Tooltip } from "antd";
+import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Carousel } from "react-responsive-carousel";
+import { useSelector, useDispatch } from "react-redux";
+import _ from "lodash";
 import { useParams } from "react-router-dom";
 import ProductListItems from "./ProductListItems";
 import StarRating from "react-star-ratings";
@@ -15,12 +17,38 @@ const { TabPane } = Tabs;
 const SingleProductCard = ({ product, handleStarClick, starRating }) => {
   const { title, images, description } = product;
   const { slug } = useParams();
+  const dispatch = useDispatch();
+
+  const [tooltip, setTooltip] = useState("Add To Cart");
+
+  const addToCart = () => {
+    let cart = [];
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+      }
+
+      cart.push({
+        ...product,
+        count: 1,
+      });
+
+      let unique = _.uniqWith(cart, _.isEqual);
+      localStorage.setItem("cart", JSON.stringify(unique));
+
+      dispatch({ type: "ADD_TO_CART", payload: unique });
+      setTooltip("Added");
+    }
+  };
 
   return (
     <>
       <div className='col-md-7'>
         <Carousel autoPlay={true} infiniteLoop={true} showArrows={true}>
-          {images && images.map((i) => <img src={i.url} key={i.public_id} />)}
+          {images &&
+            images.map((i) => (
+              <img alt={i.url} src={i.url} key={i.public_id} />
+            ))}
         </Carousel>
         <Tabs type='card'>
           <TabPane key='1' tab='Description'>
@@ -39,10 +67,12 @@ const SingleProductCard = ({ product, handleStarClick, starRating }) => {
         </div>
         <Card
           actions={[
-            <>
-              <ShoppingOutlined className='text-info' />
-              Add To Cart
-            </>,
+            <Tooltip title={tooltip}>
+              <a onClick={addToCart}>
+                <ShoppingCartOutlined className='text-danger' />,<br /> Add To
+                Cart
+              </a>
+            </Tooltip>,
             <>
               <HeartOutlined className='text-warning' />
               Add To Wishlist

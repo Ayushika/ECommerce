@@ -34,6 +34,7 @@ import {
   getProductsByFilterReducer,
 } from "./Reducers/productReducer";
 import { searchReducer } from "./Reducers/searchReducer";
+import { cartReducer } from "./Reducers/cartReducer";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -60,6 +61,7 @@ const reducer = combineReducers({
   starRatingProduct: starRatingProductReducer,
   getProductsByFilter: getProductsByFilterReducer,
   search: searchReducer,
+  cart: cartReducer,
 });
 
 const userInfoFromStorage = window.localStorage.getItem("userInfo")

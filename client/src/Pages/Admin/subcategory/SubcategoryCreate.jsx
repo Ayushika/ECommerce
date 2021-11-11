@@ -38,7 +38,7 @@ const SubcategoryCreate = () => {
 
   useEffect(() => {
     dispatch(getAllCategoriesAction());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getAllSubCategoriesAction());

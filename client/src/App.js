@@ -1,5 +1,4 @@
 /** @format */
-import { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Login from "./Pages/Auth/Login";
@@ -26,6 +25,7 @@ import CategoryProductList from "./Pages/CategoryProductList";
 import SubcategoryProductList from "./Pages/SubcategoryProductList";
 import BrandProductList from "./Pages/BrandProductList";
 import Product from "./Pages/Product";
+import Cart from "./Pages/Cart";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Shop from "./Pages/Shop";
@@ -83,6 +83,7 @@ const App = () => {
         />
         <Route exact path='/brand/:slug' component={BrandProductList} />
         <Route exact path='/shop' component={Shop} />
+        <Route exact path='/cart' component={Cart} />
       </Switch>
     </>
   );

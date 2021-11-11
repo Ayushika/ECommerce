@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal } from "antd";
 import { StarOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";

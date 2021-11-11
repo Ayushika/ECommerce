@@ -21,7 +21,7 @@ const Product = ({ match }) => {
     } else if (product && product.ratings && product.ratings.length > 0) {
       setStarRating(product.ratings[0].star);
     }
-  }, [slug, product]);
+  }, [slug, product, dispatch]);
 
   const handleStarClick = (star) => {
     setStarRating(star);

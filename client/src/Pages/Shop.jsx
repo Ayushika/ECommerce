@@ -9,6 +9,7 @@ import StarRatings from "react-star-ratings";
 import NewArrival from "../Components/home/NewArrival";
 import { Menu, Slider, Checkbox, Radio, Space, Spin, Pagination } from "antd";
 import ProductCard from "../Components/cards/ProductCard";
+import { getProductsByFilterAction } from "../Actions/productAction";
 import {
   DollarCircleOutlined,
   DownSquareOutlined,
@@ -19,10 +20,6 @@ import {
   TransactionOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
-import {
-  getAllProductsAction,
-  getProductsByFilterAction,
-} from "../Actions/productAction";
 
 const { SubMenu } = Menu;
 const { Group } = Radio;
@@ -72,7 +69,7 @@ const Shop = () => {
     dispatch(getAllCategoriesAction());
     dispatch(getAllSubCategoriesAction());
     dispatch(getAllBrandsAction());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const delayed = setTimeout(() => {
@@ -93,6 +90,7 @@ const Shop = () => {
 
     return () => clearTimeout(delayed);
   }, [
+    dispatch,
     text,
     price,
     checkedCategory,
@@ -154,7 +152,10 @@ const Shop = () => {
                 Clear
               </span>
             </div>
-            <Menu defaultOpenKeys={[]} mode='inline'>
+            <Menu
+              defaultOpenKeys={[]}
+              mode='inline'
+              style={{ backgroundColor: "white" }}>
               <SubMenu
                 key='1'
                 title={
@@ -162,17 +163,16 @@ const Shop = () => {
                     <DollarCircleOutlined /> Price
                   </span>
                 }>
-                <span style={{ backgroundColor: "white" }}>
-                  <Slider
-                    className='ml-4 mr-4'
-                    value={price}
-                    tipFormatter={(v) => `Rs ${v}`}
-                    onChange={(v) => setPrice(v)}
-                    range
-                    max='100000'
-                  />
-                </span>
+                <Slider
+                  className='ml-4 mr-4'
+                  value={price}
+                  tipFormatter={(v) => `Rs ${v}`}
+                  onChange={(v) => setPrice(v)}
+                  range
+                  max='100000'
+                />
               </SubMenu>
+
               <SubMenu
                 key='2'
                 title={
@@ -273,7 +273,6 @@ const Shop = () => {
                         ? brands.map((c) => {
                             return (
                               <Radio
-                                checked={brand === c._id}
                                 key={c._id}
                                 value={c._id}
                                 onChange={(e) => {
@@ -358,7 +357,7 @@ const Shop = () => {
               {text.length === 0 &&
               price[0] === 0 &&
               price[1] === 0 &&
-              checkedCategory.length == 0 &&
+              checkedCategory.length === 0 &&
               star === 0 &&
               subcategory.length === 0 &&
               brand.length === 0 &&

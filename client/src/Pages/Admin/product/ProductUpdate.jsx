@@ -67,7 +67,7 @@ const ProductUpdate = ({ match, history }) => {
     dispatch(getAllSubCategoriesAction());
     dispatch(getAllCategoriesAction());
     dispatch(getAllBrandsAction());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (updateSuccess) {
@@ -83,13 +83,11 @@ const ProductUpdate = ({ match, history }) => {
       });
 
       let arr = [];
-      product.subcategories.map((s) => {
-        arr.push(s._id);
-      });
+      product.subcategories.map((s) => arr.push(s._id));
 
       setArrayOfSubs((prev) => arr);
     }
-  }, [slug, dispatch, product, updateSuccess]);
+  }, [slug, dispatch, product, updateSuccess, history]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -28,6 +28,7 @@ const getProduct = asyncHandler(async (req, res) => {
     .populate("category")
     .populate("subcategories")
     .populate("brand")
+    .populate("ratings.postedBy")
     .exec();
   res.json(product);
 });
@@ -47,6 +48,7 @@ const getProducts = asyncHandler(async (req, res) => {
     .populate("category")
     .populate("subcategories")
     .populate("brand")
+    .populate("ratings.postedBy")
     .sort([[sort, order]])
     .limit(Number(limit))
     .exec();
@@ -114,6 +116,7 @@ const getRelatedProducts = asyncHandler(async (req, res) => {
     .populate("category")
     .populate("subcategories")
     .populate("brand")
+    .populate("ratings.postedBy")
     .skip((currentPage - 1) * limit)
     .limit(Number(limit))
     .exec();
@@ -138,6 +141,10 @@ const getProductsByCategory = asyncHandler(async (req, res) => {
   const products = await Product.find({
     category: category._id,
   })
+    .populate("category")
+    .populate("subcategories")
+    .populate("brand")
+    .populate("ratings.postedBy")
     .skip((currentPage - 1) * limit)
     .limit(Number(limit))
     .exec();
@@ -164,6 +171,10 @@ const getProductsBySubcategory = asyncHandler(async (req, res) => {
   const products = await Product.find({
     subcategories: subcategory._id,
   })
+    .populate("category")
+    .populate("subcategories")
+    .populate("brand")
+    .populate("ratings.postedBy")
     .skip((currentPage - 1) * limit)
     .limit(Number(limit))
     .exec();
@@ -191,6 +202,10 @@ const getProductsByBrand = asyncHandler(async (req, res) => {
   const products = await Product.find({
     brand: brand._id,
   })
+    .populate("category")
+    .populate("subcategories")
+    .populate("brand")
+    .populate("ratings.postedBy")
     .skip((currentPage - 1) * limit)
     .limit(Number(limit))
     .exec();

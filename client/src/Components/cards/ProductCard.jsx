@@ -1,21 +1,46 @@
 /** @format */
 
-import React from "react";
-import { Card } from "antd";
+import React, { useState } from "react";
+import { Card, Tooltip } from "antd";
 import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import AverageRating from "./AverageRating";
 import StarRating from "react-star-ratings";
+import _ from "lodash";
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
   const { images, title, description, slug, price } = product;
 
+  const [tooltip, setTooltip] = useState("Add To Cart");
+  const dispatch = useDispatch();
+
+  const addToCart = () => {
+    let cart = [];
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+      }
+
+      cart.push({
+        ...product,
+        count: 1,
+      });
+
+      let unique = _.uniqWith(cart, _.isEqual);
+      localStorage.setItem("cart", JSON.stringify(unique));
+
+      dispatch({ type: "ADD_TO_CART", payload: unique });
+      setTooltip("Added");
+    }
+  };
   return (
     <Card
       cover={
         images && images.length > 0 ? (
           <img
+            alt={images[0].url}
             src={images[0].url}
             style={{ height: "150px", objectFit: "cover" }}
           />
@@ -27,9 +52,11 @@ const ProductCard = ({ product }) => {
         <Link to={`/product/${slug}`}>
           <EyeOutlined className='text-info' />,<br /> View Product
         </Link>,
-        <>
-          <ShoppingCartOutlined className='text-danger' /> Add To Cart
-        </>,
+        <Tooltip title={tooltip}>
+          <a onClick={addToCart}>
+            <ShoppingCartOutlined className='text-danger' />,<br /> Add To Cart
+          </a>
+        </Tooltip>,
       ]}>
       <Meta
         title={`${title} - $${price}`}

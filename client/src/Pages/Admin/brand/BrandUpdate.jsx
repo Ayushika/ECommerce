@@ -32,7 +32,7 @@ const BrandUpdate = ({ history, match }) => {
 
   useEffect(() => {
     dispatch(getAllCategoriesAction());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (updateSuccess) {

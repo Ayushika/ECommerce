@@ -32,7 +32,7 @@ const SubcategoryUpdate = ({ history, match }) => {
 
   useEffect(() => {
     dispatch(getAllCategoriesAction());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (updateSuccess) {
@@ -49,7 +49,7 @@ const SubcategoryUpdate = ({ history, match }) => {
       setName(subCategory.name);
       setCategory(subCategory.category);
     }
-  }, [updateSuccess, subCategory, dispatch, history, slug]);
+  }, [updateSuccess, subCategory, dispatch, history, slug, subcategorySlug]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

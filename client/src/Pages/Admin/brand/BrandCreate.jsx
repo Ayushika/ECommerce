@@ -38,7 +38,7 @@ const BrandCreate = () => {
 
   useEffect(() => {
     dispatch(getAllCategoriesAction());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getAllBrandsAction());

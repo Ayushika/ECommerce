@@ -23,6 +23,7 @@ const AdminCard = ({ product }) => {
       cover={
         images && images.length > 0 ? (
           <img
+            alt={images[0].url}
             src={images[0].url}
             style={{ height: "150px", objectFit: "cover" }}
           />
