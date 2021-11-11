@@ -267,7 +267,12 @@ const Shop = () => {
                     overflow: "scroll",
                     overflowX: "hidden",
                   }}>
-                  <Group name='brand'>
+                  <Group
+                    value={brand}
+                    name='brand'
+                    onChange={(e) => {
+                      setBrand(e.target.value);
+                    }}>
                     <Space direction='vertical'>
                       {brands && brands.length > 0
                         ? brands.map((c) => {
@@ -275,9 +280,6 @@ const Shop = () => {
                               <Radio
                                 key={c._id}
                                 value={c._id}
-                                onChange={(e) => {
-                                  setBrand(e.target.value);
-                                }}
                                 className='pb-2 pr-4 pl-4'>
                                 {c.name}
                               </Radio>
@@ -303,15 +305,15 @@ const Shop = () => {
                     overflow: "scroll",
                     overflowX: "hidden",
                   }}>
-                  <Group>
+                  <Group
+                    name='color'
+                    value={color}
+                    onChange={(e) => setColor(e.target.value)}>
                     <Space direction='vertical'>
                       {colors && colors.length > 0
                         ? colors.map((c) => {
                             return (
-                              <Radio
-                                value={c}
-                                onChange={(e) => setColor(e.target.value)}
-                                className='pb-2 pr-4 pl-4'>
+                              <Radio value={c} className='pb-2 pr-4 pl-4'>
                                 {c}
                               </Radio>
                             );
@@ -330,18 +332,15 @@ const Shop = () => {
                   </span>
                 }>
                 <div style={{ backgroundColor: "white" }}>
-                  <Group>
+                  <Group
+                    name='shipping'
+                    value={shipping}
+                    onChange={(e) => setShipping(e.target.value)}>
                     <Space direction='vertical'>
-                      <Radio
-                        value='Yes'
-                        onChange={(e) => setShipping(e.target.value)}
-                        className='pb-2 pr-4 pl-4'>
+                      <Radio value='Yes' className='pb-2 pr-4 pl-4'>
                         Yes
                       </Radio>
-                      <Radio
-                        value='No'
-                        onChange={(e) => setShipping(e.target.value)}
-                        className='pb-2 pr-4 pl-4'>
+                      <Radio value='No' className='pb-2 pr-4 pl-4'>
                         No
                       </Radio>
                     </Space>

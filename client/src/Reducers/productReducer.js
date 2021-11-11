@@ -114,7 +114,7 @@ export const getProductsByFilterReducer = (
 ) => {
   switch (action.type) {
     case GET_PRODUCTS_BY_FILTER_REQUEST:
-      return { loadingProduct: true, ...state };
+      return { loadingProduct: true, filterProducts: [], total: 0 };
     case GET_PRODUCTS_BY_FILTER_SUCCESS:
       return {
         loadingProduct: false,
@@ -122,7 +122,7 @@ export const getProductsByFilterReducer = (
         total: action.payload.total,
       };
     case GET_PRODUCTS_BY_FILTER_FAIL:
-      return { loading: false, error: action.payload };
+      return { loadingProduct: false, error: action.payload };
     default:
       return state;
   }

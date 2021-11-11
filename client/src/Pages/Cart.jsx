@@ -72,8 +72,9 @@ const Cart = () => {
             <div className='mt-2 text-info h6'>Proceed To Checkout</div>
           ) : (
             <div className='mt-2 text-info h6'>
-              {/* <Link to={{ pathname: "/login", state: { from: "cart" } }}> */}
-              <Link to={`/login`}>Login To Checkout</Link>
+              <Link to={{ pathname: "/login", state: { from: "/cart" } }}>
+                Login To Checkout
+              </Link>
             </div>
           )}
         </div>

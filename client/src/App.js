@@ -8,6 +8,7 @@ import UpdatePassword from "./Pages/Auth/UpdatePassword";
 import CompleteRegister from "./Pages/Auth/CompleteRegister";
 import AdminDashboard from "./Pages/Admin/AdminDashboard";
 import Header from "./Components/nav/Header";
+import SideCartDrawer from "./Components/drawer/SideCartDrawer";
 import History from "./Pages/User/History";
 import Wishlist from "./Pages/User/WishList";
 import UserRoute from "./Components/protectedRoutes/UserRoute";
@@ -34,6 +35,7 @@ const App = () => {
   return (
     <>
       <Header />
+      <SideCartDrawer />
       <ToastContainer />
       <Switch>
         <Route exact path='/' component={Home} />
