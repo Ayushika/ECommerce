@@ -11,6 +11,7 @@ const subCategoryRouter = require("./routes/subCategoryRoutes");
 const brandRouter = require("./routes/brandRoutes");
 const productRouter = require("./routes/productRoutes");
 const cloudinaryRouter = require("./routes/cloudinaryRoutes");
+const couponRouter = require("./routes/couponRoutes");
 const { notFound, ErrorHandler } = require("./middlewares/errMiddleware");
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.use("/api/subcategory", subCategoryRouter);
 app.use("/api/brand", brandRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cloudinary", cloudinaryRouter);
+app.use("/api/coupon", couponRouter);
 
 //connecting to the database
 connectDB();

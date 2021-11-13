@@ -45,7 +45,7 @@ const CategoryUpdate = ({ history, match }) => {
 
   return (
     <div className='container-fluid'>
-      <div className='row'>
+      <div className='row mt-3'>
         <div className='col-md-2'>
           <AdminNavbar />
         </div>
@@ -53,7 +53,10 @@ const CategoryUpdate = ({ history, match }) => {
           {loading ? (
             <h4 className='text-danger'>Loading...</h4>
           ) : (
-            <h4 className='text-primary'>Update Category</h4>
+            <>
+              <h5 className=' mt-1 text-center display-8'>Update Category</h5>
+              <div className='underline'></div>
+            </>
           )}
           <CategoryForm
             name={name}

@@ -34,12 +34,12 @@ const UpdatePassword = () => {
     return (
       <form onSubmit={handleSubmit}>
         <div className='form-group'>
+          <label className='text-muted'>Enter Password</label>
           <input
             type='password'
             value={password}
             className='form-control'
             onChange={(e) => setPassword(e.target.value)}
-            placeholder='Enter your password'
             disabled={loading}
           />
           <button
@@ -56,15 +56,18 @@ const UpdatePassword = () => {
 
   return (
     <div className='container-fluid'>
-      <div className='row'>
+      <div className='row mt-3'>
         <div className='col-md-2'>
           {userInfo && userInfo.isAdmin ? <AdminNavbar /> : <UserNavbar />}
         </div>
-        <div className='col-md-6 offset-md-2'>
+        <div className='col-md-8 '>
           {loading ? (
             <h4 className='text-danger'>Loading...</h4>
           ) : (
-            <h4>Password</h4>
+            <>
+              <h5 className=' mt-1 text-center display-8'>Update Password</h5>
+              <div className='underline'></div>
+            </>
           )}
 
           {passwordUpdateForm()}

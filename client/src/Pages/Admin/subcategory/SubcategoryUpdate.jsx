@@ -58,7 +58,7 @@ const SubcategoryUpdate = ({ history, match }) => {
 
   return (
     <div className='container-fluid'>
-      <div className='row'>
+      <div className='row mt-3'>
         <div className='col-md-2'>
           <AdminNavbar />
         </div>
@@ -66,10 +66,13 @@ const SubcategoryUpdate = ({ history, match }) => {
           {loading ? (
             <h4 className='text-danger'>Loading...</h4>
           ) : (
-            <h4 className='text-primary'>Update category</h4>
+            <>
+              <h5 className=' mt-1 text-center display-8'>Update Subcategory</h5>
+              <div className='underline'></div>
+            </>
           )}
-          <div className='form-group'>
-            <label> Category</label>
+          <div className='form-group mt-1'>
+            <label className='text-muted'> Category</label>
             <select
               name='category'
               className='form-control'

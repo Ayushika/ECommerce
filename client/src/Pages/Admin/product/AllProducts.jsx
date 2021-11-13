@@ -15,12 +15,13 @@ const AllProducts = () => {
 
   return (
     <div className='container-fluid'>
-      <div className='row'>
+      <div className='row mt-3'>
         <div className='col-md-2'>
           <AdminNavbar />
         </div>
-        <div className='col'>
-          <h4>All Products</h4>
+        <div className='col-md-10'>
+          <h5 className=' mt-4 text-center display-4'>Products</h5>
+          <div className='underline'></div>
           <div className='row pt-4'>
             <NewArrival role={role} />
           </div>

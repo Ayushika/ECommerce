@@ -91,7 +91,7 @@ const Checkout = () => {
               return (
                 <div key={i} className='mb-3'>
                   <h6 className='text-muted'>
-                    {c.product.title} x {c.count} = ${c.price * c.count}
+                    {c.product.title} (){} x {c.count} = ${c.price * c.count}
                   </h6>
                 </div>
               );
@@ -104,7 +104,7 @@ const Checkout = () => {
             <div className='col-md-6'>
               <button
                 className='btn btn-primary btn-raised'
-                disabled={!products.length || addressSaved}>
+                disabled={!products.length && addressSaved}>
                 Place Order
               </button>
             </div>

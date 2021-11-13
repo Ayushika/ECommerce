@@ -103,13 +103,15 @@ const ProductUpdate = ({ match, history }) => {
 
   return (
     <div className='container-fluid'>
-      <div className='row'>
+      <div className='row mt-3'>
         <div className='col-md-2'>
           <AdminNavbar />
         </div>
         <div className='col-md-8'>
-          <h4>Update Product</h4>
-          <hr />
+          <>
+            <h5 className=' mt-1 text-center display-8'>Update Product</h5>
+            <div className='underline'></div>
+          </>
           <FileUpload values={values} setValues={setValues} />
           <ProductUpdateForm
             values={values}

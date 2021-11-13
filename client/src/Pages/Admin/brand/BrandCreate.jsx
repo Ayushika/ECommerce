@@ -58,7 +58,7 @@ const BrandCreate = () => {
 
   return (
     <div className='container-fluid'>
-      <div className='row'>
+      <div className='row mt-3'>
         <div className='col-md-2'>
           <AdminNavbar />
         </div>
@@ -66,10 +66,13 @@ const BrandCreate = () => {
           {loading ? (
             <h4 className='text-danger'>Loading...</h4>
           ) : (
-            <h4 className='text-primary'>Create Brand</h4>
+            <>
+              <h5 className=' mt-1 text-center display-8'>Create Brand</h5>
+              <div className='underline'></div>
+            </>
           )}
           <div className='form-group'>
-            <label>Category</label>
+            <label className='text-muted mt-1'>Category</label>
             <select
               name='category'
               className='form-control'

@@ -78,7 +78,7 @@ const ProductCreate = () => {
 
   return (
     <div className='container-fluid'>
-      <div className='row'>
+      <div className='row mt-3'>
         <div className='col-md-2'>
           <AdminNavbar />
         </div>
@@ -86,9 +86,11 @@ const ProductCreate = () => {
           {loading ? (
             <h4 className='text-danger'>Loading...</h4>
           ) : (
-            <h4>Create Product</h4>
+            <>
+              <h5 className=' mt-1 text-center display-8'>Create Product</h5>
+              <div className='underline'></div>
+            </>
           )}
-          <hr />
           <FileUpload values={values} setValues={setValues} />
           <ProductCreateForm
             handleChange={handleChange}

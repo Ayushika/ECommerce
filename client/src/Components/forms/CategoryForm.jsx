@@ -6,10 +6,10 @@ const CategoryForm = ({ handleSubmit, name, setName }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className='form-group'>
+        <label className='text-muted mt-3'>Name</label>
         <input
           type='text'
           className='form-control'
-          placeholder='Enter Name'
           value={name}
           onChange={(e) => setName(e.target.value)}
           autoFocus

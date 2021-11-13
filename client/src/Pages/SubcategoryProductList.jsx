@@ -49,14 +49,8 @@ const SubcategoryProductList = () => {
           </>
         ) : (
           <div className='container'>
-            <h4 className='text-center text-danger  m-5'>
-              No Products Found Of This Subcategory
-            </h4>
-            <Link to={`/`}>
-              <span className='col-md-4 offset-md-4 btn btn-raised btn-outlined-primary btn-block btn-lg '>
-                Back to Home Page ⬅
-              </span>
-            </Link>
+            <h5 className=' mt-4 text-center display-4'>No Products Found</h5>
+            <div className='underline'></div>
           </div>
         )}
         {totalProducts > 0 && (

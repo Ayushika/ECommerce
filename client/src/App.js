@@ -31,6 +31,7 @@ import Cart from "./Pages/Cart";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Shop from "./Pages/Shop";
+import CouponCreate from "./Pages/Admin/coupon/CouponCreate";
 
 const App = () => {
   return (
@@ -88,6 +89,7 @@ const App = () => {
         <Route exact path='/shop' component={Shop} />
         <Route exact path='/cart' component={Cart} />
         <UserRoute exact path='/checkout' component={Checkout} />
+        <AdminRoute exact path='/admin/coupon' component={CouponCreate} />
       </Switch>
     </>
   );
