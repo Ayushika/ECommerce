@@ -162,8 +162,7 @@ const getProductsBySearchFilter = async (req, res) => {
       .skip((currentPage - 1) * limit)
       .limit(Number(limit))
       .exec();
-
-    console.log("page : ", page);
+      
     res.json({ total, finalProducts });
   } catch (error) {
     console.log(error.message);

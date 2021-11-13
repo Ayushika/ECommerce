@@ -12,7 +12,6 @@ const registerUser = async (req, res) => {
   try {
     const user = await userSchema.findOne({ email });
     if (user) {
-      console.log("User Updated");
       res.json({
         _id: user._id,
         name: user.name,
@@ -26,7 +25,6 @@ const registerUser = async (req, res) => {
         name: email.split("@")[0],
         picture,
       }).save();
-      console.log("User Created");
       res.json({
         _id: newUser._id,
         name: newUser.name,

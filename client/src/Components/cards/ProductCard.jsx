@@ -23,6 +23,12 @@ const ProductCard = ({ product }) => {
         cart = JSON.parse(localStorage.getItem("cart"));
       }
 
+      if (cart.length > 0) {
+        console.log(product._id);
+        cart = cart.filter((c) => c._id !== product._id);
+        console.log(cart);
+      }
+
       cart.push({
         ...product,
         count: 1,

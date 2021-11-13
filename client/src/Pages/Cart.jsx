@@ -1,11 +1,13 @@
 /** @format */
 
 import React from "react";
+import axios from "axios";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ProductCardInCheckout from "../Components/cards/ProductCardInCheckout";
+import { toast } from "react-toastify";
 
-const Cart = () => {
+const Cart = ({ history }) => {
   const { userLogin, cart } = useSelector((state) => state);
   const { userInfo } = userLogin;
 
@@ -13,6 +15,26 @@ const Cart = () => {
     return cart.reduce((c, n) => {
       return c + n.price * n.count;
     }, 0);
+  };
+
+  const saveOrderToDb = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: userInfo.token,
+      },
+    };
+
+    await axios
+      .post("http://localhost:5000/api/user/cart", { cart }, config)
+      .then((res) => {
+        if (res.data.ok) {
+          history.push("/checkout");
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
   };
 
   const showCartItems = () => {
@@ -57,7 +79,7 @@ const Cart = () => {
             return (
               <div key={i} className='mb-3'>
                 <h6 className='text-muted'>
-                  {c.title} X {c.count} = ${c.price * c.count}
+                  {c.title} x {c.count} = ${c.price * c.count}
                 </h6>
               </div>
             );
@@ -69,7 +91,12 @@ const Cart = () => {
           </h6>
           <hr />
           {userInfo ? (
-            <div className='mt-2 text-info h6'>Proceed To Checkout</div>
+            <div
+              className='mt-2 text-info h6'
+              onClick={saveOrderToDb}
+              style={{ cursor: "pointer" }}>
+              Proceed To Checkout
+            </div>
           ) : (
             <div className='mt-2 text-info h6'>
               <Link to={{ pathname: "/login", state: { from: "/cart" } }}>

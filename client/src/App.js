@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
+import Checkout from "./Pages/Checkout";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import UpdatePassword from "./Pages/Auth/UpdatePassword";
 import CompleteRegister from "./Pages/Auth/CompleteRegister";
@@ -86,6 +87,7 @@ const App = () => {
         <Route exact path='/brand/:slug' component={BrandProductList} />
         <Route exact path='/shop' component={Shop} />
         <Route exact path='/cart' component={Cart} />
+        <UserRoute exact path='/checkout' component={Checkout} />
       </Switch>
     </>
   );

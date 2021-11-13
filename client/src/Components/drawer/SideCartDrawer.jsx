@@ -11,7 +11,7 @@ const SideCartDrawer = () => {
 
   return (
     <Drawer
-      width='22%'
+      // width='22%'
       title='Cart'
       closable={false}
       onClose={() => dispatch({ type: "SET_VISIBLE", payload: false })}

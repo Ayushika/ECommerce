@@ -144,7 +144,7 @@ const Shop = () => {
       <div className='container-fluid'>
         <div className='row'>
           <div className='col-md-3'>
-            <div className='mt-2'>
+            <div className='mt-3'>
               <span className='btn btn-info'>Filter</span>
               <span
                 className='btn btn-info float-right'
@@ -153,6 +153,7 @@ const Shop = () => {
               </span>
             </div>
             <Menu
+              className='mt-4'
               defaultOpenKeys={[]}
               mode='inline'
               style={{ backgroundColor: "white" }}>
@@ -350,7 +351,7 @@ const Shop = () => {
             </Menu>
           </div>
           <div className='col-md-9 '>
-            <h5 className=' display-4 mt-5 text-center'>Products</h5>
+            <h5 className=' display-4 mt-3 text-center'>Products</h5>
             <div className='underline'></div>
             <div className='row mt-2'>
               {text.length === 0 &&

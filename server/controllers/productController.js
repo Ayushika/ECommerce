@@ -35,7 +35,6 @@ const getProduct = asyncHandler(async (req, res) => {
 
 const getProducts = asyncHandler(async (req, res) => {
   const { sort, order, page } = req.body;
-  console.log(page);
 
   let currentPage = Number(page) || 1;
   const limit = 3;
@@ -179,7 +178,6 @@ const getProductsBySubcategory = asyncHandler(async (req, res) => {
     .limit(Number(limit))
     .exec();
 
-  console.log("total", total, "Products", products);
   res.json({ total, products });
 });
 

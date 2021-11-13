@@ -64,7 +64,6 @@ const ProductCardInCheckout = ({ p }) => {
   //delete item from cart
   const handleDelete = () => {
     let cart = [];
-    let final = [];
 
     if (typeof window !== "undefined") {
       cart = JSON.parse(localStorage.getItem("cart"));
@@ -92,7 +91,7 @@ const ProductCardInCheckout = ({ p }) => {
           <ModalImage
             small={p.images[0].url}
             large={p.images[0].url}
-            alt='Hello World!'
+            alt={p.title}
           />
         </div>
       </td>
