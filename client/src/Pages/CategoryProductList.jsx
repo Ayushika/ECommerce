@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Pagination } from "antd";
 import ProductCard from "../Components/cards/ProductCard";
 import LoadingCard from "../Components/cards/LoadingCard";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const CategoryProductList = () => {

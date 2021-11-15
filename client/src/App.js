@@ -32,6 +32,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Shop from "./Pages/Shop";
 import CouponCreate from "./Pages/Admin/coupon/CouponCreate";
+import Payment from "./Pages/Payment";
 
 const App = () => {
   return (
@@ -89,6 +90,7 @@ const App = () => {
         <Route exact path='/shop' component={Shop} />
         <Route exact path='/cart' component={Cart} />
         <UserRoute exact path='/checkout' component={Checkout} />
+        <UserRoute exact path='/payment' component={Payment} />
         <AdminRoute exact path='/admin/coupon' component={CouponCreate} />
       </Switch>
     </>

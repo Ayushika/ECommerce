@@ -4,6 +4,7 @@ const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
 const User = require("../models/userModel");
 const Cart = require("../models/cartModel");
+const Coupon = require("../models/couponModel");
 
 const saveCartToDb = asyncHandler(async (req, res) => {
   const { cart } = req.body;
@@ -47,7 +48,6 @@ const getUserCart = asyncHandler(async (req, res) => {
   let cart = await Cart.findOne({ orderBy: user._id })
     .populate("products.product")
     .exec();
-  console.log("get cart: ", cart);
   const { products, totalAfterDiscount, cartTotal } = cart;
   res.json({ products, totalAfterDiscount, cartTotal });
 });
@@ -65,10 +65,44 @@ const saveAddress = asyncHandler(async (req, res) => {
     { address: req.body.address },
   ).exec();
 
-  console.log("Email user : ", req.user.email);
-  console.log("Address user : ", req.body.address);
-
   res.json({ ok: true });
 });
 
-module.exports = { saveCartToDb, getUserCart, emptyCart, saveAddress };
+const applyCouponToCart = asyncHandler(async (req, res) => {
+  const { coupon } = req.body;
+  const validCoupon = await Coupon.findOne({ name: coupon }).exec();
+  console.log("Valid Or Not : ", validCoupon);
+
+  if (validCoupon === null) {
+    res.json({ err: "Invalid coupon" });
+  }
+
+  const user = await User.findOne({ email: req.user.email }).exec();
+  const { cartTotal } = await Cart.findOne({ orderBy: user._id })
+    .populate("products.product")
+    .exec();
+
+  console.log("CartTotal : ", cartTotal);
+
+  const totalAfterDiscount = (
+    cartTotal -
+    (cartTotal * validCoupon.discount) / 100
+  ).toFixed(2);
+  console.log("Total after discount : ", totalAfterDiscount);
+
+  await Cart.findOneAndUpdate(
+    { orderBy: user._id },
+    { totalAfterDiscount },
+    { new: true },
+  ).exec();
+
+  res.json(totalAfterDiscount);
+});
+
+module.exports = {
+  saveCartToDb,
+  getUserCart,
+  emptyCart,
+  saveAddress,
+  applyCouponToCart,
+};

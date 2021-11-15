@@ -45,7 +45,7 @@ const UpdatePassword = () => {
           <button
             type='submit'
             onClick={handleSubmit}
-            className='btn btn-primary btn-raised my-3'
+            className='btn btn-outline-primary my-3'
             disabled={loading || password.length < 6}>
             Update Password
           </button>

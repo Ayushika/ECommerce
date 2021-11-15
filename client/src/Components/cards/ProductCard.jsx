@@ -66,7 +66,7 @@ const ProductCard = ({ product }) => {
         </Tooltip>,
       ]}>
       <Meta
-        title={`${title} - $${price}`}
+        title={`${title} - Rs ${price}`}
         description={`${description && description.substring(0, 20)}...`}
       />
 

@@ -101,7 +101,7 @@ const FileUpload = ({ values, setValues }) => {
       )}
 
       <div className='form-group'>
-        <label className='btn btn-info btn-raised my-2'>
+        <label className='btn btn-outline-primary my-2'>
           Upload Image
           <input
             type='file'

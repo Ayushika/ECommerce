@@ -171,7 +171,7 @@ const ProductUpdateForm = (props) => {
         </>
       )}
 
-      <button className='btn btn-info btn-raised my-3' type='submit'>
+      <button className='btn btn-outline-primary my-3' type='submit'>
         Save
       </button>
     </form>

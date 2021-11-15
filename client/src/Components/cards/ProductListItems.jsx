@@ -19,7 +19,7 @@ const ProductListItems = ({ product }) => {
       <li className='list-group-item text-muted'>
         Price
         <span className='label label-default label-pill pull-xs-right text-muted'>
-          $ {price}
+          Rs {price}
         </span>
       </li>
       {category && (

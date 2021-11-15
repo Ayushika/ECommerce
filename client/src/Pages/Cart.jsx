@@ -66,7 +66,7 @@ const Cart = ({ history }) => {
           <h4>Cart / {cart.length} Products</h4>
           {cart.length === 0 ? (
             <p>
-              No products in cart.<Link to='/shop'>Continue Shopping</Link>
+              No products in cart. <Link to='/shop'>Continue Shopping</Link>
             </p>
           ) : (
             showCartItems()
@@ -79,7 +79,7 @@ const Cart = ({ history }) => {
             return (
               <div key={i} className='mb-3'>
                 <h6 className='text-muted'>
-                  {c.title} x {c.count} = ${c.price * c.count}
+                  {c.title} x {c.count} = Rs {c.price * c.count}
                 </h6>
               </div>
             );
@@ -87,7 +87,7 @@ const Cart = ({ history }) => {
           <hr className='mb-3' />
           <h6 className='text-muted'>
             Total :{" "}
-            <span className='font-weight-bold text-dark'>${getTotal()}</span>
+            <span className='font-weight-bold text-dark'> Rs {getTotal()}</span>
           </h6>
           <hr />
           {userInfo ? (

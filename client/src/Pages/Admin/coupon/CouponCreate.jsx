@@ -114,7 +114,7 @@ const CouponCreate = () => {
             </div>
 
             <button
-              className='btn btn-primary btn-raised mt-3'
+              className='btn btn-outline-primary mt-3'
               onSubmit={handleSubmit}>
               Save
             </button>

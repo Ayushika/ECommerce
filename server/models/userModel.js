@@ -23,9 +23,9 @@ const userSchema = mongoose.Schema(
     //     type:Array,
     //     default:[]
     // },
-    // address:{
-    //     type: String,
-    // },
+    address:{
+        type: String,
+    },
     // wishlist: {
     //     type: mongoose.Schema.Types.ObjectId,
     //     required: true,

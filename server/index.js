@@ -12,6 +12,7 @@ const brandRouter = require("./routes/brandRoutes");
 const productRouter = require("./routes/productRoutes");
 const cloudinaryRouter = require("./routes/cloudinaryRoutes");
 const couponRouter = require("./routes/couponRoutes");
+const stripeRouter = require("./routes/stripeRoutes");
 const { notFound, ErrorHandler } = require("./middlewares/errMiddleware");
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use("/api/brand", brandRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cloudinary", cloudinaryRouter);
 app.use("/api/coupon", couponRouter);
+app.use("/api", stripeRouter);
 
 //connecting to the database
 connectDB();

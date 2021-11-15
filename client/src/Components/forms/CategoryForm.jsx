@@ -15,7 +15,7 @@ const CategoryForm = ({ handleSubmit, name, setName }) => {
           autoFocus
           required
         />
-        <button type='submit' className='btn btn-raised btn-primary my-3'>
+        <button type='submit' className='btn btn-outline-primary my-3'>
           Create
         </button>
       </div>

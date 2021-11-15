@@ -14,23 +14,22 @@ const Login = ({ history }) => {
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo , loginSuccess } = userLogin;
+  const { loading, error, userInfo, loginSuccess } = userLogin;
 
   const redirect =
     userInfo && userInfo.isAdmin ? "/admin/dashboard" : "/user/history";
 
   useEffect(() => {
-
     if (error) {
       toast.error(error);
-    }  else if (userInfo) {
+    } else if (userInfo) {
       history.push(redirect);
     }
-  }, [error, userInfo, history, redirect , loginSuccess]);
+  }, [error, userInfo, history, redirect, loginSuccess]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(email, password , history));
+    dispatch(login(email, password, history));
   };
 
   const loginWithGoogle = () => {
@@ -61,7 +60,7 @@ const Login = ({ history }) => {
         </div>
         <Button
           type='primary'
-          className='mb-3'
+          className='mb-3 '
           block
           shape='round'
           size='large'
@@ -78,11 +77,21 @@ const Login = ({ history }) => {
     <div className='container p-5'>
       <div className='row'>
         <div className='col-md-6 offset-md-3'>
-          {loading ? <h4 className='text-danger'>Loading</h4> : <h4>Login</h4>}
+          {loading ? (
+            <>
+              <h4 className=' mt-1 text-center display-5'>Loading...</h4>
+              <div className='underline'></div>
+            </>
+          ) : (
+            <>
+              <h4 className=' mt-1 text-center display-5'>Login</h4>
+              <div className='underline'></div>
+            </>
+          )}
           {loginForm()}
           <Button
             type='danger'
-            className='mb-3'
+            className='btn mb-3 btn-outline-primary'
             block
             shape='round'
             size='large'
@@ -90,7 +99,7 @@ const Login = ({ history }) => {
             icon={<GoogleOutlined />}>
             Login with Google
           </Button>
-          <Link to='/forgot/password' className='float-right text-danger'>
+          <Link to='/forgot/password' className='float-right text-primary'>
             Forgot Password ?
           </Link>
         </div>
