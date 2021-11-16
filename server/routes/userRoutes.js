@@ -11,22 +11,25 @@ const {
   saveAddress,
   applyCouponToCart,
 } = require("../controllers/cartController");
-const {
-  createOrder,
-} = require("../controllers/orderController");
+const { createOrder, getAllOrders } = require("../controllers/orderController");
 
-router.route("/cart").post(protect, saveCartToDb).get(protect, getUserCart).delete(protect , emptyCart);
+router
+  .route("/cart")
+  .post(protect, saveCartToDb)
+  .get(protect, getUserCart)
+  .delete(protect, emptyCart);
 router.route("/register").post(protect, registerUser);
 
 //cart
 router.route("/isAdmin").post(protect, checkAdmin, currentUser);
 router.route("/isValid").post(protect, currentUser);
-router.route("/address").post(protect, saveAddress)
+router.route("/address").post(protect, saveAddress);
 
 //coupon
-router.route("/cart/coupon").post(protect, applyCouponToCart)
+router.route("/cart/coupon").post(protect, applyCouponToCart);
 
 //order
-router.route("/order").post(protect,createOrder)
+router.route("/order").post(protect, createOrder);
+router.route("/orders").get(protect, getAllOrders);
 
 module.exports = router;

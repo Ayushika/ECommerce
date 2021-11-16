@@ -8,6 +8,7 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
+import { toast } from "react-toastify";
 
 const ProductCardInCheckout = ({ p }) => {
   const dispatch = useDispatch();
@@ -25,8 +26,20 @@ const ProductCardInCheckout = ({ p }) => {
     "Silver",
   ];
 
+  console.log("Product", p);
+
   //change count
   const handleCountChange = (e) => {
+    if (e.target.value < 1) {
+      toast.error("Please select alteast one quantity");
+      return;
+    }
+
+    if (e.target.value > p.quantity) {
+      toast.error(`Maximum available quantity is ${p.quantity}`);
+      return;
+    }
+
     let cart = [];
     if (typeof window !== "undefined") {
       if (localStorage.getItem("cart")) {
@@ -67,11 +80,6 @@ const ProductCardInCheckout = ({ p }) => {
 
     if (typeof window !== "undefined") {
       cart = JSON.parse(localStorage.getItem("cart"));
-      //   cart.map((c) => {
-      //     if (c._id !== p._id) {
-      //       final.push(c);
-      //     }
-      //   });
 
       cart.map((c, i) => {
         if (c._id === p._id) {
@@ -86,8 +94,14 @@ const ProductCardInCheckout = ({ p }) => {
 
   return (
     <tr>
-      <td className='text-center'>
-        <div style={{ height: "auto", width: "100px" }}>
+      <td scope='col' className='text-center'>
+        <div
+          style={{
+            height: "auto",
+            width: "100px",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}>
           <ModalImage
             small={p.images[0].url}
             large={p.images[0].url}
@@ -95,10 +109,16 @@ const ProductCardInCheckout = ({ p }) => {
           />
         </div>
       </td>
-      <td className='text-center'>{p.title}</td>
-      <td className='text-center'>{p.price}</td>
-      <td className='text-center'>{p.brand.name}</td>
-      <td className='text-center'>
+      <td scope='col' className='text-center'>
+        {p.title}
+      </td>
+      <td scope='col' className='text-center'>
+        {p.price}
+      </td>
+      <td scope='col' className='text-center'>
+        {p.brand.name}
+      </td>
+      <td scope='col' className='text-center'>
         <select
           style={{ marginTop: "-10px" }}
           className='form-control'
@@ -118,7 +138,7 @@ const ProductCardInCheckout = ({ p }) => {
           ))}
         </select>
       </td>
-      <td className='text-center'>
+      <td scope='col' className='text-center'>
         <input
           type='number'
           style={{ width: "90px", marginTop: "-6px" }}
@@ -127,7 +147,7 @@ const ProductCardInCheckout = ({ p }) => {
           value={p.count}
         />
       </td>
-      <td className='text-center'>
+      <td scope='col' className='text-center'>
         {p.shipping === "Yes" ? (
           <CheckCircleOutlined
             style={{ cursor: "pointer" }}
@@ -140,7 +160,7 @@ const ProductCardInCheckout = ({ p }) => {
           />
         )}
       </td>
-      <td className='text-center'>
+      <td scope='col' className='text-center'>
         <DeleteOutlined
           onClick={handleDelete}
           style={{ cursor: "pointer" }}

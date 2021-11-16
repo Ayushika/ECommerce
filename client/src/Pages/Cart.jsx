@@ -39,7 +39,7 @@ const Cart = ({ history }) => {
 
   const showCartItems = () => {
     return (
-      <table className='table table-borderd mt-5 mr-3'>
+      <table className='table table-bordered table-responsive mt-5 mr-3'>
         <thead className='thead-light '>
           <tr>
             <th className='text-center'>Image</th>
@@ -72,9 +72,8 @@ const Cart = ({ history }) => {
             showCartItems()
           )}
         </div>
-        <div className='col-md-4'>
-          <h4>Order Summary</h4>
-          <hr />
+        <div className='col-md-3 mr-5'>
+          <h4 className='mb-5'>Order Summary</h4>
           {cart.map((c, i) => {
             return (
               <div key={i} className='mb-3'>

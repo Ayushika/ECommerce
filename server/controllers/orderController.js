@@ -5,7 +5,6 @@ const Order = require("../models/orderModel");
 const Cart = require("../models/cartModel");
 const Product = require("../models/productModel");
 const asyncHandler = require("express-async-handler");
-const { updateOne } = require("../models/userModel");
 
 const createOrder = asyncHandler(async (req, res) => {
   const { paymentIntent } = req.body;
@@ -38,4 +37,12 @@ const createOrder = asyncHandler(async (req, res) => {
   res.json({ ok: true });
 });
 
-module.exports = { createOrder };
+const getAllOrders = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ email: req.user.email }).exec();
+  const orders = await Order.find({ orderBy: user._id })
+    .populate("products.product")
+    .exec();
+  res.json(orders);
+});
+
+module.exports = { createOrder, getAllOrders };
