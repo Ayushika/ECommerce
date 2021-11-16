@@ -4,14 +4,14 @@ import React, { useState } from "react";
 import { Card, Tooltip } from "antd";
 import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import AverageRating from "./AverageRating";
 import StarRating from "react-star-ratings";
 import _ from "lodash";
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
-  const { images, title, description, slug, price } = product;
+  const { images, title, description, slug, price, quantity } = product;
 
   const [tooltip, setTooltip] = useState("Add To Cart");
   const dispatch = useDispatch();
@@ -60,8 +60,9 @@ const ProductCard = ({ product }) => {
           <EyeOutlined className='text-info' />,<br /> View Product
         </Link>,
         <Tooltip title={tooltip}>
-          <a onClick={addToCart}>
-            <ShoppingCartOutlined className='text-danger' />,<br /> Add To Cart
+          <a onClick={addToCart} disabled={quantity <= 0}>
+            <ShoppingCartOutlined className='text-danger' />,<br />{" "}
+            {quantity < 1 ? "Out Of Stock" : "Add To Cart"}
           </a>
         </Tooltip>,
       ]}>

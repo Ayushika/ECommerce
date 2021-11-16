@@ -15,7 +15,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 const { TabPane } = Tabs;
 
 const SingleProductCard = ({ product, handleStarClick, starRating }) => {
-  const { title, images, description } = product;
+  const { title, images, description, quantity } = product;
   const { slug } = useParams();
   const dispatch = useDispatch();
 
@@ -69,9 +69,9 @@ const SingleProductCard = ({ product, handleStarClick, starRating }) => {
         <Card
           actions={[
             <Tooltip title={tooltip}>
-              <a onClick={addToCart}>
-                <ShoppingCartOutlined className='text-danger' />,<br /> Add To
-                Cart
+              <a onClick={addToCart} disabled={quantity < 1}>
+                <ShoppingCartOutlined className='text-danger' />,<br />
+                {quantity < 1 ? "Out Of Stock" : "Add To Cart"}
               </a>
             </Tooltip>,
             <>

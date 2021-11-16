@@ -1,7 +1,7 @@
 /** @format */
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Result } from "antd";
+import { Alert, Result } from "antd";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
@@ -65,12 +65,40 @@ const StripeCheckout = ({ history }) => {
       setProcessing(false);
     } else {
       //here you get result after successfull payment
-      //create order and save in db for admin to processing
-      //empty cart from redux and local storage
+      const paymentIntent = payload.paymentIntent;
       setError(null);
       setProcessing(false);
       setSucceeded(true);
+      //create order and save in db for admin to processing
+      await axios
+        .post("http://localhost:5000/api/user/order", { paymentIntent }, config)
+        .then((res) => {
+          if (res.data.ok) {
+            //empty cart from local storage
+            console.log("result", res);
+            if (typeof window !== "undefined") {
+              window.localStorage.removeItem("cart");
+            }
+
+            //empty cart from redux
+            dispatch({ type: "ADD_TO_CART", payload: [] });
+
+            //set coupon applied to false
+            dispatch({ type: "COUPON_APPLIED", payload: false });
+
+            //remove cart from db
+            emptyCart();
+          }
+        });
     }
+  };
+
+  //Empty cart object
+  const emptyCart = async () => {
+    await axios
+      .delete("http://localhost:5000/api/user/cart", config)
+      .then((res) => {})
+      .catch((error) => console.log(error.message));
   };
 
   const handleChange = (e) => {
@@ -118,30 +146,50 @@ const StripeCheckout = ({ history }) => {
           }
         />
       ) : (
-        <form id='payment-form' onSubmit={handleSubmit} className='stripe-form'>
-          <CardElement
-            id='card-element'
-            options={cardstyle}
-            onChange={handleChange}
-          />
-          <button
-            disabled={processing || disabled || succeeded}
-            className='stripe-button'>
-            <span className='button-text'>
-              {processing ? (
-                <div className='spinner' id='spinner'></div>
-              ) : (
-                "Pay now"
-              )}
-            </span>
-          </button>
-          <br />
-          {error && (
-            <div id='card-error' role='alert'>
-              {error}
-            </div>
+        <>
+          {coupon ? (
+            <Alert
+              message={"Coupon Applied"}
+              type='success'
+              className='mt-2 mb-4'
+              showIcon
+            />
+          ) : (
+            <Alert
+              message={"Coupon Not Applied"}
+              type='error'
+              className='mt-2 mb-4'
+              showIcon
+            />
           )}
-        </form>
+          <form
+            id='payment-form'
+            onSubmit={handleSubmit}
+            className='stripe-form'>
+            <CardElement
+              id='card-element'
+              options={cardstyle}
+              onChange={handleChange}
+            />
+            <button
+              disabled={processing || disabled || succeeded}
+              className='stripe-button'>
+              <span className='button-text'>
+                {processing ? (
+                  <div className='spinner' id='spinner'></div>
+                ) : (
+                  "Pay now"
+                )}
+              </span>
+            </button>
+            <br />
+            {error && (
+              <div id='card-error' role='alert'>
+                {error}
+              </div>
+            )}
+          </form>
+        </>
       )}
     </>
   );
