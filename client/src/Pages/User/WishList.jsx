@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import UserNavbar from "../../Components/nav/UserNavbar";
-import ProductCard from "../../Components/cards/ProductCard";
+import WishlistCard from "../../Components/cards/WishlistCard";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -43,11 +43,7 @@ const WishList = () => {
               products.map((product) => (
                 <>
                   <div className='col-md-4 mb-5' key={product._id}>
-                    <ProductCard
-                      product={product}
-                      wishlist={true}
-                      setResult={setResult}
-                    />
+                    <WishlistCard product={product} setResult={setResult} />
                   </div>
                 </>
               ))}

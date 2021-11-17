@@ -11,7 +11,11 @@ const {
   saveAddress,
   applyCouponToCart,
 } = require("../controllers/cartController");
-const { createOrder, getAllOrders } = require("../controllers/orderController");
+const {
+  createOrder,
+  getAllOrders,
+  createCashOrder,
+} = require("../controllers/orderController");
 const {
   addToWishlist,
   getWishlist,
@@ -44,5 +48,6 @@ router.route("/cart/coupon").post(protect, applyCouponToCart);
 //order
 router.route("/order").post(protect, createOrder);
 router.route("/orders").get(protect, getAllOrders);
+router.route("/cash-order").post(protect, createCashOrder);
 
 module.exports = router;

@@ -39,23 +39,25 @@ const Cart = ({ history }) => {
 
   const showCartItems = () => {
     return (
-      <table className='table table-bordered table-responsive mt-5 mr-3'>
-        <thead className='thead-light '>
-          <tr>
-            <th className='text-center'>Image</th>
-            <th className='text-center'>Name</th>
-            <th className='text-center'>Price</th>
-            <th className='text-center'>Brand</th>
-            <th className='text-center'>Color</th>
-            <th className='text-center'>Count</th>
-            <th className='text-center'>Shipping</th>
-            <th className='text-center'>Remove</th>
-          </tr>
-        </thead>
-        {cart.map((p) => (
-          <ProductCardInCheckout p={p} key={p._id} />
-        ))}
-      </table>
+      <div className='table-responsive'>
+        <table className='table table-bordered mt-5 mr-3'>
+          <thead className='thead-light '>
+            <tr>
+              <th className='text-center'>Image</th>
+              <th className='text-center'>Name</th>
+              <th className='text-center'>Price</th>
+              <th className='text-center'>Brand</th>
+              <th className='text-center'>Color</th>
+              <th className='text-center'>Count</th>
+              <th className='text-center'>Shipping</th>
+              <th className='text-center'>Remove</th>
+            </tr>
+          </thead>
+          {cart.map((p) => (
+            <ProductCardInCheckout p={p} key={p._id} />
+          ))}
+        </table>
+      </div>
     );
   };
 

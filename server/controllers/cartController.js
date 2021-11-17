@@ -71,7 +71,6 @@ const saveAddress = asyncHandler(async (req, res) => {
 const applyCouponToCart = asyncHandler(async (req, res) => {
   const { coupon } = req.body;
   const validCoupon = await Coupon.findOne({ name: coupon }).exec();
-  console.log("Valid Or Not : ", validCoupon);
 
   if (validCoupon === null) {
     res.json({ err: "Invalid coupon" });
@@ -82,13 +81,10 @@ const applyCouponToCart = asyncHandler(async (req, res) => {
     .populate("products.product")
     .exec();
 
-  console.log("CartTotal : ", cartTotal);
-
   const totalAfterDiscount = (
     cartTotal -
     (cartTotal * validCoupon.discount) / 100
   ).toFixed(2);
-  console.log("Total after discount : ", totalAfterDiscount);
 
   await Cart.findOneAndUpdate(
     { orderBy: user._id },

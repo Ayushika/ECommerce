@@ -28,14 +28,6 @@ const SingleProductCard = ({ product, handleStarClick, starRating }) => {
   const { userInfo } = useSelector((state) => state.userLogin);
 
   const [tooltip, setTooltip] = useState("Add To Cart");
-  // const [isAdded, setIsAdded] = useState(false);
-
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: userInfo.token,
-    },
-  };
 
   const addToCart = () => {
     let cart = [];
@@ -60,6 +52,13 @@ const SingleProductCard = ({ product, handleStarClick, starRating }) => {
 
   //add to wishlist
   const addToWishlist = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: userInfo.token,
+      },
+    };
+
     await axios
       .put(`http://localhost:5000/api/user/wishlist/${_id}`, {}, config)
       .then((res) => {
@@ -104,10 +103,19 @@ const SingleProductCard = ({ product, handleStarClick, starRating }) => {
                 {quantity < 1 ? "Out Of Stock" : "Add To Cart"}
               </a>
             </Tooltip>,
-            <a onClick={addToWishlist}>
-              <HeartOutlined className='text-warning' />
-              Add To Wishlist
-            </a>,
+            <>
+              {userInfo && userInfo.token ? (
+                <a onClick={addToWishlist}>
+                  <HeartOutlined className='text-warning' />,<br />
+                  Add To Wishlist
+                </a>
+              ) : (
+                <>
+                  <HeartOutlined className='text-warning' />
+                  Login To Add To Wishlist
+                </>
+              )}
+            </>,
             <>
               <RatingModal starRating={starRating} slug={slug}>
                 <StarRating

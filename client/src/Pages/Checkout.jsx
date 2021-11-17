@@ -5,7 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
-import { Alert } from "antd";
+import { Alert, Button, Modal, Spin, Result } from "antd";
+import { Link } from "react-router-dom";
+import { LoadingOutlined } from "@ant-design/icons";
 import "react-quill/dist/quill.snow.css";
 
 const Checkout = ({ history }) => {
@@ -17,10 +19,18 @@ const Checkout = ({ history }) => {
   const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
   const [discountError, setDiscountError] = useState("");
   const [discountSuccess, setDiscountSuccess] = useState("");
-
+  const [showModal, setShowModal] = useState(false);
+  const [modeOfPayment, setModeOfPayment] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [paymentWithCash, setPaymentWithCash] = useState(false);
   const dispatch = useDispatch();
 
+  const antIcon = <LoadingOutlined style={{ fontSize: 200 }} spin />;
+
   const { userInfo } = useSelector((state) => state.userLogin);
+  const { cashOrder } = useSelector((state) => state);
+  const couponApplied = useSelector((state) => state.coupon);
+
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -44,22 +54,8 @@ const Checkout = ({ history }) => {
   const emptyCart = async () => {
     await axios
       .delete("http://localhost:5000/api/user/cart", config)
-      .then((res) => {
-        if (res.data) {
-          setProducts([]);
-          setTotal(0);
-          setDiscountError("");
-          setTotalAfterDiscount(0);
-          setCoupon("");
-
-          if (typeof window !== "undefined") {
-            localStorage.removeItem("cart");
-            dispatch({ type: "ADD_TO_CART", payload: [] });
-          }
-
-          history.push("/cart");
-        }
-      });
+      .then((res) => {})
+      .catch((error) => console.log(error.message));
   };
 
   //save address to database
@@ -188,43 +184,112 @@ const Checkout = ({ history }) => {
     </div>
   );
 
+  //cash order backend request
+  const cashOrderToDatabase = async () => {
+    console.log("order", couponApplied);
+    await axios
+      .post(
+        "http://localhost:5000/api/user/cash-order",
+        { couponApplied, cashOrder },
+        config,
+      )
+      .then((res) => {
+        if (res.data.ok) {
+          setLoading(false);
+          setPaymentWithCash(true);
+          //empty cart from local storage
+          if (typeof window !== "undefined") {
+            window.localStorage.removeItem("cart");
+          }
+          //cashOrder to false
+          dispatch({ type: "CASH_ORDER", payload: false });
+
+          //empty cart from redux
+          dispatch({ type: "ADD_TO_CART", payload: [] });
+
+          //set coupon applied to false
+          dispatch({ type: "COUPON_APPLIED", payload: false });
+
+          //remove cart from db
+          emptyCart();
+        }
+      });
+  };
+
   return (
-    <div className='container-fluid mt-4'>
-      <div className='row'>
-        <div className='col-md-5 ml-5'>
-          <h4>Delievery Address</h4>
-          <br />
-          {showAddressForm()}
-          <hr />
-          <h4>Got Coupon ? </h4>
-          <br />
-          {showApplyCouponForm()}
-        </div>
-        <div className='col-md-5 ml-5'>
-          <h4>Order Summary</h4>
-          <hr />
-          {showOrderSummaryForm()}
-          <div className='row mt-5'>
-            <div className='col-md-6'>
-              <button
-                onClick={() => history.push("/payment")}
-                className='btn btn-outline-primary'
-                disabled={!addressSaved || products.length <= 0}>
-                Place Order
-              </button>
+    <Spin spinning={loading} indicator={antIcon}>
+      {paymentWithCash ? (
+        <Result
+          status='success'
+          title='Your Order has placed.'
+          subTitle={
+            <h5>
+              <Link to='/user/history'>See it in your purchase history</Link>
+            </h5>
+          }
+        />
+      ) : (
+        <div className='container-fluid mt-4'>
+          <div className='row'>
+            <div className='col-md-5 ml-5'>
+              <h4>Delievery Address</h4>
+              <br />
+              {showAddressForm()}
+              <hr />
+              <h4>Got Coupon ? </h4>
+              <br />
+              {showApplyCouponForm()}
             </div>
-            <div className='col-md-6'>
-              <button
-                disabled={!products.length}
-                className='btn btn-outline-primary'
-                onClick={emptyCart}>
-                Empty Cart
-              </button>
+            <div className='col-md-5 ml-5'>
+              <h4>Order Summary</h4>
+              <hr />
+              {showOrderSummaryForm()}
+              <div className='row mt-5'>
+                <div className='col-md-6'>
+                  <button
+                    onClick={() => setShowModal(true)}
+                    className='btn btn-outline-primary'
+                    disabled={!addressSaved || products.length <= 0}>
+                    Place Order
+                  </button>
+                  <Modal
+                    title='Choose Payment option'
+                    visible={showModal}
+                    centered
+                    onOk={() => {
+                      setShowModal(false);
+                      setLoading(true);
+                      if (modeOfPayment === "online") {
+                        history.push("/payment");
+                      }
+
+                      if (modeOfPayment === "cash") {
+                        cashOrderToDatabase();
+                      }
+                    }}
+                    onCancel={() => setShowModal(false)}>
+                    <Button
+                      onClick={() => {
+                        setModeOfPayment("online");
+                        dispatch({ type: "CASH_ORDER", payload: false });
+                      }}>
+                      Online Pay
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setModeOfPayment("cash");
+                        dispatch({ type: "CASH_ORDER", payload: true });
+                      }}>
+                      Cash On Delievery
+                    </Button>
+                  </Modal>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </Spin>
   );
 };
 

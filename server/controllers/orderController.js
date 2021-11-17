@@ -5,6 +5,7 @@ const Order = require("../models/orderModel");
 const Cart = require("../models/cartModel");
 const Product = require("../models/productModel");
 const asyncHandler = require("express-async-handler");
+const uniqid = require("uniqid");
 
 const createOrder = asyncHandler(async (req, res) => {
   const { paymentIntent } = req.body;
@@ -31,6 +32,7 @@ const createOrder = asyncHandler(async (req, res) => {
       },
     };
   });
+
   const updatedProduct = await Product.bulkWrite(bulkOption, { new: true });
 
   console.log("Product Updated", updatedProduct);
@@ -61,4 +63,67 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
   res.json({ ok: true });
 });
 
-module.exports = { createOrder, getAllOrders, updateOrderStatus, getOrders };
+//createCashOrder
+const createCashOrder = asyncHandler(async (req, res) => {
+  const { cashOrder, couponApplied } = req.body;
+
+  console.log("coupon : ", couponApplied);
+  if (cashOrder === false) {
+    res.status(404).json("Error while making payment");
+  }
+
+  //find user
+  const user = await User.findOne({ email: req.user.email }).exec();
+
+  //find products from cart using user id
+  const { products, cartTotal, totalAfterDiscount } = await Cart.findOne({
+    orderBy: user._id,
+  }).exec();
+
+  let finalAmount = 0;
+
+  if (couponApplied && totalAfterDiscount) {
+    finalAmount = totalAfterDiscount * 100;
+  } else {
+    finalAmount = cartTotal * 100;
+  }
+
+  console.log("Total ", totalAfterDiscount);
+  console.log("Final ", finalAmount);
+  //create new order
+  const newOrder = await new Order({
+    products,
+    paymentIntent: {
+      id: uniqid(),
+      amount: finalAmount,
+      currency: "inr",
+      created: Date.now(),
+      payment_method_types: ["cash"],
+      status: "Not Processed",
+    },
+    orderBy: user._id,
+  }).save();
+
+  //decreement available quantity and increemnet sold quantity
+  const bulkOption = products.map((p) => {
+    return {
+      updateOne: {
+        filter: { _id: p.product._id },
+        update: { $inc: { quantity: -p.count, sold: +p.count } },
+      },
+    };
+  });
+
+  const updatedProduct = await Product.bulkWrite(bulkOption, { new: true });
+
+  // console.log("Product Updated", updatedProduct);
+  res.json({ ok: true });
+});
+
+module.exports = {
+  createOrder,
+  getAllOrders,
+  updateOrderStatus,
+  getOrders,
+  createCashOrder,
+};
