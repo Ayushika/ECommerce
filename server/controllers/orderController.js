@@ -45,4 +45,20 @@ const getAllOrders = asyncHandler(async (req, res) => {
   res.json(orders);
 });
 
-module.exports = { createOrder, getAllOrders };
+const getOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({}).populate("products.product").exec();
+  res.json(orders);
+});
+
+const updateOrderStatus = asyncHandler(async (req, res) => {
+  const { orderId, orderStaus } = req.body;
+  const updatedOrder = await Order.findByIdAndUpdate(
+    orderId,
+    { orderStaus },
+    { new: true },
+  );
+
+  res.json({ ok: true });
+});
+
+module.exports = { createOrder, getAllOrders, updateOrderStatus, getOrders };

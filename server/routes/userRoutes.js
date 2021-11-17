@@ -12,6 +12,19 @@ const {
   applyCouponToCart,
 } = require("../controllers/cartController");
 const { createOrder, getAllOrders } = require("../controllers/orderController");
+const {
+  addToWishlist,
+  getWishlist,
+  deleteItemFromWishlist,
+} = require("../controllers/wishlistController");
+
+//wishlist
+
+router.route("/wishlist/all").get(protect, getWishlist);
+router
+  .route("/wishlist/:id")
+  .put(protect, addToWishlist)
+  .delete(protect, deleteItemFromWishlist);
 
 router
   .route("/cart")

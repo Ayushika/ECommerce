@@ -1,20 +1,35 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Tooltip } from "antd";
-import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EyeOutlined,
+  HeartOutlined,
+  ShoppingCartOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AverageRating from "./AverageRating";
+import { toast } from "react-toastify";
 import StarRating from "react-star-ratings";
+import axios from "axios";
 import _ from "lodash";
 const { Meta } = Card;
 
-const ProductCard = ({ product }) => {
-  const { images, title, description, slug, price, quantity } = product;
+const ProductCard = ({ product, wishlist, setResult }) => {
+  const { images, title, description, slug, price, quantity, _id } = product;
 
   const [tooltip, setTooltip] = useState("Add To Cart");
   const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.userLogin);
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: userInfo.token,
+    },
+  };
 
   const addToCart = () => {
     let cart = [];
@@ -42,6 +57,37 @@ const ProductCard = ({ product }) => {
       setTooltip("Added");
     }
   };
+
+  //remove from wishlist
+  const removeFromWishlist = async () => {
+    await axios
+      .delete(`http://localhost:5000/api/user/wishlist/${_id}`, config)
+      .then((res) => {
+        if (res.data.ok) {
+          setResult((prev) => !prev);
+          toast.success("Removed from wishlist");
+        }
+      })
+      .catch((err) => {
+        toast.error("Error while removing from wishlist");
+        // setIsAdded(true);
+      });
+  };
+
+  //add to wishlist
+  const addToWishlist = async () => {
+    await axios
+      .put(`http://localhost:5000/api/user/wishlist/${_id}`, {}, config)
+      .then((res) => {
+        if (res.data.ok) {
+          toast.success("Added to wishlist");
+        }
+      })
+      .catch((err) => {
+        toast.error("Error while adding to wishlist");
+      });
+  };
+
   return (
     <Card
       cover={
@@ -65,6 +111,19 @@ const ProductCard = ({ product }) => {
             {quantity < 1 ? "Out Of Stock" : "Add To Cart"}
           </a>
         </Tooltip>,
+        <>
+          {wishlist ? (
+            <a onClick={removeFromWishlist}>
+              <DeleteOutlined className='text-warning' />,<br />
+              Remove
+            </a>
+          ) : (
+            <a onClick={addToWishlist}>
+              <HeartOutlined className='text-warning' />,<br />
+              Add To Wishlist
+            </a>
+          )}
+        </>,
       ]}>
       <Meta
         title={`${title} - Rs ${price}`}

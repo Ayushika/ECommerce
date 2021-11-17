@@ -2,7 +2,11 @@
 
 import React, { useState } from "react";
 import { Card, Tabs, Tooltip } from "antd";
-import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  HeartOutlined,
+  ShoppingCartOutlined,
+  HeartFilled,
+} from "@ant-design/icons";
 import { Carousel } from "react-responsive-carousel";
 import { useSelector, useDispatch } from "react-redux";
 import _ from "lodash";
@@ -11,15 +15,27 @@ import ProductListItems from "./ProductListItems";
 import StarRating from "react-star-ratings";
 import RatingModal from "../modals/RatingModal";
 import AverageRating from "../../Components/cards/AverageRating";
+import axios from "axios";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { toast } from "react-toastify";
 const { TabPane } = Tabs;
 
 const SingleProductCard = ({ product, handleStarClick, starRating }) => {
-  const { title, images, description, quantity } = product;
+  const { title, images, description, quantity, _id } = product;
   const { slug } = useParams();
   const dispatch = useDispatch();
 
+  const { userInfo } = useSelector((state) => state.userLogin);
+
   const [tooltip, setTooltip] = useState("Add To Cart");
+  // const [isAdded, setIsAdded] = useState(false);
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: userInfo.token,
+    },
+  };
 
   const addToCart = () => {
     let cart = [];
@@ -40,6 +56,20 @@ const SingleProductCard = ({ product, handleStarClick, starRating }) => {
       dispatch({ type: "SET_VISIBLE", payload: true });
       setTooltip("Added");
     }
+  };
+
+  //add to wishlist
+  const addToWishlist = async () => {
+    await axios
+      .put(`http://localhost:5000/api/user/wishlist/${_id}`, {}, config)
+      .then((res) => {
+        if (res.data.ok) {
+          toast.success("Added to wishlist");
+        }
+      })
+      .catch((err) => {
+        toast.error("Error while adding to wishlist");
+      });
   };
 
   return (
@@ -74,10 +104,10 @@ const SingleProductCard = ({ product, handleStarClick, starRating }) => {
                 {quantity < 1 ? "Out Of Stock" : "Add To Cart"}
               </a>
             </Tooltip>,
-            <>
+            <a onClick={addToWishlist}>
               <HeartOutlined className='text-warning' />
               Add To Wishlist
-            </>,
+            </a>,
             <>
               <RatingModal starRating={starRating} slug={slug}>
                 <StarRating

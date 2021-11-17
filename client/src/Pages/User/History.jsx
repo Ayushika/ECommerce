@@ -134,6 +134,18 @@ const History = ({ history }) => {
   //show all orders card
   const showOrders = () =>
     orders.map((order, i) => {
+      let alertColor = "error";
+      if (order.orderStaus === "NOT PROCESSED") {
+        alertColor = "error";
+      } else if (order.orderStaus === "Processing") {
+        alertColor = "warning";
+      } else if (order.orderStaus === "Dispatched") {
+        alertColor = "warning";
+      } else if (order.orderStaus === "Cancelled") {
+        alertColor = "info";
+      } else if (order.orderStaus === "Delievered") {
+        alertColor = "success";
+      }
       return (
         <Card
           key={i}
@@ -151,13 +163,13 @@ const History = ({ history }) => {
               <PDFDownloadLink
                 document={<Invoice order={order} />}
                 fileName='invoice.pdf'>
-                <DownloadOutlined className='text-info' /> , Download PDF
+                <DownloadOutlined className='text-info' /> ,<br /> Download PDF
               </PDFDownloadLink>
             </>,
           ]}>
           <Alert
             message={`Order Status  :  ${order.orderStaus.toUpperCase()}`}
-            type='warning'
+            type={alertColor}
             className='mt-2 mb-2'
           />
           {showOrderDetails(order)}
