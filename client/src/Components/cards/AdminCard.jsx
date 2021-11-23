@@ -25,7 +25,7 @@ const AdminCard = ({ product }) => {
           <img
             alt={images[0].url}
             src={images[0].url}
-            style={{ height: "150px", objectFit: "cover" }}
+            style={{ height: "180px", objectFit: "cover" }}
           />
         ) : (
           ""
@@ -42,7 +42,7 @@ const AdminCard = ({ product }) => {
       ]}>
       <Meta
         title={title}
-        description={`${description && description.substring(0, 20)}...`}
+        description={`${description && description.substring(0, 40)}...`}
       />
     </Card>
   );

@@ -36,7 +36,6 @@ export const login = (email, password, history) => async (dispatch) => {
       const idTokenResult = await user.getIdTokenResult();
       registerUser(idTokenResult)
         .then((res) => {
-          console.log(res);
           dispatch({
             type: USER_LOGIN_SUCCESS,
             payload: res.data,

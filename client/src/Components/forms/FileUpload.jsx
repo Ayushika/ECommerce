@@ -74,7 +74,6 @@ const FileUpload = ({ values, setValues }) => {
               })
               .catch((error) => {
                 setImageLoading(false);
-                console.log(error);
                 toast.error("Upload failed");
               });
           },

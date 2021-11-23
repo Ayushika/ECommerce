@@ -31,6 +31,7 @@ const CouponCreate = () => {
     await axios
       .delete(`http://localhost:5000/api/coupon/${id}`, config)
       .then((res) => {
+        loadAllCoupons();
         toast.success("Deleted successfully");
       })
       .catch((error) => {
@@ -50,6 +51,7 @@ const CouponCreate = () => {
       )
       .then((res) => {
         setLoading(false);
+        loadAllCoupons();
         toast.success("Created Successfully");
         setName("");
         setDiscount("");
@@ -61,11 +63,15 @@ const CouponCreate = () => {
       });
   };
 
-  useEffect(async () => {
+  useEffect(() => {
+    loadAllCoupons();
+  }, []);
+
+  const loadAllCoupons = async () => {
     await axios.get("http://localhost:5000/api/coupon/all").then((res) => {
       setCoupons(res.data);
     });
-  }, [handleRemove, handleSubmit]);
+  };
 
   return (
     <div className='container-fluid'>

@@ -9,7 +9,7 @@ import TopRated from "../Components/home/TopRated";
 const Home = () => {
   return (
     <>
-      <div className='jumbotron text-info h1 font-weight-bold text-center'>
+      <div className='jumbotron text-info h1 font-weight-bold text-center '>
         <Jumbotron text={["Latest Products", "New Arrivals", "Best Sellers"]} />
       </div>
 

@@ -66,8 +66,6 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
 //createCashOrder
 const createCashOrder = asyncHandler(async (req, res) => {
   const { cashOrder, couponApplied } = req.body;
-
-  console.log("coupon : ", couponApplied);
   if (cashOrder === false) {
     res.status(404).json("Error while making payment");
   }
@@ -88,8 +86,7 @@ const createCashOrder = asyncHandler(async (req, res) => {
     finalAmount = cartTotal * 100;
   }
 
-  console.log("Total ", totalAfterDiscount);
-  console.log("Final ", finalAmount);
+
   //create new order
   const newOrder = await new Order({
     products,
@@ -116,7 +113,6 @@ const createCashOrder = asyncHandler(async (req, res) => {
 
   const updatedProduct = await Product.bulkWrite(bulkOption, { new: true });
 
-  // console.log("Product Updated", updatedProduct);
   res.json({ ok: true });
 });
 

@@ -35,12 +35,14 @@ const CategoryProductList = () => {
           <LoadingCard count={3} />
         ) : totalProducts > 0 ? (
           <>
-            <h5 className=' display-4 mt-5 text-center'>Products</h5>
+            <h5 className=' display-4 mt-5 mb-2  text-center'>
+              {slug.toUpperCase()}
+            </h5>
             <div className='underline'></div>
             <div className='row'>
               {products &&
                 products.map((product) => (
-                  <div key={product._id} className='col-md-4'>
+                  <div key={product._id} className='col-md-4 mt-3'>
                     <ProductCard product={product} />
                   </div>
                 ))}

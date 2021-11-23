@@ -19,7 +19,6 @@ const SubcategoryProductList = () => {
     axios
       .post(`http://localhost:5000/api/product/subcategory/${slug}`, { page })
       .then((res) => {
-        console.log(res);
         setLoading(false);
         setProducts(res.data.products);
         setTotalProducts(res.data.total);
@@ -36,12 +35,14 @@ const SubcategoryProductList = () => {
           <LoadingCard count={3} />
         ) : totalProducts > 0 ? (
           <>
-            <h5 className=' display-4 mt-5 text-center'>Products</h5>
+            <h5 className=' display-4 mt-5 text-center'>
+              {slug.toUpperCase()}
+            </h5>
             <div className='underline'></div>
             <div className='row'>
               {products &&
                 products.map((product) => (
-                  <div key={product._id} className='col-md-4'>
+                  <div key={product._id} className='col-md-4 mt-3'>
                     <ProductCard product={product} />
                   </div>
                 ))}

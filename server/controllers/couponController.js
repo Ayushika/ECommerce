@@ -5,6 +5,7 @@ const Coupon = require("../models/couponModel");
 
 const createCoupon = asyncHandler(async (req, res) => {
   const { name, expiry, discount } = req.body;
+  
   const coupon = await new Coupon({ name, expiry, discount }).save();
   res.json(coupon);
 });

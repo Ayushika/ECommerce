@@ -79,16 +79,6 @@ const ProductListItems = ({ product }) => {
           {sold}
         </span>
       </li>
-      {/* <li className='list-group-item text-muted'>
-        Rating
-        <span className='label label-default label-pill pull-xs-right text-muted'>
-          {product && product.ratings && product.ratings.length > 0 ? (
-            <AverageRating product={product} />
-          ) : (
-            "No Rating Yet"
-          )}
-        </span>
-      </li> */}
     </ul>
   );
 };

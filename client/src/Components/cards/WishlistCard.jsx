@@ -1,11 +1,10 @@
 /** @format */
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Card, Tooltip } from "antd";
 import {
   DeleteOutlined,
   EyeOutlined,
-  HeartOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -17,7 +16,7 @@ import axios from "axios";
 import _ from "lodash";
 const { Meta } = Card;
 
-const ProductCard = ({ product, setResult }) => {
+const WishlistCard = ({ product, setResult }) => {
   const { images, title, description, slug, price, quantity, _id } = product;
 
   const [tooltip, setTooltip] = useState("Add To Cart");
@@ -41,9 +40,7 @@ const ProductCard = ({ product, setResult }) => {
       }
 
       if (cart.length > 0) {
-        console.log(product._id);
         cart = cart.filter((c) => c._id !== product._id);
-        console.log(cart);
       }
 
       cart.push({
@@ -74,20 +71,6 @@ const ProductCard = ({ product, setResult }) => {
         toast.error("Error while removing from wishlist");
       });
   };
-
-  //add to wishlist
-  // const addToWishlist = async () => {
-  //   await axios
-  //     .put(`http://localhost:5000/api/user/wishlist/${_id}`, {}, config)
-  //     .then((res) => {
-  //       if (res.data.ok) {
-  //         toast.success("Added to wishlist");
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       toast.error("Error while adding to wishlist");
-  //     });
-  // };
 
   return (
     <Card
@@ -138,4 +121,4 @@ const ProductCard = ({ product, setResult }) => {
   );
 };
 
-export default ProductCard;
+export default WishlistCard;

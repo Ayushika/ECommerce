@@ -25,7 +25,6 @@ const UpdatePassword = () => {
       })
       .catch((error) => {
         setLoading(false);
-        console.log(error);
         toast.error(error.message);
       });
   };

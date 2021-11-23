@@ -4,6 +4,7 @@ import React from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Card } from "antd";
 import ProductCardInCheckout from "../Components/cards/ProductCardInCheckout";
 import { toast } from "react-toastify";
 
@@ -63,47 +64,54 @@ const Cart = ({ history }) => {
 
   return (
     <div className='container-fluid mt-4'>
-      <div className='row ml-5'>
+      <div className='row '>
         <div className='col-md-8'>
-          <h4>Cart / {cart.length} Products</h4>
+          <h5 className='display-4 text-center'>Cart</h5>
           {cart.length === 0 ? (
-            <p>
+            <h5 className='display-5 mt-5 text-center'>
               No products in cart. <Link to='/shop'>Continue Shopping</Link>
-            </p>
+            </h5>
           ) : (
             showCartItems()
           )}
         </div>
-        <div className='col-md-3 mr-5'>
-          <h4 className='mb-5'>Order Summary</h4>
-          {cart.map((c, i) => {
-            return (
-              <div key={i} className='mb-3'>
-                <h6 className='text-muted'>
-                  {c.title} x {c.count} = Rs {c.price * c.count}
-                </h6>
-              </div>
-            );
-          })}
-          <hr className='mb-3' />
-          <h6 className='text-muted'>
-            Total :{" "}
-            <span className='font-weight-bold text-dark'> Rs {getTotal()}</span>
-          </h6>
-          <hr />
-          {userInfo ? (
-            <div
-              className='mt-2 text-info h6'
-              onClick={saveOrderToDb}
-              style={{ cursor: "pointer" }}>
-              Proceed To Checkout
-            </div>
-          ) : (
-            <div className='mt-2 text-info h6'>
-              <Link to={{ pathname: "/login", state: { from: "/cart" } }}>
-                Login To Checkout
-              </Link>
-            </div>
+        <div className='col-md-4'>
+          {cart && cart.length > 0 && (
+            <Card>
+              <h5 className='display-4 text-center mb-5'>Order Summary</h5>
+              {cart.map((c, i) => {
+                return (
+                  <div key={i} className='mb-3 mt-2'>
+                    <h6 className='text-muted'>
+                      {c.title} x {c.count} = Rs {c.price * c.count}
+                    </h6>
+                  </div>
+                );
+              })}
+              <hr className='mb-3 mr-2' />
+              <h6 className='text-muted'>
+                Total :{" "}
+                <span className='font-weight-bold text-dark'>
+                  {" "}
+                  Rs {getTotal()}
+                </span>
+              </h6>
+              <hr className='mb-3 mr-2' />
+              {userInfo ? (
+                <div
+                  className='mt-2 text-info h6'
+                  onClick={saveOrderToDb}
+                  style={{ cursor: "pointer" }}>
+                  Proceed To Checkout
+                </div>
+              ) : (
+                <div className='mt-2 text-info h6'>
+                  <Link to={{ pathname: "/login", state: { from: "/cart" } }}>
+                    Login To Checkout
+                  </Link>
+                </div>
+              )}
+            </Card>
           )}
         </div>
       </div>

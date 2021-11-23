@@ -1,24 +1,20 @@
 /** @format */
 
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { Card, Tooltip } from "antd";
 import {
-  DeleteOutlined,
   EyeOutlined,
-  HeartOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import AverageRating from "./AverageRating";
-import { toast } from "react-toastify";
 import StarRating from "react-star-ratings";
-import axios from "axios";
 import _ from "lodash";
 const { Meta } = Card;
 
-const ProductCard = ({ product, wishlist, setResult }) => {
-  const { images, title, description, slug, price, quantity, _id } = product;
+const ProductCard = ({ product }) => {
+  const { images, title, description, slug, price, quantity } = product;
 
   const [tooltip, setTooltip] = useState("Add To Cart");
   const dispatch = useDispatch();
@@ -31,9 +27,7 @@ const ProductCard = ({ product, wishlist, setResult }) => {
       }
 
       if (cart.length > 0) {
-        console.log(product._id);
         cart = cart.filter((c) => c._id !== product._id);
-        console.log(cart);
       }
 
       cart.push({
@@ -57,7 +51,7 @@ const ProductCard = ({ product, wishlist, setResult }) => {
           <img
             alt={images[0].url}
             src={images[0].url}
-            style={{ height: "150px", objectFit: "cover" }}
+            style={{ height: "180px", objectFit: "cover" }}
           />
         ) : (
           ""
@@ -76,7 +70,7 @@ const ProductCard = ({ product, wishlist, setResult }) => {
       ]}>
       <Meta
         title={`${title} - Rs ${price}`}
-        description={`${description && description.substring(0, 20)}...`}
+        description={`${description && description.substring(0, 40)}...`}
       />
 
       <p style={{ marginTop: "10px" }}>

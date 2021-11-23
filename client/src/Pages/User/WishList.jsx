@@ -19,14 +19,17 @@ const WishList = () => {
     },
   };
 
-  useEffect(async () => {
+  useEffect(() => {
+    getWishlist();
+  }, [result]);
+
+  const getWishlist = async () => {
     await axios
       .get("http://localhost:5000/api/user/wishlist/all", config)
       .then((res) => {
-        console.log(res.data);
         setProducts(res.data.wishlist);
       });
-  }, [result]);
+  };
 
   return (
     <div className='container-fluid'>

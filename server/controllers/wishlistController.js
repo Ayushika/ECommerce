@@ -29,8 +29,6 @@ const getWishlist = asyncHandler(async (req, res) => {
     .populate("wishlist")
     .exec();
 
-  console.log("length: " + wishlist.length);
-  console.log("Wishlist", wishlist);
   res.json(wishlist);
 });
 

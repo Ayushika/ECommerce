@@ -12,7 +12,7 @@ const { Option } = Select;
 const AdminDashboard = () => {
   const { userInfo } = useSelector((state) => state.userLogin);
   const [orders, setOrders] = useState([]);
-  const [result , setResult] =useState(false);
+  const [result, setResult] = useState(false);
 
   const config = {
     headers: {
@@ -28,7 +28,7 @@ const AdminDashboard = () => {
         config,
       )
       .then((res) => {
-        setResult(true)
+        setResult(true);
         toast.success("Successfully updated Order Status");
       })
       .catch((err) => {
@@ -36,11 +36,15 @@ const AdminDashboard = () => {
       });
   };
 
-  useEffect(async () => {
+  useEffect(() => {
+    getAllOrders();
+  }, [result]);
+
+  const getAllOrders = async () => {
     await axios
       .get("http://localhost:5000/api/admin/order/all", config)
       .then((res) => setOrders(res.data));
-  }, [result]);
+  };
 
   return (
     <div className='container-fluid'>
@@ -135,19 +139,11 @@ const AdminDashboard = () => {
                         <tbody>
                           {order.products.map((p, i) => (
                             <tr key={i}>
-                              <td scope='col' className='text-center'>
-                                {p.product.title}
-                              </td>
-                              <td scope='col' className='text-center'>
-                                {p.product.price}
-                              </td>
-                              <td scope='col' className='text-center'>
-                                {p.color}
-                              </td>
-                              <td scope='col' className='text-center'>
-                                {p.count}
-                              </td>
-                              <td scope='col' className='text-center'>
+                              <td className='text-center'>{p.product.title}</td>
+                              <td className='text-center'>{p.product.price}</td>
+                              <td className='text-center'>{p.color}</td>
+                              <td className='text-center'>{p.count}</td>
+                              <td className='text-center'>
                                 {p.product.shipping === "Yes" ? (
                                   <CheckCircleOutlined className='text-success' />
                                 ) : (

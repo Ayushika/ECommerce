@@ -151,7 +151,6 @@ export const updateSubCategoryAction =
         { name, category },
         config,
       );
-      console.log(res.data);
       dispatch({ type: UPDATE_SUBCATEGORY_SUCCESS, payload: res.data });
       toast.success(`SubCategory ${name} updated successfully`);
     } catch (error) {

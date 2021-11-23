@@ -35,9 +35,10 @@ const RelatedProducts = () => {
   return (
     <>
       {products && products.length > 0 && (
-        <h5 className=' display-4 mt-5 mb-5 p-2 text-center jumbotron'>
-          Related Products
-        </h5>
+        <>
+          <h5 className=' display-4 mt-5 text-center'>RELATED PRODUCTS</h5>
+          <div className='underline'></div>
+        </>
       )}
       <div className='container'>
         {loading ? (
@@ -46,7 +47,7 @@ const RelatedProducts = () => {
           <div className='row'>
             {products &&
               products.map((product) => (
-                <div key={product._id} className='col-md-4'>
+                <div key={product._id} className='col-md-4 mt-4'>
                   <ProductCard product={product} />
                 </div>
               ))}

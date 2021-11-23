@@ -1,12 +1,8 @@
 /** @format */
 
 import React, { useState } from "react";
-import { Card, Tabs, Tooltip } from "antd";
-import {
-  HeartOutlined,
-  ShoppingCartOutlined,
-  HeartFilled,
-} from "@ant-design/icons";
+import { Card,  Tooltip } from "antd";
+import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Carousel } from "react-responsive-carousel";
 import { useSelector, useDispatch } from "react-redux";
 import _ from "lodash";
@@ -18,12 +14,13 @@ import AverageRating from "../../Components/cards/AverageRating";
 import axios from "axios";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { toast } from "react-toastify";
-const { TabPane } = Tabs;
+import { useHistory } from "react-router-dom";
 
 const SingleProductCard = ({ product, handleStarClick, starRating }) => {
   const { title, images, description, quantity, _id } = product;
   const { slug } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { userInfo } = useSelector((state) => state.userLogin);
 
@@ -80,19 +77,17 @@ const SingleProductCard = ({ product, handleStarClick, starRating }) => {
               <img alt={i.url} src={i.url} key={i.public_id} />
             ))}
         </Carousel>
-        <Tabs type='card'>
-          <TabPane key='1' tab='Description'>
-            {description}
-          </TabPane>
-        </Tabs>
       </div>
       <div className='col-md-5'>
-        <h2 className='pt-3'>{title}</h2>
-        <div className='pb-2'>
+        <h5 className=' display-5 font-weight-bold mt-2 mb-2 '>
+          {title && title.length > 0 && title.toUpperCase()}
+        </h5>
+        <p className='text-muted '>{description}</p>
+        <div className=' pb-2'>
           {product && product.ratings && product.ratings.length > 0 ? (
             <AverageRating product={product} />
           ) : (
-            "No Rating Yet"
+            <p className='text-muted'>No Ratings Yet</p>
           )}
         </div>
         <Card
@@ -110,10 +105,10 @@ const SingleProductCard = ({ product, handleStarClick, starRating }) => {
                   Add To Wishlist
                 </a>
               ) : (
-                <>
-                  <HeartOutlined className='text-warning' />
+                <a onClick={() => history.push("/login")}>
+                  <HeartOutlined className='text-warning' />,<br />
                   Login To Add To Wishlist
-                </>
+                </a>
               )}
             </>,
             <>

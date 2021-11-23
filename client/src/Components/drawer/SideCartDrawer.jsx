@@ -11,7 +11,6 @@ const SideCartDrawer = () => {
 
   return (
     <Drawer
-      // width='22%'
       title='Cart'
       closable={false}
       onClose={() => dispatch({ type: "SET_VISIBLE", payload: false })}
@@ -22,6 +21,7 @@ const SideCartDrawer = () => {
             {p.images[0] ? (
               <>
                 <img
+                alt={p.images[0].url}
                   src={p.images[0].url}
                   style={{ width: "100%", height: "100px", objectFit: "cover" }}
                 />

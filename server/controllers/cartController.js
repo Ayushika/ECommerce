@@ -16,7 +16,6 @@ const saveCartToDb = asyncHandler(async (req, res) => {
 
   if (cartExistByUser) {
     cartExistByUser.remove();
-    console.log("Remove old cart");
   }
 
   let cartTotal = 0;
@@ -38,8 +37,6 @@ const saveCartToDb = asyncHandler(async (req, res) => {
     cartTotal,
     orderBy: user._id,
   }).save();
-
-  console.log("New Cart", products);
   res.json({ ok: true });
 });
 

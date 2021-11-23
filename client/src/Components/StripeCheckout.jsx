@@ -6,12 +6,10 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
-const StripeCheckout = ({ history }) => {
+const StripeCheckout = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userLogin);
   const { coupon } = useSelector((state) => state);
-
-  const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
   const [total, setTotal] = useState(0);
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
@@ -19,7 +17,6 @@ const StripeCheckout = ({ history }) => {
   const [disabled, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState("");
   const [finalAmount, setFinalAmount] = useState(0);
-  const [message, setMessage] = useState("");
 
   const stripe = useStripe();
   const elements = useElements();
@@ -31,7 +28,11 @@ const StripeCheckout = ({ history }) => {
     },
   };
 
-  useEffect(async () => {
+  useEffect(() => {
+    createPayment();
+  }, []);
+
+  const createPayment = async () => {
     await axios
       .post(
         "http://localhost:5000/api/create-payment-intent",
@@ -39,13 +40,11 @@ const StripeCheckout = ({ history }) => {
         config,
       )
       .then((res) => {
-        console.log("checkout : ", res);
         setClientSecret(res.data.clientSecret);
-        setTotalAfterDiscount(res.data.totalAfterDiscount);
         setTotal(res.data.cartTotal);
         setFinalAmount(res.data.payable);
       });
-  }, []);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,7 +74,6 @@ const StripeCheckout = ({ history }) => {
         .then((res) => {
           if (res.data.ok) {
             //empty cart from local storage
-            console.log("result", res);
             if (typeof window !== "undefined") {
               window.localStorage.removeItem("cart");
             }
@@ -133,11 +131,6 @@ const StripeCheckout = ({ history }) => {
           subTitle={
             <>
               <p className='text-muted'>Total Amount: Rs {total}</p>
-              {coupon && totalAfterDiscount !== undefined && (
-                <p className='text-muted'>
-                  Discount : Rs {total - totalAfterDiscount}
-                </p>
-              )}
               <p className='text-muted'>Total Paid Amount: Rs {finalAmount}</p>
               <h5>
                 <Link to='/user/history'>See it in your purchase history</Link>
@@ -147,6 +140,10 @@ const StripeCheckout = ({ history }) => {
         />
       ) : (
         <>
+          <h6 className='display-5 text-muted text-center mb-4'>
+            For Testing Purpose Use Credit Card Details <br /> 4242 4242 4242
+            4242
+          </h6>
           {coupon ? (
             <Alert
               message={"Coupon Applied"}

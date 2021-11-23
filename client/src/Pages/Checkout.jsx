@@ -38,7 +38,11 @@ const Checkout = ({ history }) => {
     },
   };
 
-  useEffect(async () => {
+  useEffect(() => {
+    getCartItems();
+  }, []);
+
+  const getCartItems = async () => {
     await axios
       .get("http://localhost:5000/api/user/cart", config)
       .then((res) => {
@@ -48,14 +52,11 @@ const Checkout = ({ history }) => {
       .catch((err) => {
         toast.error(err.message);
       });
-  }, []);
+  };
 
   //Empty cart object
   const emptyCart = async () => {
-    await axios
-      .delete("http://localhost:5000/api/user/cart", config)
-      .then((res) => {})
-      .catch((error) => console.log(error.message));
+    await axios.delete("http://localhost:5000/api/user/cart", config);
   };
 
   //save address to database
@@ -186,7 +187,6 @@ const Checkout = ({ history }) => {
 
   //cash order backend request
   const cashOrderToDatabase = async () => {
-    console.log("order", couponApplied);
     await axios
       .post(
         "http://localhost:5000/api/user/cash-order",
@@ -268,20 +268,26 @@ const Checkout = ({ history }) => {
                       }
                     }}
                     onCancel={() => setShowModal(false)}>
-                    <Button
-                      onClick={() => {
-                        setModeOfPayment("online");
-                        dispatch({ type: "CASH_ORDER", payload: false });
-                      }}>
-                      Online Pay
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setModeOfPayment("cash");
-                        dispatch({ type: "CASH_ORDER", payload: true });
-                      }}>
-                      Cash On Delievery
-                    </Button>
+                    <div className='row'>
+                      <Button
+                        className='col-md-6 offset-md-3 mb-3'
+                        onClick={() => {
+                          setModeOfPayment("online");
+                          dispatch({ type: "CASH_ORDER", payload: false });
+                        }}>
+                        <i class='fab fa-cc-stripe mr-4'></i>
+                        Online Pay
+                      </Button>
+                      <Button
+                        className='col-md-6 offset-md-3 mb-3'
+                        onClick={() => {
+                          setModeOfPayment("cash");
+                          dispatch({ type: "CASH_ORDER", payload: true });
+                        }}>
+                        <i class='fas fa-wallet mr-4'></i>
+                        Cash On Delievery
+                      </Button>
+                    </div>
                   </Modal>
                 </div>
               </div>

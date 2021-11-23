@@ -26,8 +26,6 @@ const ProductCardInCheckout = ({ p }) => {
     "Silver",
   ];
 
-  console.log("Product", p);
-
   //change count
   const handleCountChange = (e) => {
     if (e.target.value < 1) {
@@ -94,7 +92,7 @@ const ProductCardInCheckout = ({ p }) => {
 
   return (
     <tr>
-      <td scope='col' className='text-center'>
+      <td className='text-center'>
         <div
           style={{
             height: "auto",
@@ -109,16 +107,10 @@ const ProductCardInCheckout = ({ p }) => {
           />
         </div>
       </td>
-      <td scope='col' className='text-center'>
-        {p.title}
-      </td>
-      <td scope='col' className='text-center'>
-        {p.price}
-      </td>
-      <td scope='col' className='text-center'>
-        {p.brand.name}
-      </td>
-      <td scope='col' className='text-center'>
+      <td className='text-center'>{p.title}</td>
+      <td className='text-center'>{p.price}</td>
+      <td className='text-center'>{p.brand.name}</td>
+      <td className='text-center'>
         <select
           style={{ marginTop: "-10px" }}
           className='form-control'
@@ -138,7 +130,7 @@ const ProductCardInCheckout = ({ p }) => {
           ))}
         </select>
       </td>
-      <td scope='col' className='text-center'>
+      <td className='text-center'>
         <input
           type='number'
           style={{ width: "90px", marginTop: "-6px" }}
@@ -147,7 +139,7 @@ const ProductCardInCheckout = ({ p }) => {
           value={p.count}
         />
       </td>
-      <td scope='col' className='text-center'>
+      <td className='text-center'>
         {p.shipping === "Yes" ? (
           <CheckCircleOutlined
             style={{ cursor: "pointer" }}
@@ -160,7 +152,7 @@ const ProductCardInCheckout = ({ p }) => {
           />
         )}
       </td>
-      <td scope='col' className='text-center'>
+      <td className='text-center'>
         <DeleteOutlined
           onClick={handleDelete}
           style={{ cursor: "pointer" }}

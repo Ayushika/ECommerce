@@ -1,18 +1,26 @@
 /** @format */
 import { Switch, Route } from "react-router-dom";
 import Home from "./Pages/Home";
+import Checkout from "./Pages/Checkout";
+
+/* Auth */
 import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
-import Checkout from "./Pages/Checkout";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import UpdatePassword from "./Pages/Auth/UpdatePassword";
 import CompleteRegister from "./Pages/Auth/CompleteRegister";
-import AdminDashboard from "./Pages/Admin/AdminDashboard";
-import Header from "./Components/nav/Header";
-import SideCartDrawer from "./Components/drawer/SideCartDrawer";
+
+/* UserRoutes*/
 import History from "./Pages/User/History";
 import Wishlist from "./Pages/User/WishList";
 import UserRoute from "./Components/protectedRoutes/UserRoute";
+
+/*Components*/
+import Header from "./Components/nav/Header";
+import SideCartDrawer from "./Components/drawer/SideCartDrawer";
+
+/*Admin */
+import AdminDashboard from "./Pages/Admin/AdminDashboard";
 import AdminRoute from "./Components/protectedRoutes/AdminRoute";
 import CategoryCreate from "../src/Pages/Admin/category/CategoryCreate";
 import CategoryUpdate from "../src/Pages/Admin/category/CategoryUpdate";
@@ -23,16 +31,20 @@ import BrandUpdate from "./Pages/Admin/brand/BrandUpdate";
 import ProductCreate from "./Pages/Admin/product/ProductCreate";
 import AllProducts from "./Pages/Admin/product/AllProducts";
 import ProductUpdate from "./Pages/Admin/product/ProductUpdate";
+import CouponCreate from "./Pages/Admin/coupon/CouponCreate";
+
+/* Pages */
 import CategoryProductList from "./Pages/CategoryProductList";
 import SubcategoryProductList from "./Pages/SubcategoryProductList";
 import BrandProductList from "./Pages/BrandProductList";
 import Product from "./Pages/Product";
 import Cart from "./Pages/Cart";
+import Shop from "./Pages/Shop";
+import Payment from "./Pages/Payment";
+
+import NotFound from "./Components/NotFound"
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Shop from "./Pages/Shop";
-import CouponCreate from "./Pages/Admin/coupon/CouponCreate";
-import Payment from "./Pages/Payment";
 
 const App = () => {
   return (
@@ -92,6 +104,7 @@ const App = () => {
         <UserRoute exact path='/checkout' component={Checkout} />
         <UserRoute exact path='/payment' component={Payment} />
         <AdminRoute exact path='/admin/coupon' component={CouponCreate} />
+        <Route component={NotFound}/>
       </Switch>
     </>
   );

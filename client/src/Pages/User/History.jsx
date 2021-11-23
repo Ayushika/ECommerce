@@ -28,14 +28,17 @@ const History = ({ history }) => {
   };
 
   //get orders from db
-  useEffect(async () => {
+  useEffect(() => {
+    getAllOrders();
+  }, []);
+
+  const getAllOrders = async () => {
     await axios
       .get("http://localhost:5000/api/user/orders", config)
       .then((res) => {
-        console.log(JSON.stringify(res.data, null, 4));
         setOrders(res.data);
       });
-  }, []);
+  };
 
   //payment info modal
   const paymentModal = (order) =>
@@ -90,7 +93,7 @@ const History = ({ history }) => {
         <tbody>
           {order.products.map((p, i) => (
             <tr key={i}>
-              <td scope='col' className='text-center'>
+              <td className='text-center'>
                 <div
                   style={{
                     height: "auto",
@@ -105,19 +108,11 @@ const History = ({ history }) => {
                   />
                 </div>
               </td>
-              <td scope='col' className='text-center'>
-                {p.product.title}
-              </td>
-              <td scope='col' className='text-center'>
-                {p.product.price}
-              </td>
-              <td scope='col' className='text-center'>
-                {p.color}
-              </td>
-              <td scope='col' className='text-center'>
-                {p.count}
-              </td>
-              <td scope='col' className='text-center'>
+              <td className='text-center'>{p.product.title}</td>
+              <td className='text-center'>{p.product.price}</td>
+              <td className='text-center'>{p.color}</td>
+              <td className='text-center'>{p.count}</td>
+              <td className='text-center'>
                 {p.product.shipping === "Yes" ? (
                   <CheckCircleOutlined className='text-success' />
                 ) : (
@@ -163,7 +158,8 @@ const History = ({ history }) => {
               <PDFDownloadLink
                 document={<Invoice order={order} />}
                 fileName='invoice.pdf'>
-                <DownloadOutlined className='text-info' /> ,<br /> Download PDF
+                <DownloadOutlined className='text-info' /> ,<br /> Download
+                Invoice
               </PDFDownloadLink>
             </>,
           ]}>
