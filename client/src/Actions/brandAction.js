@@ -31,11 +31,7 @@ export const createBrandAction =
           Authorization: idTokenResult,
         },
       };
-      const res = await axios.put(
-        `http://localhost:5000/api/brand`,
-        { name, category },
-        config,
-      );
+      const res = await axios.put(`/api/brand`, { name, category }, config);
       dispatch({ type: CREATE_BRAND_SUCCESS, payload: res.data });
       toast.success(`Brand ${name} created successfully`);
     } catch (error) {
@@ -58,7 +54,7 @@ export const createBrandAction =
 export const getAllBrandsAction = () => async (dispatch) => {
   try {
     dispatch({ type: GET_BRANDS_REQUEST });
-    const res = await axios.get("http://localhost:5000/api/brand/all");
+    const res = await axios.get("/api/brand/all");
     dispatch({ type: GET_BRANDS_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -86,7 +82,7 @@ export const deleteBrandAction = (slug, idTokenResult) => async (dispatch) => {
         Authorization: idTokenResult,
       },
     };
-    await axios.delete(`http://localhost:5000/api/brand/${slug}`, config);
+    await axios.delete(`/api/brand/${slug}`, config);
     dispatch({ type: DELETE_BRAND_SUCCESS });
     toast.success(`Brand ${slug} deleted successfully`);
   } catch (error) {
@@ -109,7 +105,7 @@ export const deleteBrandAction = (slug, idTokenResult) => async (dispatch) => {
 export const getBrandAction = (slug) => async (dispatch) => {
   try {
     dispatch({ type: GET_BRAND_REQUEST });
-    const res = await axios.get(`http://localhost:5000/api/brand/${slug}`);
+    const res = await axios.get(`/api/brand/${slug}`);
     dispatch({ type: GET_BRAND_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -141,7 +137,7 @@ export const updateBrandAction =
       };
 
       const res = await axios.put(
-        `http://localhost:5000/api/brand/${slug}`,
+        `/api/brand/${slug}`,
         { name, category },
         config,
       );

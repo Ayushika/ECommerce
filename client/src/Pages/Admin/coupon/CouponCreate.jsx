@@ -29,7 +29,7 @@ const CouponCreate = () => {
   //deletions
   const handleRemove = async (id) => {
     await axios
-      .delete(`http://localhost:5000/api/coupon/${id}`, config)
+      .delete(`/api/coupon/${id}`, config)
       .then((res) => {
         loadAllCoupons();
         toast.success("Deleted successfully");
@@ -45,7 +45,7 @@ const CouponCreate = () => {
     setLoading(true);
     await axios
       .post(
-        "http://localhost:5000/api/coupon",
+        "/api/coupon",
         { name, expiry, discount },
         config,
       )
@@ -68,7 +68,7 @@ const CouponCreate = () => {
   }, []);
 
   const loadAllCoupons = async () => {
-    await axios.get("http://localhost:5000/api/coupon/all").then((res) => {
+    await axios.get("/api/coupon/all").then((res) => {
       setCoupons(res.data);
     });
   };

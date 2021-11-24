@@ -34,11 +34,7 @@ const StripeCheckout = () => {
 
   const createPayment = async () => {
     await axios
-      .post(
-        "http://localhost:5000/api/create-payment-intent",
-        { coupon },
-        config,
-      )
+      .post("/api/create-payment-intent", { coupon }, config)
       .then((res) => {
         setClientSecret(res.data.clientSecret);
         setTotal(res.data.cartTotal);
@@ -70,7 +66,7 @@ const StripeCheckout = () => {
       setSucceeded(true);
       //create order and save in db for admin to processing
       await axios
-        .post("http://localhost:5000/api/user/order", { paymentIntent }, config)
+        .post("/api/user/order", { paymentIntent }, config)
         .then((res) => {
           if (res.data.ok) {
             //empty cart from local storage
@@ -94,7 +90,7 @@ const StripeCheckout = () => {
   //Empty cart object
   const emptyCart = async () => {
     await axios
-      .delete("http://localhost:5000/api/user/cart", config)
+      .delete("/api/user/cart", config)
       .then((res) => {})
       .catch((error) => console.log(error.message));
   };

@@ -26,7 +26,7 @@ const ForgotPassword = ({ history }) => {
     setLoading(true);
 
     const config = {
-      url: "http://localhost:3000/login",
+      url: "https://gadget-gram.herokuapp.com/login",
       handleCodeInApp: true,
     };
 

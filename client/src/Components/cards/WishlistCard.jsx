@@ -60,7 +60,7 @@ const WishlistCard = ({ product, setResult }) => {
   //   remove from wishlist
   const removeFromWishlist = async () => {
     await axios
-      .delete(`http://localhost:5000/api/user/wishlist/${_id}`, config)
+      .delete(`/api/user/wishlist/${_id}`, config)
       .then((res) => {
         if (res.data.ok) {
           setResult((prev) => !prev);

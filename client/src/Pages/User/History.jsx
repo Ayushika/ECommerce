@@ -34,7 +34,7 @@ const History = ({ history }) => {
 
   const getAllOrders = async () => {
     await axios
-      .get("http://localhost:5000/api/user/orders", config)
+      .get("/api/user/orders", config)
       .then((res) => {
         setOrders(res.data);
       });

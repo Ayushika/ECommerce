@@ -13,10 +13,9 @@ const NewArrival = ({ role }) => {
   const [page, setPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
 
-
   useEffect(() => {
     axios
-      .post("http://localhost:5000/api/product/home", {
+      .post("/api/product/home", {
         sort: "createdAt",
         order: "desc",
         page,

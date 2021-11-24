@@ -17,7 +17,7 @@ const CategoryProductList = () => {
 
   useEffect(() => {
     axios
-      .post(`http://localhost:5000/api/product/category/${slug}`, { page })
+      .post(`/api/product/category/${slug}`, { page })
       .then((res) => {
         setLoading(false);
         setProducts(res.data.products);

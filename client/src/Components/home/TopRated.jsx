@@ -14,15 +14,15 @@ const TopRated = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:5000/api/product/home", {
+      .post("/api/product/home", {
         sort: "ratings",
         order: "desc",
         page,
       })
       .then((res) => {
         setLoading(false);
-         setProducts(res.data.products);
-         setTotalProducts(res.data.total);
+        setProducts(res.data.products);
+        setTotalProducts(res.data.total);
       })
       .catch(() => {
         setLoading(false);

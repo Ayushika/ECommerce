@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
-import { Alert, Button, Modal, Spin, Result } from "antd";
+import { Alert, Button, Modal, Spin, Result, Card } from "antd";
 import { Link } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 import "react-quill/dist/quill.snow.css";
@@ -44,7 +44,7 @@ const Checkout = ({ history }) => {
 
   const getCartItems = async () => {
     await axios
-      .get("http://localhost:5000/api/user/cart", config)
+      .get("/api/user/cart", config)
       .then((res) => {
         setProducts(res.data.products);
         setTotal(res.data.cartTotal);
@@ -56,25 +56,23 @@ const Checkout = ({ history }) => {
 
   //Empty cart object
   const emptyCart = async () => {
-    await axios.delete("http://localhost:5000/api/user/cart", config);
+    await axios.delete("/api/user/cart", config);
   };
 
   //save address to database
   const SaveAddressToDb = async () => {
-    await axios
-      .post("http://localhost:5000/api/user/address", { address }, config)
-      .then((res) => {
-        if (res.data.ok) {
-          setAddressSaved(true);
-          toast.success("Address saved successfully");
-        }
-      });
+    await axios.post("/api/user/address", { address }, config).then((res) => {
+      if (res.data.ok) {
+        setAddressSaved(true);
+        toast.success("Address saved successfully");
+      }
+    });
   };
 
   //apply coupon
   const applyCoupon = async () => {
     await axios
-      .post("http://localhost:5000/api/user/cart/coupon", { coupon }, config)
+      .post("/api/user/cart/coupon", { coupon }, config)
       .then((res) => {
         if (res.data.err) {
           setDiscountError("Invalid coupon");
@@ -188,11 +186,7 @@ const Checkout = ({ history }) => {
   //cash order backend request
   const cashOrderToDatabase = async () => {
     await axios
-      .post(
-        "http://localhost:5000/api/user/cash-order",
-        { couponApplied, cashOrder },
-        config,
-      )
+      .post("/api/user/cash-order", { couponApplied, cashOrder }, config)
       .then((res) => {
         if (res.data.ok) {
           setLoading(false);
@@ -229,68 +223,70 @@ const Checkout = ({ history }) => {
           }
         />
       ) : (
-        <div className='container-fluid mt-4'>
+        <div className='container-fluid mt-5'>
           <div className='row'>
-            <div className='col-md-5 ml-5'>
-              <h4>Delievery Address</h4>
+            <div className='col-md-6 offset-md-1'>
+              <h5>Delievery Address</h5>
               <br />
               {showAddressForm()}
               <hr />
-              <h4>Got Coupon ? </h4>
+              <h5>Got Coupon?</h5>
               <br />
               {showApplyCouponForm()}
             </div>
-            <div className='col-md-5 ml-5'>
-              <h4>Order Summary</h4>
-              <hr />
-              {showOrderSummaryForm()}
-              <div className='row mt-5'>
-                <div className='col-md-6'>
-                  <button
-                    onClick={() => setShowModal(true)}
-                    className='btn btn-outline-primary'
-                    disabled={!addressSaved || products.length <= 0}>
-                    Place Order
-                  </button>
-                  <Modal
-                    title='Choose Payment option'
-                    visible={showModal}
-                    centered
-                    onOk={() => {
-                      setShowModal(false);
-                      setLoading(true);
-                      if (modeOfPayment === "online") {
-                        history.push("/payment");
-                      }
+            <div className='col-md-4 '>
+              <Card>
+                <h5 className='display-4 text-center mb-5'>Order Summary</h5>
+                <hr />
+                {showOrderSummaryForm()}
+                <div className='row mt-5'>
+                  <div className='col-md-6'>
+                    <button
+                      onClick={() => setShowModal(true)}
+                      className='btn btn-outline-primary'
+                      disabled={!addressSaved || products.length <= 0}>
+                      Place Order
+                    </button>
+                    <Modal
+                      title='Choose Payment option'
+                      visible={showModal}
+                      centered
+                      onOk={() => {
+                        setShowModal(false);
+                        setLoading(true);
+                        if (modeOfPayment === "online") {
+                          history.push("/payment");
+                        }
 
-                      if (modeOfPayment === "cash") {
-                        cashOrderToDatabase();
-                      }
-                    }}
-                    onCancel={() => setShowModal(false)}>
-                    <div className='row'>
-                      <Button
-                        className='col-md-6 offset-md-3 mb-3'
-                        onClick={() => {
-                          setModeOfPayment("online");
-                          dispatch({ type: "CASH_ORDER", payload: false });
-                        }}>
-                        <i class='fab fa-cc-stripe mr-4'></i>
-                        Online Pay
-                      </Button>
-                      <Button
-                        className='col-md-6 offset-md-3 mb-3'
-                        onClick={() => {
-                          setModeOfPayment("cash");
-                          dispatch({ type: "CASH_ORDER", payload: true });
-                        }}>
-                        <i class='fas fa-wallet mr-4'></i>
-                        Cash On Delievery
-                      </Button>
-                    </div>
-                  </Modal>
+                        if (modeOfPayment === "cash") {
+                          cashOrderToDatabase();
+                        }
+                      }}
+                      onCancel={() => setShowModal(false)}>
+                      <div className='row'>
+                        <Button
+                          className='col-md-6 offset-md-3 mb-3'
+                          onClick={() => {
+                            setModeOfPayment("online");
+                            dispatch({ type: "CASH_ORDER", payload: false });
+                          }}>
+                          <i class='fab fa-cc-stripe mr-4'></i>
+                          Pay Using Card
+                        </Button>
+                        <Button
+                          className='col-md-6 offset-md-3 mb-3'
+                          onClick={() => {
+                            setModeOfPayment("cash");
+                            dispatch({ type: "CASH_ORDER", payload: true });
+                          }}>
+                          <i class='fas fa-wallet mr-4'></i>
+                          Cash On Delievery
+                        </Button>
+                      </div>
+                    </Modal>
+                  </div>
                 </div>
-              </div>
+              </Card>
             </div>
           </div>
         </div>

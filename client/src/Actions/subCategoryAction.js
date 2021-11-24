@@ -32,7 +32,7 @@ export const createSubCategoryAction =
         },
       };
       const res = await axios.put(
-        `http://localhost:5000/api/subcategory`,
+        `/api/subcategory`,
         { name, category },
         config,
       );
@@ -58,7 +58,7 @@ export const createSubCategoryAction =
 export const getAllSubCategoriesAction = () => async (dispatch) => {
   try {
     dispatch({ type: GET_SUBCATEGORIES_REQUEST });
-    const res = await axios.get("http://localhost:5000/api/subcategory/all");
+    const res = await axios.get("/api/subcategory/all");
     dispatch({ type: GET_SUBCATEGORIES_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -87,10 +87,7 @@ export const deleteSubCategoryAction =
           Authorization: idTokenResult,
         },
       };
-      await axios.delete(
-        `http://localhost:5000/api/subcategory/${slug}`,
-        config,
-      );
+      await axios.delete(`/api/subcategory/${slug}`, config);
       dispatch({ type: DELETE_SUBCATEGORY_SUCCESS });
       toast.success(`SubCategory ${slug} deleted successfully`);
     } catch (error) {
@@ -113,9 +110,7 @@ export const deleteSubCategoryAction =
 export const getSubCategoryAction = (slug) => async (dispatch) => {
   try {
     dispatch({ type: GET_SUBCATEGORY_REQUEST });
-    const res = await axios.get(
-      `http://localhost:5000/api/subcategory/${slug}`,
-    );
+    const res = await axios.get(`/api/subcategory/${slug}`);
     dispatch({ type: GET_SUBCATEGORY_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -147,7 +142,7 @@ export const updateSubCategoryAction =
       };
 
       const res = await axios.put(
-        `http://localhost:5000/api/subcategory/${slug}`,
+        `/api/subcategory/${slug}`,
         { name, category },
         config,
       );

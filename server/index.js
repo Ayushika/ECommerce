@@ -15,6 +15,7 @@ const couponRouter = require("./routes/couponRoutes");
 const stripeRouter = require("./routes/stripeRoutes");
 const adminRouter = require("./routes/adminRoutes");
 const { notFound, ErrorHandler } = require("./middlewares/errMiddleware");
+const path = require("path");
 
 dotenv.config();
 const app = express();
@@ -34,6 +35,27 @@ app.use("/api/cloudinary", cloudinaryRouter);
 app.use("/api/coupon", couponRouter);
 app.use("/api", stripeRouter);
 app.use("/api/admin/order", adminRouter);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(
+    express.static(path.join(path.join(__dirname, "../"), "/client/build")),
+  ); // set static folder
+  //returning frontend for any route other than api
+  app.get("*", (req, res) => {
+    res.sendFile(
+      path.resolve(
+        path.join(__dirname, "../"),
+        "client",
+        "build",
+        "index.html",
+      ),
+    );
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running....");
+  });
+}
 
 //connecting to the database
 connectDB();

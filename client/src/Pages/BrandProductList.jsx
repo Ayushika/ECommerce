@@ -17,7 +17,7 @@ const BrandProductList = () => {
 
   useEffect(() => {
     axios
-      .post(`http://localhost:5000/api/product/brand/${slug}`, { page })
+      .post(`/api/product/brand/${slug}`, { page })
       .then((res) => {
         setLoading(false);
         setProducts(res.data.products);

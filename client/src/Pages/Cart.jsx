@@ -27,7 +27,7 @@ const Cart = ({ history }) => {
     };
 
     await axios
-      .post("http://localhost:5000/api/user/cart", { cart }, config)
+      .post("/api/user/cart", { cart }, config)
       .then((res) => {
         if (res.data.ok) {
           history.push("/checkout");

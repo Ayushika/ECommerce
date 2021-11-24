@@ -23,7 +23,7 @@ const AdminDashboard = () => {
   const handleValueChange = async (orderId, orderStaus) => {
     await axios
       .post(
-        "http://localhost:5000/api/admin/order/updateStatus",
+        "/api/admin/order/updateStatus",
         { orderId, orderStaus },
         config,
       )
@@ -42,7 +42,7 @@ const AdminDashboard = () => {
 
   const getAllOrders = async () => {
     await axios
-      .get("http://localhost:5000/api/admin/order/all", config)
+      .get("/api/admin/order/all", config)
       .then((res) => setOrders(res.data));
   };
   

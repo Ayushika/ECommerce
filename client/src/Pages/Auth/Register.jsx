@@ -23,7 +23,7 @@ const Register = ({ history }) => {
     e.preventDefault();
 
     const config = {
-      url: "http://localhost:3000/register/complete",
+      url: "https://gadget-gram.herokuapp.com/register/complete",
       handleCodeInApp: true,
     };
 

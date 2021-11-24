@@ -24,7 +24,7 @@ const FileUpload = ({ values, setValues }) => {
     };
     axios
       .post(
-        "http://localhost:5000/api/cloudinary/removeimage",
+        "/api/cloudinary/removeimage",
         { public_id },
         config,
       )
@@ -63,7 +63,7 @@ const FileUpload = ({ values, setValues }) => {
           (uri) => {
             axios
               .post(
-                "http://localhost:5000/api/cloudinary/uploadimages",
+                "/api/cloudinary/uploadimages",
                 { image: uri },
                 config,
               )

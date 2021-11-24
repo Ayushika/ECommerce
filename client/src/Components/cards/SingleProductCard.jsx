@@ -57,7 +57,7 @@ const SingleProductCard = ({ product, handleStarClick, starRating }) => {
     };
 
     await axios
-      .put(`http://localhost:5000/api/user/wishlist/${_id}`, {}, config)
+      .put(`/api/user/wishlist/${_id}`, {}, config)
       .then((res) => {
         if (res.data.ok) {
           toast.success("Added to wishlist");

@@ -15,7 +15,7 @@ const BestSeller = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:5000/api/product/home", {
+      .post("/api/product/home", {
         sort: "sold",
         order: "desc",
         page,

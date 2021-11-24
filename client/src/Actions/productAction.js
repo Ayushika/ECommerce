@@ -34,11 +34,7 @@ export const createProductAction =
         },
       };
 
-      const res = await axios.put(
-        "http://localhost:5000/api/product",
-        product,
-        config,
-      );
+      const res = await axios.put("/api/product", product, config);
       dispatch({ type: CREATE_PRODUCT_SUCCESS, payload: res.data });
     } catch (error) {
       dispatch({
@@ -69,7 +65,7 @@ export const deleteProductAction =
         },
       };
 
-      await axios.delete(`http://localhost:5000/api/product/${slug}`, config);
+      await axios.delete(`/api/product/${slug}`, config);
       dispatch({ type: DELETE_PRODUCT_SUCCESS });
       toast.success(`Deleted Successfully`);
     } catch (error) {
@@ -92,7 +88,7 @@ export const getProductAction = (slug) => async (dispatch) => {
   try {
     dispatch({ type: GET_PRODUCT_REQUEST });
 
-    const res = await axios.get(`http://localhost:5000/api/product/${slug}`);
+    const res = await axios.get(`/api/product/${slug}`);
     dispatch({ type: GET_PRODUCT_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -155,7 +151,7 @@ export const starRatingProductAction =
       };
 
       const res = await axios.put(
-        `http://localhost:5000/api/product/star/${slug}`,
+        `/api/product/star/${slug}`,
         { star },
         config,
       );
@@ -175,10 +171,7 @@ export const starRatingProductAction =
 export const getProductsByFilterAction = (arg) => async (dispatch) => {
   try {
     dispatch({ type: GET_PRODUCTS_BY_FILTER_REQUEST });
-    const res = await axios.post(
-      `http://localhost:5000/api/product/search/filter`,
-      arg,
-    );
+    const res = await axios.post(`/api/product/search/filter`, arg);
     dispatch({ type: GET_PRODUCTS_BY_FILTER_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({ type: GET_PRODUCTS_BY_FILTER_FAIL, payload: error.message });

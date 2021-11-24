@@ -25,7 +25,7 @@ const WishList = () => {
 
   const getWishlist = async () => {
     await axios
-      .get("http://localhost:5000/api/user/wishlist/all", config)
+      .get("/api/user/wishlist/all", config)
       .then((res) => {
         setProducts(res.data.wishlist);
       });
