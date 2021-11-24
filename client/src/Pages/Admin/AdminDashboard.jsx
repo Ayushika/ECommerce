@@ -45,7 +45,7 @@ const AdminDashboard = () => {
       .get("http://localhost:5000/api/admin/order/all", config)
       .then((res) => setOrders(res.data));
   };
-
+  
   return (
     <div className='container-fluid'>
       <div className='row mt-3'>
